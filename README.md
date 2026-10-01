@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Global Virtual Experts — website redesign (demo)
 
-## Getting Started
+A redesign of globalvirtualexperts.com with a scroll-driven 3D particle scene, smooth scrolling and short, plain copy.
 
-First, run the development server:
+## Run it
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Pages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`/` · `/services` · `/services/[slug]` (11 services) · `/how-it-works` · `/start` · `/about` · `/stories` · `/faq` · `/contact` · `/privacy`
 
-## Learn More
+## Where things live
 
-To learn more about Next.js, take a look at the following resources:
+- `src/content/site.ts`: all copy, services, team, FAQ and contact details
+- `src/components/three/`: the particle field and its shapes (globe, chaos, grid, spiral, bridge, clock, sphere)
+- Each page picks its shapes with `<SceneStages stages={[...]} />`, and each `data-stage` section on the page is one step of the scroll morph
+- `scripts/gen-globe.mjs`: regenerates the dotted-globe points in `src/lib/globe-points.json`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with Next.js, React Three Fiber, Lenis and Motion.
