@@ -6,7 +6,7 @@ import styles from './Footer.module.css';
 const links = [...nav, { href: '/stories', label: 'Meet the Experts' }, { href: '/start', label: 'Start your search' }, { href: '/privacypolicy', label: 'Privacy Policy' }];
 
 export default function Footer() {
-  return <footer className={styles.footer}>
+  return <footer className={styles.footer} id="site-footer">
     <div className="studio-wrap">
       <div className={styles.grid}>
         <div className={styles.brand}>
