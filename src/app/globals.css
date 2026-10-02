@@ -61,3 +61,12 @@ body{background:var(--bg);font-size:1rem;line-height:1.75}h1,h2,h3{font-weight:6
 
 /* Keep video controls centered across the existing video layouts. */
 .video-card button>.video-play{position:absolute}.video-card button>.video-title{position:absolute}.video-card-plain button:after{display:none}.video-card-plain img{opacity:1}
+
+/* Keep category labels readable on narrow phones. */
+@media (max-width: 400px) {
+  .service-browser { grid-template-columns: minmax(0, 1fr); }
+  .catalogue-tabs { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; min-width: 0; }
+  .catalogue-tabs button { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; }
+  .catalogue-tabs span { white-space: nowrap; margin-top: 0; }
+  .catalogue-list, .catalogue-object { min-width: 0; }
+}

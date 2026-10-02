@@ -10,7 +10,7 @@ class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
   render() {
-    return this.state.failed ? <div className="folio-fallback"><span>Plans. Projects. People.</span><strong>Everything moves forward<br/>with the right support.</strong></div> : this.props.children;
+    return this.state.failed ? <div className="folio-fallback"><span>GVE services</span><strong>Admin, bookkeeping,<br/>design, and more.</strong></div> : this.props.children;
   }
 }
 

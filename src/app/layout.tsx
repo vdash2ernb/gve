@@ -13,11 +13,11 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   icons: { icon: [{url:"/brand/gve-favicon.png",sizes:"32x32",type:"image/png"},{url:"/brand/gve-icon-192.png",sizes:"192x192",type:"image/png"}], apple:"/brand/gve-apple-icon.png" },
   title: {
-    default: "Global Virtual Experts · Expert support for the building industry",
+    default: "Global Virtual Experts · Virtual assistants for your business",
     template: "%s · Global Virtual Experts",
   },
   description:
-    "Skilled virtual experts in the Philippines, backed by AI tools, take admin, bookkeeping, sales support and more off your plate.",
+    "Hire virtual assistants in the Philippines for admin, bookkeeping, sales, design, and more. GVE handles screening, onboarding, and ongoing support.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

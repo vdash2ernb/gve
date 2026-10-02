@@ -10,7 +10,7 @@ export default function ClientStoryCard({ story, compact = false }: { story: Cli
       <h3>{story.headline}</h3>
       {!compact && <>{story.company && <p className={styles.role}>{story.role}</p>}<p className={styles.summary}>{story.summary}</p></>}
       <a className={styles.watchLink} href={`https://www.youtube.com/watch?v=${story.video}`} target="_blank" rel="noopener noreferrer">
-        Watch on YouTube <span aria-hidden="true">↗</span><span className={styles.duration}>{story.duration}</span>
+        Watch on YouTube <span aria-hidden="true">↗</span>
       </a>
     </div>
   </article>;

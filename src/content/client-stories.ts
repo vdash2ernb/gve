@@ -6,7 +6,6 @@ export type ClientStory = {
   headline: string;
   summary: string;
   video: string;
-  duration: string;
 };
 
 // Captions and attributions reviewed against the client interviews supplied by GVE.
@@ -14,34 +13,34 @@ export type ClientStory = {
 export const clientStories: ClientStory[] = [
   {
     id: 'mw-design', name: 'Josiah', role: 'CEO', company: 'MW Design Workshop',
-    headline: 'More time for the business.',
-    summary: 'Josiah handed off social media and research, with the GVE team behind his Expert.',
-    video: 'XqHtApU0Qno', duration: '5:21',
+    headline: 'Help with social media and research.',
+    summary: 'Josiah discusses delegating social media and research, and the support his assistant receives from GVE.',
+    video: 'XqHtApU0Qno',
   },
   {
     id: 'river-roofing', name: 'Martha', role: 'Office Manager & Bookkeeper', company: 'River Roofing',
-    headline: 'Less admin. More breathing room.',
-    summary: 'Martha explains how support with paperwork, bookkeeping, and systems made her day easier.',
-    video: 'nhq0_DsNkuM', duration: '5:48',
+    headline: 'Bookkeeping and paperwork support.',
+    summary: 'Martha describes getting help with payroll, bills, and paperwork at River Roofing.',
+    video: 'nhq0_DsNkuM',
   },
   {
     id: 'architect', name: 'John', role: 'Architect',
-    headline: 'Support you can trust with the details.',
-    summary: 'John shares how he delegated drafting and client communication to focus on his practice.',
-    video: 'okbKCb31JZI', duration: '5:53',
+    headline: 'Drafting and client communication.',
+    summary: 'John explains how his assistant helps with drawings, renderings, and client communication.',
+    video: 'okbKCb31JZI',
   },
   {
-    id: 'earthwin', name: 'Randy Trober', role: 'Executive Director', company: 'EarthWIN',
-    headline: 'More time for the mission.',
-    summary: 'Randy freed up time to build partnerships and expand EarthWIN’s school programs.',
-    video: 'xV8793xZWSM', duration: '5:51',
+    id: 'earthwin', name: 'Randen', role: 'Founder', company: 'EarthWIN',
+    headline: 'Grant writing and database support.',
+    summary: 'Randen discusses help with grant writing, email, and Salesforce at EarthWIN.',
+    video: 'xV8793xZWSM',
   },
 ];
 
 export const founderStory = {
-  name: 'Craig Mauer', video: 'ezxcog902_Q', duration: '5:27',
+  name: 'Craig Mauer', video: 'ezxcog902_Q',
   headline: 'Why Craig built GVE.',
-  summary: 'Craig used virtual support at Silver Peak Design Build, then created GVE to help other owners get their time back.',
+  summary: 'Craig explains how hiring virtual assistants at Silver Peak Design Build led him to start GVE.',
 };
 
 const serviceStories: Record<string, string> = {

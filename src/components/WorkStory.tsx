@@ -32,20 +32,20 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
     <div className="story-stage" aria-hidden="true"><div ref={visual} className="story-visual"><FolioScene paused={paused}/></div></div>
     <section className="story-chapter story-opening" aria-labelledby="opening-title">
       <div className="story-content studio-wrap"><div className="story-copy">
-        <p className="kicker light">For the people building a business</p>
-        <h1 id="opening-title">Your business.<br/>Moving <em>forward.</em></h1>
-        <p className="story-lede">Skilled virtual support for the work that fills your day. More time for the work only you can do.</p>
+        <p className="kicker light">Virtual support for your business</p>
+        <h1 id="opening-title">Virtual assistants.<br/>More time <em>for you.</em></h1>
+        <p className="story-lede">Get help with admin, bookkeeping, and other business tasks. We find the right person and support you along the way.</p>
         <div className="hero-actions"><Link href="/contact" className="button amber">Find your Expert</Link><Link href="/services" className="underlined light">Explore our services</Link></div>
-        <p className="story-origin">Built by a Seattle business owner.<br/>Powered by talented people in the Philippines.</p>
+        <p className="story-origin">Based in Seattle.<br/>Experts in the Philippines.</p>
       </div></div>
-      <div className="scroll-cue studio-wrap"><a href="#clients"><span className="scroll-line"/>See what support looks like</a><button className="motion-control" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? 'Restore 3D motion' : 'Reduce 3D motion'}</button></div>
+      <div className="scroll-cue studio-wrap"><a href="#clients"><span className="scroll-line"/>Meet our clients</a><button className="motion-control" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? 'Restore 3D motion' : 'Reduce 3D motion'}</button></div>
     </section>
     {proof}
     <section className="story-chapter story-right" id="the-work" aria-labelledby="work-title">
-      <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">01 / Make room</p><h2 id="work-title">A full day.<br/>Too many <em>hats.</em></h2><p className="story-lede">The plans. The paperwork. The follow-ups. You don’t have to be the person behind every task.</p><div className="work-tags"><span>Admin & inbox</span><span>Books & billing</span><span>Projects & plans</span><span>Sales & customers</span></div></Reveal></div>
+      <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">01 / The work</p><h2 id="work-title">Help with<br/><em>daily tasks.</em></h2><p className="story-lede">Start with the tasks that take up most of your day.</p><div className="work-tags"><span>Admin & inbox</span><span>Books & billing</span><span>Projects & plans</span><span>Sales & customers</span></div></Reveal></div>
     </section>
     <section className="story-chapter story-handoff" aria-labelledby="handoff-title">
-      <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">02 / Build your support</p><h2 id="handoff-title">In good hands.<br/>Still in <em>yours.</em></h2><p className="story-lede">An Expert matched to your role, working in your tools and on your hours. You set the priorities. We help keep things moving.</p><Link href="/how-it-works" className="underlined light">How we find your Expert</Link><div className="handoff-notes"><span>Matched to your work</span><span>Supported by GVE</span></div></Reveal></div>
+      <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">02 / Choosing your assistant</p><h2 id="handoff-title">Choose your<br/><em>Expert.</em></h2><p className="story-lede">Interview screened candidates and choose who you work with. You set the tasks, tools, and hours. GVE helps with onboarding and ongoing support.</p><Link href="/how-it-works" className="underlined light">See the hiring process</Link></Reveal></div>
     </section>
   </div>;
 }

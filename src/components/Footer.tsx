@@ -27,7 +27,7 @@ export default function Footer() {
           <p className={styles.location}>{contact.location}</p>
         </div>
       </div>
-      <div className={styles.bottom}><span>© {new Date().getFullYear()} Global Virtual Experts</span><span>Real people behind the work.</span></div>
+      <div className={styles.bottom}><span>© {new Date().getFullYear()} Global Virtual Experts</span></div>
     </div>
   </footer>;
 }

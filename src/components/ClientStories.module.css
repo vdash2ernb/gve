@@ -1,8 +1,9 @@
 .interlude { position: relative; z-index: 3; background: #fff; }
+.clientHeading { display: block; }
+.keepTogether { white-space: nowrap; }
 .proof { position: relative; z-index: 3; background: #fff; color: #00203d; padding: 78px 0 48px; border-bottom: 1px solid #d5e0e9; scroll-margin-top: 100px; }
 .intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 40px; }
 .intro h2 { font-size: clamp(2.2rem, 3.8vw, 3.6rem); line-height: 1.15; letter-spacing: -.045em; margin-top: 20px; }
-.intro > p { font-size: .9375rem; color: #496071; line-height: 1.8; padding-bottom: 4px; }
 .homeGrid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 40px; }
 .card, .compactCard { min-width: 0; scroll-margin-top: 120px; }
 .card .caption { padding-top: 24px; }
@@ -14,16 +15,12 @@
 .watchLink { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px; color: #00203d; font-size: .8125rem; line-height: 1.7; margin-top: 19px; text-decoration: underline; text-decoration-color: #c7d3dd; text-underline-offset: 5px; transition: text-decoration-color .2s; }
 .watchLink:hover { color: #00203d; text-decoration-color: #ffa600; }
 .watchLink:focus-visible { outline: 2px solid #ffa600; outline-offset: 5px; }
-.duration { font-size: .75rem; color: #496071; margin-left: 8px; }
 .sideStories { display: flex; flex-direction: column; gap: 27px; }
 .compactCard { display: grid; grid-template-columns: minmax(120px, .85fr) 1fr; gap: 22px; align-items: start; }
 .compactCard .caption h3 { font-size: 1.2rem; margin-top: 12px; }
 .compactCard .watchLink { margin-top: 15px; font-size: .75rem; }
 .compactCard .identity { font-size: .8125rem; }
 .moreStories { padding: 25px 0 0; border-top: 1px solid #d5e0e9; margin-top: auto; }
-.moreStories p { font-size: 1.0625rem; line-height: 1.6; margin-bottom: 14px; }
-.bottomLine { display: flex; align-items: center; justify-content: space-between; gap: 25px; border-top: 1px solid #d5e0e9; margin-top: 40px; padding-top: 26px; }
-.bottomLine p { font-size: .9375rem; color: #496071; }
 .collection { padding: 60px 0 75px; }
 .storyGrid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; row-gap: 60px; }
 .storyGrid .card { border-bottom: 1px solid #d5e0e9; padding-bottom: 30px; }
@@ -47,7 +44,7 @@
 .contactQuote { margin: 32px 0 0; padding: 18px 0 0 20px; border-left: 2px solid #ffa600; font-size: .9375rem; line-height: 1.8; }
 .contactQuote p { color: #00203d; }
 .contactQuote footer { margin-top: 9px; font-size: .75rem; color: #496071; }
-@media (max-width: 1000px) { .homeGrid { gap: 28px; grid-template-columns: 1.25fr 1fr; } .compactCard { display: block; } .compactCard .caption { padding-top: 16px; } .sideStories { gap: 30px; } .moreStories p { font-size: .9375rem; } .founderGrid, .serviceProof { gap: 35px; } }
-@media (max-width: 700px) { .proof { padding: 48px 0 35px; } .intro { display: block; margin-bottom: 30px; } .intro h2 { font-size: 2.35rem; } .intro > p { margin-top: 20px; } .intro > p br { display: none; } .homeGrid { grid-template-columns: 1fr; gap: 35px; } .sideStories { gap: 25px; } .compactCard { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; } .compactCard .caption { padding-top: 0; } .compactCard .caption h3 { font-size: 1.1rem; } .bottomLine { align-items: flex-start; flex-direction: column; margin-top: 30px; } .storyGrid { grid-template-columns: 1fr; gap: 38px; } .collection { padding: 35px 0 50px; } .storyGrid h3 { font-size: 1.7rem; } .founderStory { padding: 48px 0; } .founderGrid, .serviceProof { grid-template-columns: 1fr; gap: 30px; } .founderGrid h2 { font-size: 2.35rem; } .serviceProof { padding: 35px 0; margin-top: 35px; } }
-@media (max-width: 360px) { .intro h2 { font-size: 2.1rem; } .compactCard { grid-template-columns: 1fr; } .compactCard .caption { padding-top: 14px; } }
+@media (max-width: 1000px) { .homeGrid { gap: 28px; grid-template-columns: 1.25fr 1fr; } .compactCard { display: block; } .compactCard .caption { padding-top: 16px; } .sideStories { gap: 30px; } .founderGrid, .serviceProof { gap: 35px; } }
+@media (max-width: 700px) { .proof { padding: 48px 0 35px; } .intro { display: block; margin-bottom: 30px; } .intro h2 { font-size: 2.35rem; } .homeGrid { grid-template-columns: 1fr; gap: 35px; } .sideStories { gap: 25px; } .compactCard { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; } .compactCard .caption { padding-top: 0; } .compactCard .caption h3 { font-size: 1.1rem; } .storyGrid { grid-template-columns: 1fr; gap: 38px; } .collection { padding: 35px 0 50px; } .storyGrid h3 { font-size: 1.7rem; } .founderStory { padding: 48px 0; } .founderGrid, .serviceProof { grid-template-columns: 1fr; gap: 30px; } .founderGrid h2 { font-size: 2.35rem; } .serviceProof { padding: 35px 0; margin-top: 35px; } }
+@media (max-width: 360px) { .clientHeading { font-size: 2rem; } .intro h2 { font-size: 2.1rem; } .compactCard { grid-template-columns: 1fr; } .compactCard .caption { padding-top: 14px; } }
 @media (prefers-reduced-motion: reduce) { .watchLink { transition: none; } }
