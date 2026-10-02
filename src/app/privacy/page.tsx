@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SceneStages } from "@/components/Scene";
+import { VIEW } from "@/components/three/shapes";
 import PageHero from "@/components/PageHero";
 
 export const metadata: Metadata = { title: "Privacy policy" };
@@ -67,7 +68,7 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <>
-      <SceneStages stages={[{ shape: "sphere", x: 3, scale: 0.8, dim: 0.4 }]} />
+      <SceneStages stages={[{ shape: "globe", x: 3.2, scale: 0.75, ...VIEW.logo, dim: 0.25, labels: "none" }]} />
       <PageHero eyebrow="Last updated: September 1, 2023" title="Privacy policy." accent={["policy."]} />
       <section className="px-4 pb-32 sm:px-6">
         <div className="mx-auto max-w-3xl space-y-10">

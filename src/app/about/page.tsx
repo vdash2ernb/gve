@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { SceneStages } from "@/components/Scene";
+import { VIEW } from "@/components/three/shapes";
 import { Reveal, Words, Parallax } from "@/components/Reveal";
 import PageHero from "@/components/PageHero";
 import CTA from "@/components/CTA";
@@ -36,11 +37,18 @@ export default function AboutPage() {
     <>
       <SceneStages
         stages={[
-          { shape: "bridge", y: 0.6, scale: 0.9, dim: 0.85 },
-          { shape: "globe", x: 2.8, rotY: Math.PI, scale: 0.9, dim: 0.75 },
-          { shape: "sphere", dim: 0.3 },
-          { shape: "grid", scale: 0.9, dim: 0.3 },
-          { shape: "clock", scale: 1, dim: 0.38 },
+          { shape: "globe", x: 2.6, ...VIEW.logo, sway: 0.3, labels: "none", my: 1.5, mscale: 0.5 },
+          // 2020: a Seattle builder's business, lights on.
+          { shape: "house4", x: 2.7, rotY: -0.6, rotX: 0.42, scale: 0.9, my: 1.6, mscale: 0.5 },
+          // 2021: the first Experts join. You, and your Expert.
+          { shape: "handoff", x: 2.5, scale: 0.8, my: 1.8, mscale: 0.45 },
+          // 2023: GVE begins. Seattle to the Philippines.
+          { shape: "globe", x: 2.6, ...VIEW.pacific, land: true, my: 1.6, mscale: 0.55 },
+          // Craig: twenty years of building.
+          { shape: "house5", x: 3.1, rotY: -0.6, rotX: 0.42, scale: 0.7, dim: 0.3 },
+          // The team, in the Philippines.
+          { shape: "globe", scale: 1.1, ...VIEW.philippines, land: true, dim: 0.22, labels: "none" },
+          { shape: "globe", scale: 1.15, ...VIEW.logo, dim: 0.4, labels: "none", sway: 0.25 },
         ]}
       />
       <PageHero
@@ -50,21 +58,23 @@ export default function AboutPage() {
         body="Our goal is simple: help businesses thrive, and raise the standard of living for the Experts who make it happen."
       />
 
-      <section data-stage={1} className="px-4 py-24 sm:px-6">
+      <section className="px-4 sm:px-6">
         <div className="mx-auto max-w-6xl">
-          <ol className="max-w-xl space-y-20">
+          <ol className="max-w-xl">
             {story.map((s) => (
-              <Reveal as="li" key={s.year}>
-                <p className="display text-7xl text-white/10 sm:text-8xl">{s.year}</p>
-                <h2 className="display -mt-6 text-3xl sm:-mt-8 sm:text-4xl">{s.title}</h2>
-                <p className="mt-4 text-lg text-muted">{s.body}</p>
-              </Reveal>
+              <li key={s.year} data-stage className="flex min-h-[80svh] flex-col justify-center">
+                <Reveal>
+                  <p className="display text-7xl text-white/10 sm:text-8xl">{s.year}</p>
+                  <h2 className="display -mt-6 text-3xl sm:-mt-8 sm:text-4xl">{s.title}</h2>
+                  <p className="mt-4 text-lg text-muted">{s.body}</p>
+                </Reveal>
+              </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <section data-stage={2} className="px-4 py-32 sm:px-6">
+      <section data-stage className="px-4 py-32 sm:px-6">
         <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-[0.8fr_1.2fr]">
           <Parallax speed={0.08}>
             <Reveal className="relative overflow-hidden rounded-3xl border border-line">
@@ -90,7 +100,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section data-stage={3} className="px-4 py-24 sm:px-6">
+      <section data-stage className="px-4 py-24 sm:px-6">
         <div className="mx-auto max-w-6xl">
           <h2 className="display text-5xl sm:text-6xl">
             <Words text="Meet the Experts." accent={["Experts."]} />
@@ -116,7 +126,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <CTA stage={4} title="Let's find someone great for you." body="Growing fast, or just too busy? We'll match you with an Expert who fits." />
+      <CTA stage={6} title="Let's find someone great for you." body="Growing fast, or just too busy? We'll match you with an Expert who fits." />
     </>
   );
 }

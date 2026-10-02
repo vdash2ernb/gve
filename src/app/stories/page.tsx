@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { SceneStages } from "@/components/Scene";
+import { VIEW } from "@/components/three/shapes";
 import { Reveal } from "@/components/Reveal";
 import PageHero from "@/components/PageHero";
 import CTA from "@/components/CTA";
@@ -17,9 +18,9 @@ export default function StoriesPage() {
     <>
       <SceneStages
         stages={[
-          { shape: "bridge", y: 0.4, scale: 0.85, dim: 0.85 },
-          { shape: "spiral", x: 3, dim: 0.5 },
-          { shape: "clock", scale: 1, dim: 0.38 },
+          { shape: "globe", x: 2.6, ...VIEW.philippines, land: true, my: 1.45, mscale: 0.5 },
+          { shape: "globe", x: 3.3, scale: 0.8, ...VIEW.pacific, land: true, dim: 0.25, labels: "none" },
+          { shape: "globe", scale: 1.15, ...VIEW.logo, dim: 0.4, labels: "none", sway: 0.25 },
         ]}
       />
       <PageHero

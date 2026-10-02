@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SceneStages } from "@/components/Scene";
+import { VIEW } from "@/components/three/shapes";
 import { Reveal, Words } from "@/components/Reveal";
 import { contact } from "@/content/site";
 
@@ -13,7 +14,7 @@ const calendlySrc = `${contact.calendly}?hide_gdpr_banner=1&background_color=0a1
 export default function ContactPage() {
   return (
     <>
-      <SceneStages stages={[{ shape: "globe", x: -3.2, rotY: Math.PI, scale: 0.9, dim: 0.55 }]} />
+      <SceneStages stages={[{ shape: "globe", x: -3.0, y: -2.5, scale: 0.6, ...VIEW.seattle, land: true, dim: 0.8, my: 2.2, mscale: 0.4 }]} />
       <section data-stage={0} className="px-4 pb-24 pt-32 sm:px-6">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="lg:sticky lg:top-32 lg:self-start">

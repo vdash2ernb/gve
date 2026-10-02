@@ -44,16 +44,17 @@ body {
   overflow-x: hidden;
 }
 
-/* Soft vignette behind the 3D field */
+/* Soft light over the 3D canvas (the canvas is opaque, so this sits on top and screens in) */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -20;
+  z-index: -9;
+  pointer-events: none;
+  mix-blend-mode: screen;
   background:
-    radial-gradient(60% 50% at 75% 20%, rgba(42, 140, 255, 0.14), transparent 70%),
-    radial-gradient(50% 40% at 10% 90%, rgba(255, 166, 0, 0.07), transparent 70%),
-    var(--bg);
+    radial-gradient(60% 50% at 75% 20%, rgba(42, 140, 255, 0.12), transparent 70%),
+    radial-gradient(50% 40% at 10% 90%, rgba(255, 166, 0, 0.06), transparent 70%);
 }
 
 ::selection {
@@ -139,6 +140,38 @@ body::before {
 }
 .logo-mono:hover {
   opacity: 1;
+}
+
+/* Labels pinned to nodes in the 3D drawing */
+.scene-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(5, 7, 13, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--sky);
+  will-change: transform, opacity;
+}
+.scene-label[data-tone="amber"] {
+  color: var(--amber);
+  border-color: rgba(255, 166, 0, 0.35);
+}
+.scene-label[data-tone="white"] {
+  color: var(--ink);
+}
+@media (max-width: 767px) {
+  .scene-label {
+    font-size: 9px;
+    padding: 3px 7px;
+  }
 }
 
 @keyframes marquee {

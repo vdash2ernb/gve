@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SceneStages } from "@/components/Scene";
+import { VIEW } from "@/components/three/shapes";
+import BuildSequence from "@/components/BuildSequence";
 import { Reveal, Words } from "@/components/Reveal";
 import PageHero from "@/components/PageHero";
 import CTA from "@/components/CTA";
@@ -32,10 +33,12 @@ export default function HowItWorksPage() {
     <>
       <SceneStages
         stages={[
-          { shape: "spiral", x: 2.8, scale: 0.85 },
-          { shape: "spiral", x: -3, scale: 1.05, dim: 0.6 },
-          { shape: "grid", scale: 0.9, dim: 0.35 },
-          { shape: "clock", scale: 1, dim: 0.38 },
+          { shape: "house0", x: 2.6, rotY: -0.6, rotX: 0.42, scale: 0.9, my: 1.45, mscale: 0.5 },
+          // Six steps, six stages of the build: plan, foundation, frame, roof, lights on, extension.
+          ...([0, 1, 2, 3, 4, 5] as const).map((l) => ({ shape: `house${l}` as const, x: -2.1, rotY: -0.6, rotX: 0.42, scale: 0.92, my: 1.5, mscale: 0.55 })),
+          // What's included: you, your Expert, and clear lines between you.
+          { shape: "handoff", x: 2.6, y: 1.3, scale: 0.7, dim: 0.55, my: 1.9, mscale: 0.4 },
+          { shape: "globe", scale: 1.15, ...VIEW.logo, dim: 0.4, labels: "none", sway: 0.25 },
         ]}
       />
       <PageHero
@@ -45,26 +48,7 @@ export default function HowItWorksPage() {
         body="Usually 5–10 business days. Faster if a pre-vetted Expert is ready."
       />
 
-      <section data-stage={1} className="px-4 py-24 sm:px-6">
-        <div className="mx-auto grid max-w-6xl lg:grid-cols-2">
-          <div className="hidden lg:block" />
-          <ol className="relative space-y-14 border-l border-line pl-8 sm:pl-12">
-            {steps.map((s, i) => (
-              <Reveal as="li" key={s.title} className="relative">
-                <span className="absolute -left-[calc(2rem+5px)] top-2 h-2.5 w-2.5 rounded-full bg-amber shadow-[0_0_20px_rgba(255,166,0,0.8)] sm:-left-[calc(3rem+5px)]" />
-                <p className="font-serif text-xl italic text-amber">Step {i + 1}</p>
-                <h2 className="display mt-2 text-3xl sm:text-4xl">{s.title}</h2>
-                <p className="mt-3 max-w-md text-lg text-muted">{s.body}</p>
-                {s.link && (
-                  <Link href={s.link.href} className="mt-3 inline-block text-sky hover:underline">
-                    {s.link.label} →
-                  </Link>
-                )}
-              </Reveal>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <BuildSequence eyebrow="Step by step" title="Built the way you build." accent={["you", "build."]} steps={steps} stepPrefix="Step " />
 
       <section data-stage={2} className="px-4 py-32 sm:px-6">
         <div className="mx-auto max-w-6xl">

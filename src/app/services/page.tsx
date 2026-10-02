@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FocusLink from "@/components/FocusLink";
 import { SceneStages } from "@/components/Scene";
+import { VIEW } from "@/components/three/shapes";
 import { Reveal, Words } from "@/components/Reveal";
 import PageHero from "@/components/PageHero";
 import CTA from "@/components/CTA";
@@ -28,10 +30,11 @@ export default function ServicesPage() {
     <>
       <SceneStages
         stages={[
-          { shape: "grid", x: 2.6, scale: 0.7, dim: 0.8 },
-          { shape: "grid", scale: 0.95, dim: 0.35 },
-          { shape: "spiral", x: -2.8, dim: 0.7 },
-          { shape: "clock", scale: 1, dim: 0.38 },
+          { shape: "handoff", x: 2.3, scale: 0.85, labels: "all", my: 1.45, mscale: 0.45 },
+          { shape: "handoff", scale: 1.05, dim: 0.5, labels: "none", my: 0.4 },
+          // "Help outside your hours": time zones.
+          { shape: "globe", x: -2.9, ...VIEW.pacific, land: true, dim: 0.7, my: 1.6, mscale: 0.5 },
+          { shape: "globe", scale: 1.15, ...VIEW.logo, dim: 0.4, labels: "none", sway: 0.25 },
         ]}
       />
       <PageHero
@@ -53,13 +56,13 @@ export default function ServicesPage() {
                   .filter((s) => s.group === g)
                   .map((s, i) => (
                     <Reveal as="li" key={s.slug} delay={i * 0.08}>
-                      <Link href={`/services/${s.slug}`} className="card group flex h-full flex-col justify-between p-7 transition-colors hover:border-white/20">
+                      <FocusLink focus={s.slug} href={`/services/${s.slug}`} className="card group flex h-full flex-col justify-between p-7 transition-colors hover:border-amber/40">
                         <span>
                           <span className="block text-xl font-medium">{s.name}</span>
                           <span className="mt-3 block text-muted">{s.tagline}</span>
                         </span>
                         <span className="mt-8 text-sm text-sky transition-transform duration-300 group-hover:translate-x-1">Details →</span>
-                      </Link>
+                      </FocusLink>
                     </Reveal>
                   ))}
               </ul>

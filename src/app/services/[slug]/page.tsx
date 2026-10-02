@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SceneStages } from "@/components/Scene";
+import { VIEW } from "@/components/three/shapes";
 import { Reveal } from "@/components/Reveal";
 import PageHero from "@/components/PageHero";
 import CTA from "@/components/CTA";
@@ -33,15 +34,21 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   const next = services[(idx + 1) % services.length];
   const person = s.proof?.person ? team.find((t) => t.name.toLowerCase() === s.proof!.person) : undefined;
   const lastWord = s.tagline.replace(/\.$/, "").split(" ").pop()!;
+  const building = s.slug === "cad-drafting" || s.slug === "project-management";
 
   return (
     <>
       <SceneStages
         stages={[
-          { shape: "chaos", x: 2.8, scale: 0.75, dim: 0.75 },
-          { shape: "grid", scale: 0.9, dim: 0.3 },
-          { shape: "bridge", y: 1.2, dim: 0.55 },
-          { shape: "clock", scale: 1, dim: 0.38 },
+          // This service's line lights up on the hand-off map.
+          { shape: "handoff", x: 2.3, scale: 0.85, focus: s.slug, my: 1.45, mscale: 0.45 },
+          // Building-trade services show the work itself; the rest keep the map, quieter.
+          building
+            ? { shape: "house3", x: 2.8, rotY: -0.6, rotX: 0.42, scale: 0.85, dim: 0.45, my: 1.6, mscale: 0.45 }
+            : { shape: "handoff", scale: 1.05, focus: s.slug, dim: 0.4, labels: "none", my: 0.4 },
+          // Every Expert: vetted people in the Philippines.
+          { shape: "globe", y: 1.1, scale: 1.1, ...VIEW.philippines, land: true, dim: 0.6, my: 1.5, mscale: 0.6 },
+          { shape: "globe", scale: 1.15, ...VIEW.logo, dim: 0.4, labels: "none", sway: 0.25 },
         ]}
       />
       <PageHero eyebrow={s.name} title={s.tagline} accent={[lastWord + "."]} body={s.intro}>

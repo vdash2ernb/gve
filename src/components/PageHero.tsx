@@ -16,7 +16,7 @@ export default function PageHero({
   children?: React.ReactNode;
 }) {
   return (
-    <section data-stage={stage} className="relative flex min-h-[85svh] items-center px-4 pb-16 pt-32 sm:px-6">
+    <section data-stage={stage} className="relative flex min-h-[85svh] items-end px-4 pb-12 pt-32 sm:px-6 md:items-center md:pb-16">
       <div className="mx-auto w-full max-w-6xl">
         <div className="max-w-3xl">
           <Reveal>

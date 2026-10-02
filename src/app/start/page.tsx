@@ -38,9 +38,9 @@ export default function StartPage() {
     <>
       <SceneStages
         stages={[
-          { shape: "spiral", x: 2.8, scale: 0.85, dim: 0.85 },
-          { shape: "grid", scale: 0.9, dim: 0.3 },
-          { shape: "clock", x: 2.8, scale: 0.8, dim: 0.6 },
+          { shape: "house0", x: 2.6, rotY: -0.6, rotX: 0.42, scale: 0.9, my: 1.45, mscale: 0.5 },
+          { shape: "house1", x: 0, rotY: -0.6, rotX: 0.42, dim: 0.3 },
+          { shape: "house1", x: 2.9, rotY: -0.6, rotX: 0.42, scale: 0.8, dim: 0.35 },
         ]}
       />
       <PageHero

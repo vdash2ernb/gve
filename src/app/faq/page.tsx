@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SceneStages } from "@/components/Scene";
+import { VIEW } from "@/components/three/shapes";
 import { Reveal } from "@/components/Reveal";
 import PageHero from "@/components/PageHero";
 import CTA from "@/components/CTA";
@@ -16,9 +17,9 @@ export default function FAQPage() {
     <>
       <SceneStages
         stages={[
-          { shape: "chaos", x: 2.6, scale: 0.8, dim: 0.8 },
-          { shape: "grid", scale: 0.9, dim: 0.25 },
-          { shape: "clock", scale: 1, dim: 0.38 },
+          { shape: "globe", x: 2.9, scale: 0.8, ...VIEW.logo, sway: 0.25, labels: "none", my: 1.5, mscale: 0.45 },
+          { shape: "globe", x: 3.4, scale: 0.7, ...VIEW.logo, dim: 0.18, labels: "none" },
+          { shape: "globe", scale: 1.15, ...VIEW.logo, dim: 0.4, labels: "none", sway: 0.25 },
         ]}
       />
       <PageHero eyebrow="FAQ" title="Questions, answered." accent={["answered."]} body="Short answers to what owners ask us most." />

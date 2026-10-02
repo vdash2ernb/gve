@@ -1,15 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import FocusLink from "@/components/FocusLink";
+import BuildSequence from "@/components/BuildSequence";
+import { VIEW } from "@/components/three/shapes";
 import { SceneStages } from "@/components/Scene";
 import { Reveal, Words } from "@/components/Reveal";
 import CTA from "@/components/CTA";
 import Partners from "@/components/Partners";
 import { services, team, testimonials } from "@/content/site";
 
+// Each step builds the house in the drawing: plan → frame → lights on.
 const steps = [
-  { n: "01", title: "Talk", body: "A quick call about your business, your busy seasons and where your hours go." },
-  { n: "02", title: "Meet your match", body: "We shortlist and vet candidates. You interview them and pick." },
-  { n: "03", title: "Hand it off", body: "Your Expert learns your tools in days, not weeks, then takes the overflow." },
+  { title: "Talk", body: "A quick call about your business, your busy seasons and where your hours go." },
+  { title: "Meet your match", body: "We shortlist and vet candidates. You interview them and pick." },
+  { title: "Hand it off", body: "Your Expert learns your tools in days, not weeks, then takes the overflow.", link: { href: "/how-it-works", label: "The full process" } },
 ];
 
 const facts = [
@@ -24,18 +28,27 @@ export default function Home() {
     <>
       <SceneStages
         stages={[
-          { shape: "globe", x: 2.4, rotY: Math.PI, scale: 1.05 },
-          { shape: "chaos", dim: 0.9 },
-          { shape: "grid", scale: 0.95, dim: 0.75 },
-          { shape: "spiral", x: -2.8, dim: 0.85 },
-          { shape: "bridge", y: 0.9, dim: 0.75 },
-          { shape: "sphere", x: 2.8, dim: 0.5 },
-          { shape: "clock", scale: 1, dim: 0.38 },
+          // Hero: the logo globe drafts itself, Seattle linked to the Philippines.
+          { shape: "globe", x: 2.5, ...VIEW.logo, sway: 0.3, mx: 0, my: 1.45, mscale: 0.5 },
+          // "Still the hub for everything?": every task pulls on you.
+          { shape: "hub", x: 2.7, scale: 0.85, my: 1.75, mscale: 0.46 },
+          // "Hand it off": the Expert splits off and takes the tasks; updates flow back.
+          { shape: "handoff", x: 2.5, y: 1.25, scale: 0.72, my: 1.9, mscale: 0.45 },
+          // How it works: a house goes up, one step at a time.
+          { shape: "house0", x: -2.1, rotY: -0.6, rotX: 0.42, scale: 0.92, my: 1.5, mscale: 0.55 },
+          { shape: "house2", x: -2.1, rotY: -0.6, rotX: 0.42, scale: 0.92, my: 1.5, mscale: 0.55 },
+          { shape: "house4", x: -2.1, rotY: -0.6, rotX: 0.42, scale: 0.92, my: 1.5, mscale: 0.55 },
+          // "Real people, on your hours": zoom to the Pacific, with the map.
+          { shape: "globe", y: 0.55, scale: 0.82, ...VIEW.pacific, land: true, my: 1.3, mscale: 0.62 },
+          // Proof: the globe steps back.
+          { shape: "globe", x: 3.2, scale: 0.75, ...VIEW.pacific, land: true, dim: 0.22, labels: "none" },
+          // Sign-off: the logo globe.
+          { shape: "globe", scale: 1.15, ...VIEW.logo, dim: 0.4, labels: "none", sway: 0.25 },
         ]}
       />
 
       {/* 0 · Hero */}
-      <section data-stage={0} className="relative flex min-h-svh items-center px-4 pt-24 sm:px-6">
+      <section data-stage={0} className="relative flex min-h-svh items-end px-4 pb-14 pt-24 sm:px-6 md:items-center md:pb-0">
         <div className="mx-auto w-full max-w-6xl">
           <div className="max-w-2xl">
             <Reveal>
@@ -71,7 +84,7 @@ export default function Home() {
           <Reveal>
             <p className="eyebrow">Sound familiar?</p>
           </Reveal>
-          <h2 className="display mt-5 text-5xl sm:text-7xl">
+          <h2 className="display mt-5 max-w-xl text-5xl sm:text-7xl">
             <Words text="Still the hub for everything?" accent={["everything"]} />
           </h2>
           <ul className="mt-12 space-y-3 text-2xl text-ink/80 sm:text-4xl">
@@ -90,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* 2 · The fix */}
-      <section data-stage={2} className="relative px-4 py-32 sm:px-6">
+      <section data-stage={2} className="relative px-4 pb-32 pt-80 sm:px-6 md:pt-32">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
             <Reveal>
@@ -108,7 +121,7 @@ export default function Home() {
           <ul className="mt-16 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
               <Reveal as="li" key={s.slug} delay={(i % 3) * 0.08}>
-                <Link href={`/services/${s.slug}`} className="card group flex h-full items-center justify-between gap-4 p-5 transition-colors hover:border-white/20">
+                <FocusLink focus={s.slug} href={`/services/${s.slug}`} className="card group flex h-full items-center justify-between gap-4 p-5 transition-colors hover:border-amber/40">
                   <span>
                     <span className="block font-medium">{s.name}</span>
                     <span className="mt-1 block text-sm text-muted">{s.short}</span>
@@ -116,45 +129,20 @@ export default function Home() {
                   <span aria-hidden className="text-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-amber">
                     →
                   </span>
-                </Link>
+                </FocusLink>
               </Reveal>
             ))}
           </ul>
         </div>
       </section>
 
-      {/* 3 · How it works */}
-      <section data-stage={3} className="relative px-4 py-32 sm:px-6">
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2">
-          <div className="hidden lg:block" />
-          <div>
-            <Reveal>
-              <p className="eyebrow">How it works</p>
-            </Reveal>
-            <h2 className="display mt-5 text-5xl sm:text-6xl">
-              <Words text="Three steps. No upheaval." accent={["No", "upheaval"]} />
-            </h2>
-            <ol className="mt-12 space-y-4">
-              {steps.map((s, i) => (
-                <Reveal as="li" key={s.n} delay={i * 0.12} className="card flex gap-5 p-6">
-                  <span className="font-serif text-3xl italic text-amber">{s.n}</span>
-                  <span>
-                    <span className="block text-xl font-medium">{s.title}</span>
-                    <span className="mt-1 block text-muted">{s.body}</span>
-                  </span>
-                </Reveal>
-              ))}
-            </ol>
-            <Reveal delay={0.2}>
-              <Link href="/how-it-works" className="mt-8 inline-block text-sky underline-offset-4 hover:underline">
-                The full process →
-              </Link>
-            </Reveal>
-          </div>
-        </div>
-        <div className="mx-auto mt-24 grid max-w-6xl grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line lg:grid-cols-4">
+      {/* 3 · How it works: pinned while the house gets built */}
+      <BuildSequence eyebrow="How it works" title="Three steps. No upheaval." accent={["No", "upheaval."]} steps={steps} />
+
+      <section className="relative px-4 pb-24 sm:px-6">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line lg:grid-cols-4">
           {facts.map((f, i) => (
-            <Reveal key={f.small} delay={i * 0.08} className="bg-bg/80 p-6 backdrop-blur-sm sm:p-8">
+            <Reveal key={f.small} delay={i * 0.08} className="bg-bg/85 p-6 backdrop-blur-sm sm:p-8">
               <p className="display text-4xl sm:text-5xl">{f.big}</p>
               <p className="mt-2 text-sm text-muted">{f.small}</p>
             </Reveal>
