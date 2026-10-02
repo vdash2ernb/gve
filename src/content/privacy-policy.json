@@ -1,0 +1,136 @@
+{
+  "title": "Privacy Policy",
+  "updated": "Last Updated: September 01, 2023",
+  "intro": [
+    "Global Virtual Experts (\"we,\" \"our,\" or \"us\") is committed to protecting the privacy and security of your personal information. This Privacy Policy outlines the types of information we collect, how we use and protect that information, and the choices you have concerning your personal data.",
+    "By accessing or using our website, www.globalvirtualexperts.com (the \"Website\"), you consent to the practices described in this Privacy Policy."
+  ],
+  "sections": [
+    {
+      "heading": "Information We Collect",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "We may collect various types of personal information from users, including but not limited to names, email addresses, phone numbers, mailing addresses, IP addresses, and other data you provide to us through forms or interactions with our Website."
+        }
+      ]
+    },
+    {
+      "heading": "How We Collect Information",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "We collect information when you voluntarily submit it through forms on our Website, when you sign up for our services, when you communicate with us, or when you use our Website's features that require the input of personal information."
+        }
+      ]
+    },
+    {
+      "heading": "How We Use Your Information",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "We use the collected information for purposes including but not limited to:"
+        },
+        {
+          "type": "item",
+          "text": "Providing and improving our services"
+        },
+        {
+          "type": "item",
+          "text": "Communicating with you about your account or inquiries"
+        },
+        {
+          "type": "item",
+          "text": "Sending you updates, newsletters, and promotional materials"
+        },
+        {
+          "type": "item",
+          "text": "Analyzing and enhancing user experience on our Website"
+        },
+        {
+          "type": "item",
+          "text": "Responding to legal obligations or requests from authorities"
+        }
+      ]
+    },
+    {
+      "heading": "Data Security",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "We take appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. This includes encryption, access controls, regular security assessments, and more."
+        }
+      ]
+    },
+    {
+      "heading": "Third-Party Sharing",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except for trusted third parties who assist us in operating our Website and conducting our business, as long as they agree to keep this information confidential. No mobile information will be shared with third parties/affiliates for marketing/promotional purposes. All the above categories exclude text messaging originator opt-in data and consent; this information will not be shared with any third parties."
+        }
+      ]
+    },
+    {
+      "heading": "Cookies and Tracking Technologies",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "We may use cookies and similar technologies to collect information about your interactions with our Website. You can manage cookies through your browser settings."
+        }
+      ]
+    },
+    {
+      "heading": "Your Rights and Choices",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "You have the right to access, update, or delete your personal information. You can also object to or restrict the processing of your data. If you wish to exercise any of these rights, please contact us using the information provided below."
+        }
+      ]
+    },
+    {
+      "heading": "Children's Information",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Our services are not directed to children under the age of 13. We do not knowingly collect personal information from children. If you believe we have collected information from a child, please contact us immediately."
+        }
+      ]
+    },
+    {
+      "heading": "Changes to this Privacy Policy",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "We may update this Privacy Policy from time to time. The updated version will be indicated by the \"Last Updated\" date at the top of the policy. We recommend reviewing this page periodically to stay informed about our privacy practices."
+        }
+      ]
+    },
+    {
+      "heading": "Contact Us",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "If you have any questions, concerns, or requests related to your personal information or this Privacy Policy, please contact us at:"
+        },
+        {
+          "type": "paragraph",
+          "text": "Global Virtual Experts"
+        },
+        {
+          "type": "paragraph",
+          "text": "Email: info@globalvirtualexperts.com"
+        },
+        {
+          "type": "paragraph",
+          "text": "Phone: (206) 455-8605"
+        },
+        {
+          "type": "paragraph",
+          "text": "Address: Seattle, Washington, USA"
+        }
+      ]
+    }
+  ]
+}

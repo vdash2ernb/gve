@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { services, partners, stories, faq } from '@/content/site';
+import { services, stories, faq } from '@/content/site';
 import { Reveal } from './Reveal';
 import Accordion from './Accordion';
 import YouTube from './YouTube';
 import CTA from './CTA';
+import ClientLogos from './ClientLogos';
 const groups = [
   { name: 'Run the office', text: 'Clear the everyday workload.' },
   { name: 'Win more work', text: 'Keep your business in the conversation.' },
@@ -12,7 +13,7 @@ const groups = [
 ];
 export default function HomeContent() {
   return <>
-    <section className="partner-strip"><div className="studio-wrap"><p className="partner-label">Some of our clients</p><div className="partner-grid">{partners.map(p => <div className="partner-logo" data-shape={["The Window & Door Shoppe", "Izozi", "River Roofing", "Truss Payments"].includes(p.name) ? "wide" : "square"} key={p.name}><Image src={p.img} alt={p.name} width={200} height={200}/></div>)}</div></div></section>
+    <ClientLogos/>
     <section className="chapter services-chapter"><div className="studio-wrap">
       <div className="chapter-heading"><div><p className="kicker">The right skills, right here</p><h2>What would you<br/>hand off first?</h2></div><p>Start with the work taking your time.<br/>We’ll help you find the person for it.</p></div>
       <div className="service-rows">{groups.map((g, i) => <Reveal className="service-row" key={g.name}><span className="row-index">0{i + 1}</span><div className="row-heading"><h3>{g.name}</h3><p>{g.text}</p></div><ul>{services.filter(s => s.group === g.name).map(s => <li key={s.slug}><Link href={'/services/' + s.slug}>{s.name}</Link></li>)}</ul></Reveal>)}</div>
