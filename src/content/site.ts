@@ -18,8 +18,8 @@ export const contact = {
 export const nav = [
   { href: "/services", label: "Services" },
   { href: "/how-it-works", label: "How it works" },
-  { href: "/stories", label: "Meet the Experts" },
   { href: "/client-stories", label: "Client stories" },
+  { href: "/stories", label: "Meet the Experts" },
   { href: "/about", label: "About" },
 ];
 
