@@ -1,0 +1,65 @@
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/font-d4a1ed058c924fa6b8fb19baabf47fb8.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/fonts/font-17a5b61804e348b084e1c9dbe334841c.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(/fonts/font-12cb8c0dded44833bb81d6f274741945.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/font-7462c66ae6fb4659b22cceac7ba300f3.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/font-ad602bf9aa274c55a7f6cd81ef3f7ef1.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/fonts/font-f683a6c82a2b45119c0d03382f412a2d.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(/fonts/font-0c78d5a45593468ea96eece7f91f969a.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/font-0448eb723097443788e297f7e4b860ed.woff2) format('truetype');
+}
+
+@font-face{font-family:'Poppins';font-weight:400;font-display:swap;src:url('/fonts/Poppins-Regular.ttf') format('truetype')}
+@font-face{font-family:'Poppins';font-weight:500;font-display:swap;src:url('/fonts/Poppins-Medium.ttf') format('truetype')}
+@font-face{font-family:'Poppins';font-weight:600;font-display:swap;src:url('/fonts/Poppins-SemiBold.ttf') format('truetype')}
+@font-face{font-family:'Poppins';font-weight:700;font-display:swap;src:url('/fonts/Poppins-Bold.ttf') format('truetype')}
+/* Codec Pro is the PDF's primary face. These local() aliases use it if the brand font is installed;
+   the complete, openly licensed geometric Poppins family is the self-hosted fallback. */
+@font-face{font-family:'Codec Pro';src:local('Codec Pro'),local('CodecPro-Regular');font-weight:400;font-display:swap}
+@font-face{font-family:'Codec Pro';src:local('Codec Pro Bold'),local('CodecPro-Bold');font-weight:600 700;font-display:swap}

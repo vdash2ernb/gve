@@ -1,11 +1,12 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useId, useState } from "react";
 
 export default function Accordion({ items }: { items: { q: string; a: string }[] }) {
   const [open, setOpen] = useState<number | null>(null);
   const base = useId();
+  const reduced = useReducedMotion();
   return (
     <ul className="divide-y divide-line border-y border-line">
       {items.map((it, i) => {
@@ -31,7 +32,7 @@ export default function Accordion({ items }: { items: { q: string; a: string }[]
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: reduced ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
                   <p className="max-w-2xl pb-6 text-muted">{it.a}</p>

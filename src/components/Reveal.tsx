@@ -9,7 +9,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export function Reveal({
   children,
   delay = 0,
-  y = 28,
+  y = 16,
   className,
   as = "div",
 }: {
@@ -24,10 +24,10 @@ export function Reveal({
   return (
     <M
       className={className}
-      initial={reduce ? false : { opacity: 0, y, filter: "blur(6px)" }}
+      initial={reduce ? false : { opacity: .88, y, filter: "blur(0px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      transition={{ duration: 0.9, ease, delay }}
+      transition={{ duration: 0.4, ease, delay }}
     >
       {children}
     </M>
@@ -60,7 +60,7 @@ export function Words({
             initial={reduce ? false : { y: "105%" }}
             whileInView={{ y: "0%" }}
             viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-            transition={{ duration: 0.85, ease, delay: delay + i * 0.06 }}
+            transition={{ duration: 0.6, ease, delay: delay + i * 0.06 }}
           >
             {w}
             {i < words.length - 1 ? " " : ""}

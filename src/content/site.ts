@@ -19,7 +19,7 @@ export const nav = [
   { href: "/services", label: "Services" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/about", label: "About" },
-  { href: "/stories", label: "Stories" },
+  { href: "/stories", label: "Expert stories" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -57,7 +57,7 @@ export const services: Service[] = [
     slug: "project-management",
     name: "Project management",
     short: "Schedules, updates, task tracking.",
-    tagline: "Jobs stay on schedule. You stop chasing updates.",
+    tagline: "Less chasing. More coordinating.",
     intro:
       "Your Expert keeps schedules current, sends updates and tracks every task, then brings you the decisions that need you.",
     group: "Run the office",
@@ -75,7 +75,7 @@ export const services: Service[] = [
     slug: "bookkeeping",
     name: "Bookkeeping",
     short: "Invoices, reconciliation, reports.",
-    tagline: "Clean books, every month.",
+    tagline: "Keep your books in order.",
     intro:
       "Accurate records, invoices sent on time, and reports ready when your accountant asks.",
     group: "Run the office",
@@ -112,7 +112,7 @@ export const services: Service[] = [
     slug: "sales-and-crm",
     name: "Lead outreach & CRM",
     short: "Prospecting, outreach, pipeline.",
-    tagline: "More qualified leads. No dropped follow-ups.",
+    tagline: "Keep your prospects moving.",
     intro:
       "Your Expert builds prospect lists, reaches out, books appointments and keeps your pipeline current.",
     group: "Win more work",
@@ -144,7 +144,7 @@ export const services: Service[] = [
     slug: "copywriting",
     name: "Copywriting",
     short: "Web pages, blogs, emails, ads.",
-    tagline: "Clear words that sell, and get found.",
+    tagline: "Clear words for your customers.",
     intro:
       "Website pages, blog posts, emails, ads and sales materials, written for your customers and for search engines.",
     group: "Win more work",
@@ -194,7 +194,7 @@ export const services: Service[] = [
     slug: "cad-drafting",
     name: "CAD drafting",
     short: "Plans, models, as-builts.",
-    tagline: "Precise drawings, ready to build.",
+    tagline: "From ideas to detailed drawings.",
     intro:
       "2D plans, 3D models, as-builts and revisions for architecture, construction and engineering projects.",
     group: "Specialists",
@@ -270,13 +270,14 @@ export const partners = [
   { name: "Truss Payments", img: "/partners/truss.png" },
 ];
 
+// Video IDs and these short captions were checked against the current success-story page.
 export const stories = [
-  { name: "Ernest", role: "Technical Operations Manager", img: "/team/ernest.webp", text: "Started in tech support. Now he keeps every GVE system running and the whole operation connected." },
-  { name: "Evander", role: "Executive Admin", text: "Calendars, social content, bookkeeping. He found work that fits his strengths, his goals and his life." },
-  { name: "Hannah", role: "Finance Manager & Bookkeeper", img: "/team/hannah.webp", text: "Learned the books side by side with our accountant, and grew into running finance." },
-  { name: "Boy", role: "Draftsman & Designer", text: "Helps builders and homeowners cut errors and produce plans that meet industry standards." },
-  { name: "Kate", role: "Architectural Drafter & Designer", img: "/team/kate.webp", text: "Turns renovation ideas into buildable plans, from a kitchen upgrade to a full home extension." },
-  { name: "Loury", role: "General Admin Assistant", img: "/team/loury.png", text: "Email, calendars, graphics, social media and phone calls. Always learning the next thing." },
+  { name: "Ernest", role: "Technical Operations Manager", img: "/team/ernest.webp", video:"vVj07FcQABo", text: "Keeps GVE’s systems and operations connected." },
+  { name: "Evander", role: "Executive Admin", video:"Je7Di4CWWk4", text: "Supports calendars, content, and bookkeeping." },
+  { name: "Hannah", role: "Finance Manager & Bookkeeper", img: "/team/hannah.webp", video:"hgE0tnptJb8", text: "Developed her bookkeeping skills alongside GVE’s accountant." },
+  { name: "Boy", role: "Draftsman & Designer", video:"-TWxzWlfukA", text: "Supports drafting and design for professionals and homeowners." },
+  { name: "Kate", role: "Architectural Drafter & Designer", img: "/team/kate.webp", video:"GawQr_6qCKk", text: "Turns renovation ideas into plans for homeowners and builders." },
+  { name: "Loury", role: "General Admin Assistant", img: "/team/loury.png", video:"rG7ysQoPUP4", text: "Handles email, calendars, graphics, social media, and calls." },
 ];
 
 export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
@@ -300,7 +301,7 @@ export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
   {
     topic: "Getting started",
     items: [
-      { q: "How do I start?", a: "Book a free consultation. We learn what you need, shortlist candidates, you interview and choose, and we onboard your Expert within a few days." },
+      { q: "How do I start?", a: "Book a free call. We agree on your role, screen candidates, and help you interview and choose your Expert." },
       { q: "How long does hiring take?", a: "Usually 5–10 business days. If you need someone sooner, we may have pre-vetted Experts ready to go." },
       { q: "Can I interview candidates first?", a: "Yes. You get a shortlist and you pick who you work with." },
       { q: "What happens after I choose?", a: "We finalize the agreement, set a start date, help with onboarding and assign you a client success representative." },
@@ -310,7 +311,7 @@ export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
     topic: "Pricing",
     items: [
       { q: "How much does it cost?", a: "It depends on the role, experience level and hours. Pricing is a flat monthly rate, all-inclusive. Contact us for a quote." },
-      { q: "Any setup fees or hidden charges?", a: "No." },
+      { q: "Is there a search deposit?", a: "Yes. A $1,000 deposit starts the search. It is refundable if we do not present at least two qualified candidates who match the job description we both approved. See Start your search for the full terms." },
       { q: "How do I pay?", a: "ACH transfer through our secure payment portal, or any major credit card. Card payments carry a 3.5% transaction fee." },
     ],
   },

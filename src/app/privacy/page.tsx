@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SceneStages } from "@/components/Scene";
 import PageHero from "@/components/PageHero";
 
 export const metadata: Metadata = { title: "Privacy policy" };
@@ -67,12 +66,11 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <>
-      <SceneStages stages={[{ shape: "sphere", x: 3, scale: 0.8, dim: 0.4 }]} />
       <PageHero eyebrow="Last updated: September 1, 2023" title="Privacy policy." accent={["policy."]} />
-      <section className="px-4 pb-32 sm:px-6">
-        <div className="mx-auto max-w-3xl space-y-10">
+      <section className="page-content">
+        <div className="studio-wrap legal-content">
           {sections.map((s) => (
-            <div key={s.h} className="card p-7">
+            <article key={s.h}>
               <h2 className="text-xl font-medium">{s.h}</h2>
               {s.p?.map((t) => (
                 <p key={t} className="mt-3 text-muted">
@@ -86,7 +84,7 @@ export default function PrivacyPage() {
                   ))}
                 </ul>
               )}
-            </div>
+            </article>
           ))}
         </div>
       </section>

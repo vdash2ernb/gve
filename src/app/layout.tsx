@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Instrument_Serif } from "next/font/google";
+
+import "./fonts.css";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { SceneCanvas } from "@/components/Scene";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const serif = Instrument_Serif({ variable: "--font-serif", subsets: ["latin"], weight: "400", style: ["normal", "italic"] });
+
+
+
 
 export const metadata: Metadata = {
+  icons: { icon: [{url:"/brand/gve-favicon.png",sizes:"32x32",type:"image/png"},{url:"/brand/gve-icon-192.png",sizes:"192x192",type:"image/png"}], apple:"/brand/gve-apple-icon.png" },
   title: {
-    default: "Global Virtual Experts: virtual assistants for busy business owners",
+    default: "Global Virtual Experts · Expert support for the building industry",
     template: "%s · Global Virtual Experts",
   },
   description:
@@ -20,12 +22,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${serif.variable} antialiased`}>
+    <html lang="en" className="antialiased">
       <body className="min-h-svh">
         <SmoothScroll>
-          <SceneCanvas />
+
           <Header />
-          <main className="relative">{children}</main>
+          <main id="main-content" className="relative">{children}</main>
           <Footer />
         </SmoothScroll>
       </body>

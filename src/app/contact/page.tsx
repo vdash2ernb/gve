@@ -1,71 +1,12 @@
-import type { Metadata } from "next";
-import { SceneStages } from "@/components/Scene";
-import { Reveal, Words } from "@/components/Reveal";
-import { contact } from "@/content/site";
-
-export const metadata: Metadata = {
-  title: "Book a call",
-  description: "Book a free 30-minute call with Global Virtual Experts.",
-};
-
-const calendlySrc = `${contact.calendly}?hide_gdpr_banner=1&background_color=0a1020&text_color=eef2f8&primary_color=ffa600`;
-
-export default function ContactPage() {
-  return (
-    <>
-      <SceneStages stages={[{ shape: "globe", x: -3.2, rotY: Math.PI, scale: 0.9, dim: 0.55 }]} />
-      <section data-stage={0} className="px-4 pb-24 pt-32 sm:px-6">
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <Reveal>
-              <p className="eyebrow">Book a call</p>
-            </Reveal>
-            <h1 className="display mt-5 text-5xl sm:text-7xl">
-              <Words text="Let's talk." accent={["talk."]} delay={0.1} />
-            </h1>
-            <Reveal delay={0.3}>
-              <p className="mt-6 max-w-md text-lg text-muted">
-                30 minutes, free. Tell us what&apos;s taking your time and we&apos;ll show you what to hand off first.
-              </p>
-            </Reveal>
-            <Reveal delay={0.45}>
-              <dl className="mt-12 space-y-6">
-                <div>
-                  <dt className="eyebrow">Email</dt>
-                  <dd className="mt-1 text-lg">
-                    <a href={`mailto:${contact.email}`} className="hover:text-amber">
-                      {contact.email}
-                    </a>
-                  </dd>
-                </div>
-                <div>
-                  <dt className="eyebrow">Phone</dt>
-                  <dd className="mt-1 text-lg">
-                    <a href={contact.phoneHref} className="hover:text-amber">
-                      {contact.phone}
-                    </a>
-                  </dd>
-                </div>
-                <div>
-                  <dt className="eyebrow">Sales</dt>
-                  <dd className="mt-1 text-lg">
-                    <a href={contact.salesPhoneHref} className="hover:text-amber">
-                      {contact.salesPhone}
-                    </a>
-                  </dd>
-                </div>
-                <div>
-                  <dt className="eyebrow">Office</dt>
-                  <dd className="mt-1 text-lg">{contact.location}</dd>
-                </div>
-              </dl>
-            </Reveal>
-          </div>
-          <Reveal delay={0.2} className="card overflow-hidden !rounded-3xl">
-            <iframe src={calendlySrc} title="Book a 30-minute call with Global Virtual Experts" className="h-[760px] w-full" loading="lazy" />
-          </Reveal>
-        </div>
-      </section>
-    </>
-  );
+import type { Metadata } from 'next';
+import { contact } from '@/content/site';
+export const metadata: Metadata = { title: 'Book a free call', description: 'Book a free 30-minute call with Global Virtual Experts to discuss the support your business needs.' };
+const schedule = contact.calendly + '?background_color=ffffff&text_color=00203d&primary_color=00203d';
+export default function Contact() {
+  return <section className="page-content contact-page"><div className="studio-wrap contact-layout">
+    <div className="contact-intro"><p className="kicker">Start with a conversation</p><h1>Find the<br/>right support.</h1><p className="contact-lede">A free 30-minute call about your workload and the Expert who could help.</p>
+      <dl className="contact-details"><div className="contact-email"><dt>Email us</dt><dd><a href={'mailto:' + contact.email}>{contact.email}</a></dd></div><div><dt>Talk to sales</dt><dd><a href={contact.salesPhoneHref}>{contact.salesPhone}</a></dd></div><div><dt>Our office</dt><dd><a href={contact.phoneHref}>{contact.phone}</a><span>{contact.location}</span></dd></div></dl>
+    </div>
+    <div className="contact-booking"><div className="booking-heading"><h2>Choose a time that works for you.</h2><p>30 minutes · Free consultation</p></div><div className="scheduler"><iframe src={schedule} title="Book a free 30-minute GVE call" loading="lazy"/></div><p className="contact-note">You can also <a href={contact.calendly} target="_blank" rel="noopener noreferrer" className="underlined">open the booking calendar</a>.</p></div>
+  </div></section>;
 }
