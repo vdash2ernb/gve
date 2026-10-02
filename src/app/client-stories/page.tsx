@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import ClientStoryCard from '@/components/ClientStoryCard';
 import FounderStory from '@/components/FounderStory';
@@ -17,7 +16,6 @@ export default function ClientStoriesPage() {
       <h2 className="sr-only">Client interviews</h2><div className={styles.storyGrid}>{clientStories.map(story => <Reveal key={story.id}><ClientStoryCard story={story}/></Reveal>)}</div>
     </div></section>
     <FounderStory/>
-    <section className="section-rule"><div className="studio-wrap"><Link href="/stories" className="underlined">Meet our Experts <span aria-hidden="true">→</span></Link></div></section>
     <CTA/>
   </>;
 }
