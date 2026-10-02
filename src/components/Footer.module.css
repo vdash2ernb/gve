@@ -6,7 +6,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 1.1fr 1fr 1.25fr;
+  grid-template-columns: 1fr 1.35fr 1.1fr;
   gap: clamp(32px, 4vw, 64px);
   align-items: start;
 }
@@ -19,6 +19,9 @@
 .footer a { color: #d0dce5; font-size: .875rem; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; }
 .footer a:hover { color: #fff; text-decoration-color: #ffa600; }
 .footer a:focus-visible { outline: 2px solid #ffa600; outline-offset: 4px; }
+.navigation { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.navigation > div { min-width: 0; }
+.navigation ul { margin: 0; padding: 0; list-style: none; }
 .navigation a { display: inline-flex; align-items: center; min-height: 38px; padding: 5px 0; }
 .email { display: inline-block; max-width: 100%; overflow-wrap: anywhere; padding: 5px 0; margin-bottom: 18px; }
 .phones { display: grid; gap: 14px; margin: 0; }
@@ -26,7 +29,8 @@
 .phones dd { margin: 0; }
 .phones a { display: inline-flex; align-items: center; min-height: 38px; }
 .location { color: #b9cbd8; font-size: .875rem; line-height: 1.7; margin-top: 18px; }
-.bottom { display: flex; justify-content: space-between; gap: 14px; margin-top: 38px; padding-top: 20px; border-top: 1px solid #ffffff26; color: #b9cbd8; font-size: .75rem; line-height: 1.7; }
+.bottom { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 38px; padding-top: 20px; border-top: 1px solid #ffffff26; color: #b9cbd8; font-size: .75rem; line-height: 1.7; }
+.privacy { display: inline-flex; align-items: center; min-height: 44px; }
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: 1fr 1fr; gap: 34px 48px; }
@@ -45,7 +49,6 @@
   .phones { grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 12px 20px; }
   .phones a { min-height: 44px; }
   .location { margin-top: 12px; }
-  .navigation ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
   .navigation a { min-height: 44px; }
-  .bottom { flex-direction: column; gap: 7px; margin-top: 26px; padding-top: 18px; font-size: .6875rem; }
+  .bottom { flex-direction: column; text-align: center; gap: 2px; margin-top: 26px; padding-top: 18px; }
 }

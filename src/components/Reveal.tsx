@@ -11,18 +11,21 @@ export function Reveal({
   delay = 0,
   y = 16,
   className,
+  id,
   as = "div",
 }: {
   children: React.ReactNode;
   delay?: number;
   y?: number;
   className?: string;
+  id?: string;
   as?: "div" | "li" | "section" | "p" | "span";
 }) {
   const reduce = useReducedMotion();
   const M = motion[as];
   return (
     <M
+      id={id}
       className={className}
       initial={reduce ? false : { opacity: .88, y, filter: "blur(0px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}

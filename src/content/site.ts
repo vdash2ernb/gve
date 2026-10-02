@@ -18,9 +18,9 @@ export const contact = {
 export const nav = [
   { href: "/services", label: "Services" },
   { href: "/how-it-works", label: "How it works" },
-  { href: "/about", label: "About" },
+  { href: "/stories", label: "Meet the Experts" },
   { href: "/client-stories", label: "Client stories" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/about", label: "About" },
 ];
 
 export type TaskGroup = { title: string; items: string[] };

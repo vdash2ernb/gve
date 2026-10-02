@@ -14,7 +14,6 @@ export default function ClientStoriesPage() {
   return <>
     <PageHero eyebrow="Client stories" title={<span className={styles.clientHeading}>Real businesses.<br/><span className={styles.keepTogether}>Real support.</span></span>} body="Watch four clients explain the tasks their virtual assistants handle." />
     <section className={styles.collection} aria-label="Client video stories"><div className="studio-wrap">
-      <nav className={styles.collectionNav} aria-label="Choose a client story">{clientStories.map(story => <a key={story.id} href={`#${story.id}`}>{story.company || 'Architecture'}</a>)}<a href="#craig-story">From our founder</a></nav>
       <h2 className="sr-only">Client interviews</h2><div className={styles.storyGrid}>{clientStories.map(story => <Reveal key={story.id}><ClientStoryCard story={story}/></Reveal>)}</div>
     </div></section>
     <FounderStory/>

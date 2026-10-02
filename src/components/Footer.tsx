@@ -1,9 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { contact, nav } from '@/content/site';
+import { contact } from '@/content/site';
 import styles from './Footer.module.css';
 
-const links = [...nav, { href: '/stories', label: 'Meet the Experts' }, { href: '/start', label: 'Start your search' }, { href: '/privacypolicy', label: 'Privacy Policy' }];
+const groups = [
+  { title: 'Get started', links: [
+    { href: '/services', label: 'Services' },
+    { href: '/how-it-works', label: 'How it works' },
+    { href: '/faq', label: 'FAQ' },
+    { href: '/start', label: 'Start your search' },
+  ] },
+  { title: 'Company', links: [
+    { href: '/about', label: 'About GVE' },
+    { href: '/stories', label: 'Meet the Experts' },
+    { href: '/client-stories', label: 'Client stories' },
+  ] },
+];
 
 export default function Footer() {
   return <footer className={styles.footer} id="site-footer">
@@ -14,8 +26,9 @@ export default function Footer() {
           <p>Real People. AI Powered.<br/>Building Your Success.</p>
         </div>
         <nav className={styles.navigation} aria-label="Footer">
-          <h3>Explore</h3>
-          <ul>{links.map(link => <li key={link.href}><Link href={link.href}>{link.label}</Link></li>)}</ul>
+          {groups.map(group => <div key={group.title}><h3>{group.title}</h3>
+            <ul>{group.links.map(link => <li key={link.href}><Link href={link.href}>{link.label}</Link></li>)}</ul>
+          </div>)}
         </nav>
         <div className={styles.contact}>
           <h3>Let’s talk</h3>
@@ -27,7 +40,7 @@ export default function Footer() {
           <p className={styles.location}>{contact.location}</p>
         </div>
       </div>
-      <div className={styles.bottom}><span>© {new Date().getFullYear()} Global Virtual Experts</span></div>
+      <div className={styles.bottom}><span>© {new Date().getFullYear()} Global Virtual Experts</span><Link href="/privacypolicy" className={styles.privacy}>Privacy Policy</Link></div>
     </div>
   </footer>;
 }

@@ -1,0 +1,19 @@
+.section { padding-top: 64px; margin-top: 64px; border-top: 1px solid #d5e0e9; scroll-margin-top: 124px; }
+.heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
+.heading h2 { font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.15; letter-spacing: -.04em; margin-top: 18px; }
+.heading > a { font-size: .875rem; margin-bottom: 5px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.card { min-width: 0; }
+.card h3 { margin-top: 20px; font-size: 1.25rem; font-weight: 600; }
+.card h3 a { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding-block: 5px; color: #00203d; }
+.card h3 a span { color: #496071; }
+.card h3 a:hover span { color: #00203d; }
+.card h3 a:focus-visible { outline: 2px solid #ffa600; outline-offset: 5px; }
+.card p { color: #496071; font-size: .875rem; line-height: 1.6; margin-top: 4px; }
+@media (max-width: 700px) {
+  .section { margin-top: 40px; padding-top: 40px; }
+  .heading { display: block; margin-bottom: 26px; }
+  .heading > a { display: inline-block; margin-top: 22px; }
+  .grid { grid-template-columns: minmax(0, 1fr); gap: 34px; }
+  .card h3 { margin-top: 14px; }
+}

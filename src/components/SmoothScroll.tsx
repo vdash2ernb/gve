@@ -39,8 +39,12 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   useEffect(() => {
     if (previousPathname.current === pathname) return;
     previousPathname.current = pathname;
-    if (lenis) lenis.scrollTo(0, { immediate: true });
-    else window.scrollTo(0, 0);
+    const target = window.location.hash ? document.getElementById(window.location.hash.slice(1)) : null;
+    const top = target
+      ? window.scrollY + target.getBoundingClientRect().top - (parseFloat(getComputedStyle(target).scrollMarginTop) || 0)
+      : 0;
+    if (lenis) lenis.scrollTo(top, { immediate: true });
+    else window.scrollTo(0, top);
   }, [pathname, lenis]);
 
   return <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>;

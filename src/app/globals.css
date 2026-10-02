@@ -70,3 +70,5 @@ body{background:var(--bg);font-size:1rem;line-height:1.75}h1,h2,h3{font-weight:6
   .catalogue-tabs span { white-space: nowrap; margin-top: 0; }
   .catalogue-list, .catalogue-object { min-width: 0; }
 }
+
+.story-video { scroll-margin-top: 124px; }
