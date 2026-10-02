@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import FolioScene from './folio/FolioScene';
 import { Reveal } from './Reveal';
 
-export default function WorkStory() {
+export default function WorkStory({ proof }: { proof?: ReactNode }) {
   const [paused, setPaused] = useState(false);
   const visual = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -38,8 +38,9 @@ export default function WorkStory() {
         <div className="hero-actions"><Link href="/contact" className="button amber">Find your Expert</Link><Link href="/services" className="underlined light">Explore our services</Link></div>
         <p className="story-origin">Built by a Seattle business owner.<br/>Powered by talented people in the Philippines.</p>
       </div></div>
-      <div className="scroll-cue studio-wrap"><a href="#the-work"><span className="scroll-line"/>See what you can hand off</a><button className="motion-control" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? 'Restore 3D motion' : 'Reduce 3D motion'}</button></div>
+      <div className="scroll-cue studio-wrap"><a href="#clients"><span className="scroll-line"/>See what support looks like</a><button className="motion-control" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? 'Restore 3D motion' : 'Reduce 3D motion'}</button></div>
     </section>
+    {proof}
     <section className="story-chapter story-right" id="the-work" aria-labelledby="work-title">
       <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">01 / Make room</p><h2 id="work-title">A full day.<br/>Too many <em>hats.</em></h2><p className="story-lede">The plans. The paperwork. The follow-ups. You don’t have to be the person behind every task.</p><div className="work-tags"><span>Admin & inbox</span><span>Books & billing</span><span>Projects & plans</span><span>Sales & customers</span></div></Reveal></div>
     </section>

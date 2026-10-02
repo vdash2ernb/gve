@@ -19,7 +19,7 @@ export const nav = [
   { href: "/services", label: "Services" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/about", label: "About" },
-  { href: "/stories", label: "Expert stories" },
+  { href: "/client-stories", label: "Client stories" },
   { href: "/faq", label: "FAQ" },
 ];
 
