@@ -38,9 +38,6 @@
 .serviceProof .compactCard { display: block; }
 .serviceProof .caption { padding-top: 15px; }
 .serviceProof .caption .identity, .serviceProof .caption h3 { display: none; }
-.contactQuote { margin: 32px 0 0; padding: 18px 0 0 20px; border-left: 2px solid #ffa600; font-size: .9375rem; line-height: 1.8; }
-.contactQuote p { color: #00203d; }
-.contactQuote footer { margin-top: 9px; font-size: .75rem; color: #496071; }
 @media (max-width: 1000px) { .homeGrid { gap: 28px; grid-template-columns: 1.25fr 1fr; } .compactCard { display: block; } .compactCard .caption { padding-top: 16px; } .sideStories { gap: 30px; } .founderGrid, .serviceProof { gap: 35px; } }
 @media (max-width: 700px) { .proof { padding: 48px 0 35px; } .intro { display: block; margin-bottom: 30px; } .intro h2 { font-size: 2.35rem; } .homeGrid { grid-template-columns: 1fr; gap: 35px; } .sideStories { gap: 25px; } .compactCard { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; } .compactCard .caption { padding-top: 0; } .compactCard .caption h3 { font-size: 1.1rem; } .storyGrid { grid-template-columns: 1fr; gap: 38px; } .collection { padding: 35px 0 50px; } .storyGrid h3 { font-size: 1.7rem; } .founderStory { padding: 48px 0; } .founderGrid, .serviceProof { grid-template-columns: 1fr; gap: 30px; } .founderGrid h2 { font-size: 2.35rem; } .serviceProof { padding: 35px 0; margin-top: 35px; } }
 @media (max-width: 360px) { .clientHeading { font-size: 2rem; } .intro h2 { font-size: 2.1rem; } .compactCard { grid-template-columns: 1fr; } .compactCard .caption { padding-top: 14px; } }

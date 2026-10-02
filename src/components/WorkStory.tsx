@@ -35,7 +35,7 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
         <p className="kicker light">Virtual support for your business</p>
         <h1 id="opening-title">Virtual assistants.<br/>More time <em>for you.</em></h1>
         <p className="story-lede">Get help with admin, bookkeeping, and other business tasks. We find the right person and support you along the way.</p>
-        <div className="hero-actions"><Link href="/contact" className="button amber">Find your Expert</Link><Link href="/services" className="underlined light">Explore our services</Link></div>
+        <div className="hero-actions"><Link href="/contact-us" className="button amber">Find your Expert</Link><Link href="/services" className="underlined light">Explore our services</Link></div>
         <p className="story-origin">Based in Seattle.<br/>Experts in the Philippines.</p>
       </div></div>
       <div className="scroll-cue studio-wrap"><a href="#clients"><span className="scroll-line"/>Meet our clients</a><button className="motion-control" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? 'Restore 3D motion' : 'Reduce 3D motion'}</button></div>

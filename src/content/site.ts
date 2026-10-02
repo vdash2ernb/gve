@@ -13,6 +13,7 @@ export const contact = {
   depositLink: "https://link.fastpaydirect.com/payment-link/69bc7bf0c1b7344f595a5f73",
   youtube: "https://www.youtube.com/@gvecareers",
   instagram: "https://www.instagram.com/gvecareers/",
+  googleBusinessProfile: "https://share.google/J4HIrJlOjA3Ttos4z",
 };
 
 export const nav = [

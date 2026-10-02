@@ -1,0 +1,88 @@
+.layout {
+  grid-template-areas: "intro booking" "feedback booking";
+  grid-template-rows: auto 1fr;
+  row-gap: 42px;
+}
+.intro { grid-area: intro; }
+.booking { grid-area: booking; min-width: 0; }
+.feedback { grid-area: feedback; min-width: 0; }
+.profile { grid-column: 1 / -1; }
+.googleLink {
+  font-size: .875rem;
+  text-decoration: underline;
+  text-decoration-color: #b5c8d5;
+  text-underline-offset: 4px;
+}
+.googleLink > span[aria-hidden] { display: inline; color: inherit; }
+.feedbackHeading {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0;
+  margin-bottom: 20px;
+  color: #00203d;
+}
+.quotes { display: grid; gap: 32px; }
+.testimonial { margin: 0; }
+.bubble {
+  position: relative;
+  padding: 22px 28px 28px;
+  background: #fff;
+  border: 1px solid #d5e0e9;
+  border-radius: 16px;
+  color: #00203d;
+}
+.bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 33px;
+  width: 14px;
+  height: 14px;
+  background: inherit;
+  border-right: 1px solid #d5e0e9;
+  border-bottom: 1px solid #d5e0e9;
+  transform: rotate(45deg);
+}
+.primary { background: #00203d; border-color: #00203d; color: #fff; }
+.primary::after { border-color: #00203d; }
+.quoteMark {
+  display: block;
+  height: 40px;
+  font-family: Georgia, serif;
+  font-size: 72px;
+  line-height: 1;
+  color: #ffa600;
+}
+.bubble p { font-size: 1.125rem; font-weight: 400; line-height: 1.65; }
+.primary p { font-size: clamp(1.35rem, 2vw, 1.75rem); line-height: 1.5; }
+.attribution {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22px 4px 0;
+  font-size: .875rem;
+  line-height: 1.65;
+  color: #496071;
+}
+.attribution strong { font-size: 1rem; font-weight: 600; color: #00203d; }
+.sourceType { font-size: .75rem; margin-top: 7px; }
+.sourceLink {
+  font-size: .8125rem;
+  color: #00203d;
+  margin-top: 5px;
+  text-decoration: underline;
+  text-decoration-color: #b5c8d5;
+  text-underline-offset: 4px;
+}
+.sourceLink:hover { text-decoration-color: #ffa600; }
+.sourceLink:focus-visible { outline: 3px solid #ffa600; outline-offset: 5px; }
+@media (max-width: 900px) {
+  .layout { grid-template-areas: "intro" "booking" "feedback"; grid-template-rows: auto auto auto; row-gap: 48px; }
+  .feedback { max-width: 620px; }
+}
+@media (max-width: 600px) {
+  .bubble { padding: 20px 22px 24px; }
+  .primary p { font-size: 1.4rem; }
+}
