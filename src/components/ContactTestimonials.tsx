@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import styles from './Contact.module.css';
 
-// Preserve client words and identify whether they come from an interview or
-// written feedback. Josiah's full review also exists in the original site export.
+// Exact excerpts from the supplied interviews: Martha at 2:21 and Josiah at
+// 4:17. Keep the quotation source separate from each link to the client story.
 const feedback = [
   {
     name: 'Martha',
@@ -12,17 +13,19 @@ const feedback = [
     company: 'River Roofing',
     quote: 'It’s allowed me to simplify my day.',
     source: 'https://www.youtube.com/watch?v=nhq0_DsNkuM',
-    sourceLabel: 'Watch her interview',
+    href: '/client-stories/#river-roofing',
+    sourceLabel: 'Watch Martha’s interview',
     sourceType: 'Video interview excerpt',
   },
   {
     name: 'Josiah',
     role: 'CEO',
     company: 'MW Design Workshop',
-    quote: 'GVE is fantastic, they have helped me to get started with my first VEA and given her all the support for her to be successful in helping me run my business and support my team.',
-    source: 'https://globalvirtualexperts.com/whoweare/',
-    sourceLabel: 'Read the original review',
-    sourceType: 'Written testimonial',
+    quote: 'I just wish I would have done it earlier.',
+    source: 'https://www.youtube.com/watch?v=XqHtApU0Qno',
+    href: '/client-stories/#mw-design',
+    sourceLabel: 'Watch Josiah’s interview',
+    sourceType: 'Video interview excerpt',
   },
 ];
 
@@ -52,9 +55,9 @@ export default function ContactTestimonials() {
           <strong>{item.name}</strong>
           <span>{item.role} · {item.company}</span>
           <span className={styles.sourceType}>{item.sourceType}</span>
-          <a href={item.source} target="_blank" rel="noopener noreferrer" className={styles.sourceLink}>
-            {item.sourceLabel} <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span>
-          </a>
+          <Link href={item.href} className={styles.sourceLink}>
+            {item.sourceLabel} <span aria-hidden="true">→</span>
+          </Link>
         </figcaption>
       </figure>)}
     </div>
