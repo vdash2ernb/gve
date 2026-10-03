@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
 import styles from './Contact.module.css';
 
 // Preserve client words and identify whether they come from an interview or
@@ -24,7 +27,20 @@ const feedback = [
 ];
 
 export default function ContactTestimonials() {
+  const sticky = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const element = sticky.current;
+    if (!element) return;
+    // A tall sidebar scrolls far enough to reveal its last quote before it
+    // sticks. Font loading and viewport changes can alter its actual height.
+    const observer = new ResizeObserver(() => {
+      element.style.setProperty('--feedback-height', element.getBoundingClientRect().height + 'px');
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
   return <aside className={styles.feedback} aria-labelledby="contact-feedback-title">
+    <div ref={sticky} className={styles.sticky}>
     <h2 id="contact-feedback-title" className={styles.feedbackHeading}>Client feedback</h2>
     <div className={styles.quotes}>
       {feedback.map((item, index) => <figure className={styles.testimonial} key={item.name}>
@@ -41,6 +57,7 @@ export default function ContactTestimonials() {
           </a>
         </figcaption>
       </figure>)}
+    </div>
     </div>
   </aside>;
 }

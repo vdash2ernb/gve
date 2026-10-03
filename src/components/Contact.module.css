@@ -5,7 +5,8 @@
 }
 .intro { grid-area: intro; }
 .booking { grid-area: booking; min-width: 0; }
-.feedback { grid-area: feedback; min-width: 0; }
+.feedback { grid-area: feedback; min-width: 0; align-self: stretch; }
+.sticky { position: sticky; top: min(128px, calc(100svh - 24px - var(--feedback-height, 700px))); }
 .profile { grid-column: 1 / -1; }
 .googleLink {
   font-size: .875rem;
@@ -78,9 +79,21 @@
 }
 .sourceLink:hover { text-decoration-color: #ffa600; }
 .sourceLink:focus-visible { outline: 3px solid #ffa600; outline-offset: 5px; }
+@media (min-width: 901px) and (max-height: 850px) {
+  .feedbackHeading { margin-bottom: 16px; }
+  .quotes { gap: 24px; }
+  .bubble { padding: 18px 22px 20px; }
+  .quoteMark { height: 30px; font-size: 60px; }
+  .bubble p { font-size: 1rem; line-height: 1.6; }
+  .primary p { font-size: 1.375rem; line-height: 1.45; }
+  .attribution { padding-top: 16px; line-height: 1.5; }
+  .sourceType { margin-top: 4px; }
+  .sourceLink { margin-top: 3px; }
+}
 @media (max-width: 900px) {
   .layout { grid-template-areas: "intro" "booking" "feedback"; grid-template-rows: auto auto auto; row-gap: 48px; }
   .feedback { max-width: 620px; }
+  .sticky { position: static; }
 }
 @media (max-width: 600px) {
   .bubble { padding: 20px 22px 24px; }
