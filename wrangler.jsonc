@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers static assets: serves the `out/` folder from `npm run build`.
+  "$schema": "https://unpkg.com/wrangler@4/config-schema.json",
+  "name": "gve",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

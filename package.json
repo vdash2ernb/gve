@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build --webpack",
+    "build": "next build --webpack && node scripts/flatten-prefetch.mjs",
+    "deploy": "npm run build && npx wrangler@4 deploy",
     "start": "node scripts/preview-static.mjs",
     "lint": "eslint",
     "check": "tsc --noEmit",

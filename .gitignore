@@ -54,3 +54,6 @@ preview-*.log
 /AUDIT-*.md
 /DESIGN-REVIEW.md
 /preview-*.jpg
+
+# cloudflare
+.wrangler/
