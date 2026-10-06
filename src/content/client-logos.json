@@ -1,0 +1,67 @@
+{
+  "antler.png": {
+    "src": "/partners/mono/antler.png",
+    "width": 260,
+    "height": 240
+  },
+  "big-bear-logo.jpg": {
+    "src": "/partners/mono/big-bear-logo.png",
+    "width": 226,
+    "height": 240
+  },
+  "calistar-management.png": {
+    "src": "/partners/mono/calistar-management.png",
+    "width": 240,
+    "height": 240
+  },
+  "high-desert-homes.png": {
+    "src": "/partners/mono/high-desert-homes.png",
+    "width": 556,
+    "height": 240
+  },
+  "hill-mortgage.png": {
+    "src": "/partners/mono/hill-mortgage.png",
+    "width": 243,
+    "height": 240
+  },
+  "izozi.png": {
+    "src": "/partners/mono/izozi.png",
+    "width": 600,
+    "height": 240
+  },
+  "mw-design.png": {
+    "src": "/partners/mono/mw-design.png",
+    "width": 289,
+    "height": 240
+  },
+  "navo-builders.webp": {
+    "src": "/partners/mono/navo-builders.png",
+    "width": 293,
+    "height": 240
+  },
+  "onebio.png": {
+    "src": "/partners/mono/onebio.png",
+    "width": 920,
+    "height": 240
+  },
+  "river-roofing.png": {
+    "src": "/partners/mono/river-roofing.png",
+    "width": 598,
+    "height": 240
+  },
+  "silver-peak.png": {
+    "src": "/partners/mono/silver-peak.png",
+    "width": 257,
+    "height": 240
+  },
+  "truss.png": {
+    "src": "/partners/mono/truss.png",
+    "width": 406,
+    "height": 240
+  },
+  "window-door-shoppe.png": {
+    "src": "/partners/mono/window-door-shoppe.png",
+    "width": 762,
+    "height": 240
+  }
+}
