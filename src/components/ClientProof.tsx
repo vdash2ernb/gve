@@ -9,8 +9,8 @@ export default function ClientProof() {
     <div className="studio-wrap">
       <div className={styles.intro}><div><p className="kicker">Client interviews</p><h2 id="client-proof-title">How our clients<br/>use GVE.</h2></div></div>
       <div className={styles.homeGrid}>
-        <Reveal><ClientStoryCard story={clientStories[0]}/></Reveal>
-        <div className={styles.sideStories}>{clientStories.slice(1, 3).map(story => <Reveal key={story.id}><ClientStoryCard story={story} compact/></Reveal>)}
+        <Reveal><ClientStoryCard story={clientStories[0]} linkToStory/></Reveal>
+        <div className={styles.sideStories}>{clientStories.slice(1, 3).map(story => <Reveal key={story.id}><ClientStoryCard story={story} compact linkToStory/></Reveal>)}
           <div className={styles.moreStories}><Link href="/client-stories" className="underlined">See all client stories <span aria-hidden="true">→</span></Link></div>
         </div>
       </div>
