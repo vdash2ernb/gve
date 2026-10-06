@@ -8,25 +8,76 @@ import { Reveal } from './Reveal';
 export default function WorkStory({ proof }: { proof?: ReactNode }) {
   const [paused, setPaused] = useState(false);
   const visual = useRef<HTMLDivElement>(null);
+  // Phones and tablets: the 3D sits in the space below one chapter's copy and scrolls
+  // with the page. It only moves to another chapter once its current spot is off
+  // screen, fading across, so it never chases the scroll position.
   useEffect(() => {
-    let frame = 0;
-    const positionVisual = () => {
-      frame = 0;
-      if (!visual.current) return;
-      if (window.innerWidth > 900) { visual.current.style.removeProperty('--visual-top'); return; }
-      const copies = Array.from(document.querySelectorAll<HTMLElement>('.story-copy'));
-      const height = Math.min(365, window.innerHeight * .45);
-      const slots = copies.map(copy => copy.getBoundingClientRect().bottom + 24);
-      const top = slots.sort((a, b) => Math.abs(a + height / 2 - window.innerHeight / 2) - Math.abs(b + height / 2 - window.innerHeight / 2))[0] ?? 480;
-      visual.current.style.setProperty('--visual-top', `${top}px`);
+    const story = document.getElementById('work-story');
+    const el = visual.current;
+    if (!story || !el) return;
+    const narrow = window.matchMedia('(max-width: 900px)');
+    let slots: { top: number; height: number }[] = [];
+    let current = -1, swap = 0, measure = 0;
+
+    const place = (index: number, fade: boolean) => {
+      const slot = slots[index];
+      if (!slot) return;
+      current = index;
+      const apply = () => {
+        el.style.setProperty('--visual-top', `${slot.top}px`);
+        el.style.setProperty('--visual-height', `${slot.height}px`);
+        el.classList.remove('is-moving');
+      };
+      clearTimeout(swap);
+      if (fade) { el.classList.add('is-moving'); swap = window.setTimeout(apply, 250); } else apply();
     };
-    const update = () => { if (!frame) frame = requestAnimationFrame(positionVisual); };
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    const observer = new ResizeObserver(update);
-    document.querySelectorAll('.story-copy').forEach(copy => observer.observe(copy));
-    positionVisual();
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); window.removeEventListener('scroll', update); window.removeEventListener('resize', update); };
+    const choose = () => {
+      if (!narrow.matches || !slots.length) return;
+      const offset = story.getBoundingClientRect().top;
+      const visible = (s: { top: number; height: number }) => Math.max(0, Math.min(offset + s.top + s.height, window.innerHeight) - Math.max(offset + s.top, 0));
+      if (current >= 0 && visible(slots[current]) > 0) return;
+      const centre = window.innerHeight / 2 - offset;
+      const next = slots.reduce((best, s, i) => Math.abs(s.top + s.height / 2 - centre) < Math.abs(slots[best].top + slots[best].height / 2 - centre) ? i : best, 0);
+      if (next !== current) place(next, current >= 0);
+    };
+    const remeasure = () => {
+      measure = 0;
+      if (!narrow.matches) {
+        slots = []; current = -1; clearTimeout(swap);
+        el.classList.remove('is-moving');
+        el.style.removeProperty('--visual-top'); el.style.removeProperty('--visual-height');
+        return;
+      }
+      const base = story.getBoundingClientRect().top;
+      // CSS also caps the height at 45svh, so the browser bar showing or hiding never resizes the 3D.
+      const max = Math.min(365, window.innerHeight * .45);
+      slots = Array.from(story.querySelectorAll<HTMLElement>('.story-chapter')).flatMap(chapter => {
+        const copy = chapter.querySelector<HTMLElement>('.story-copy');
+        if (!copy) return [];
+        const top = copy.getBoundingClientRect().bottom - base + 24;
+        // Stop above the scroll cue in the opening chapter, otherwise at the chapter's end.
+        const cue = chapter.querySelector<HTMLElement>('.scroll-cue');
+        const limit = (cue ? cue.getBoundingClientRect().top - 12 : chapter.getBoundingClientRect().bottom) - base;
+        return [{ top, height: Math.max(180, Math.min(max, limit - top)) }];
+      });
+      const keep = current;
+      current = -1;
+      if (keep >= 0 && slots[keep]) place(keep, false);
+      choose();
+    };
+    const queueMeasure = () => { if (!measure) measure = requestAnimationFrame(remeasure); };
+
+    window.addEventListener('scroll', choose, { passive: true });
+    window.addEventListener('resize', queueMeasure);
+    narrow.addEventListener('change', queueMeasure);
+    const observer = new ResizeObserver(queueMeasure);
+    story.querySelectorAll('.story-chapter').forEach(chapter => observer.observe(chapter));
+    remeasure();
+    return () => {
+      cancelAnimationFrame(measure); clearTimeout(swap); observer.disconnect();
+      window.removeEventListener('scroll', choose); window.removeEventListener('resize', queueMeasure);
+      narrow.removeEventListener('change', queueMeasure);
+    };
   }, []);
   return <div className="work-story" id="work-story">
     <div className="story-stage" aria-hidden="true"><div ref={visual} className="story-visual"><FolioScene paused={paused}/></div></div>

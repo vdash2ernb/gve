@@ -157,7 +157,8 @@ function Assembly({ mode, selected, paused, reduced }: { mode: 'story' | 'object
       } else wanted.current = 0;
       invalidate();
     };
-    const move = (e: PointerEvent) => { pointer.current = { x: e.clientX / window.innerWidth - .5, y: e.clientY / window.innerHeight - .5 }; if (!reduced && !paused) invalidate(); };
+    // Only a mouse tilts the folio; on touch screens the last finger position would leave it tilted.
+    const move = (e: PointerEvent) => { if (e.pointerType !== 'mouse') return; pointer.current = { x: e.clientX / window.innerWidth - .5, y: e.clientY / window.innerHeight - .5 }; if (!reduced && !paused) invalidate(); };
     window.addEventListener('scroll', scroll, { passive: true });
     window.addEventListener('resize', scroll);
     window.addEventListener('pointermove', move, { passive: true }); scroll();
@@ -200,10 +201,13 @@ function Assembly({ mode, selected, paused, reduced }: { mode: 'story' | 'object
 
 export default function FolioCanvas({ mode, selected, paused }: { mode: 'story' | 'object'; selected: WorkDomain; paused: boolean }) {
   const [reduced, setReduced] = useState(true);
+  const [ready, setReady] = useState(false);
+  // Touch devices and narrow screens get a lighter render: lower pixel density and a smaller shadow map.
+  const [lite] = useState(() => window.matchMedia('(max-width: 900px), (pointer: coarse)').matches);
   useEffect(() => { const query = window.matchMedia('(prefers-reduced-motion: reduce)'); const update = () => setReduced(query.matches); update(); query.addEventListener('change', update); return () => query.removeEventListener('change', update); }, []);
-  return <Canvas className="folio-canvas" shadows="soft" frameloop="demand" dpr={[1, 1.6]} camera={{ position: [0, 0, 10], fov: 37, near: .1, far: 50 }} gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }} style={{ touchAction: 'pan-y' }}>
+  return <Canvas className={ready ? 'folio-canvas is-ready' : 'folio-canvas'} onCreated={() => setReady(true)} shadows="soft" frameloop="demand" dpr={[1, lite ? 1.25 : 1.6]} camera={{ position: [0, 0, 10], fov: 37, near: .1, far: 50 }} gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }} style={{ touchAction: 'pan-y' }}>
     <ambientLight intensity={.95}/>
-    <directionalLight position={[-4, 6, 7]} intensity={2.1} color="#fff4df" castShadow shadow-mapSize={[1024,1024]} shadow-camera-left={-8} shadow-camera-right={8} shadow-camera-top={7} shadow-camera-bottom={-7} shadow-bias={-.0005}/>
+    <directionalLight position={[-4, 6, 7]} intensity={2.1} color="#fff4df" castShadow shadow-mapSize={lite ? [512, 512] : [1024, 1024]} shadow-camera-left={-8} shadow-camera-right={8} shadow-camera-top={7} shadow-camera-bottom={-7} shadow-bias={-.0005}/>
     <directionalLight position={[4, 1, 4]} intensity={1.5} color="#afdfff"/>
     <directionalLight position={[0, -3, 4]} intensity={.4} color="#79a7c3"/>
     <Assembly mode={mode} selected={selected} paused={paused} reduced={reduced}/>
