@@ -9,7 +9,7 @@ import type { WorkDomain } from '@/content/domains';
 // Original GVE work folio. Every mesh and surface is generated here.
 // No models, scene code, textures, or materials from the port-3000 site.
 const NAVY = '#00203d', BLUE = '#003870', ICE = '#79a7c3', GOLD = '#ffa600';
-type Kind = 'plans' | 'schedule' | 'accounts' | 'clients' | 'marketing' | 'digital' | 'logistics';
+export type Kind = 'plans' | 'schedule' | 'accounts' | 'clients' | 'marketing' | 'digital' | 'logistics';
 type Pose = [number, number, number, number, number, number];
 const names: Kind[] = ['plans', 'schedule', 'accounts', 'clients'];
 
@@ -104,7 +104,7 @@ function Box({ size, at = [0, 0, 0], color, metal = 0, rough = .42 }: { size: [n
   </RoundedBox>;
 }
 
-function WorkDocument({ kind }: { kind: Kind }) {
+export function WorkDocument({ kind }: { kind: Kind }) {
   const surface = useMemo(() => makeSurface(kind), [kind]);
   useEffect(() => () => surface.dispose(), [surface]);
   const dark = ['plans', 'schedule', 'digital'].includes(kind);

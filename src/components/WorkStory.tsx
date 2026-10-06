@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
-import FolioScene from './folio/FolioScene';
+import { HandoffScene } from './folio/FolioScene';
 import { Reveal } from './Reveal';
 
 export default function WorkStory({ proof }: { proof?: ReactNode }) {
@@ -80,7 +80,7 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
     };
   }, []);
   return <div className="work-story" id="work-story">
-    <div className="story-stage" aria-hidden="true"><div ref={visual} className="story-visual"><FolioScene paused={paused}/></div></div>
+    <div className="story-stage" aria-hidden="true"><div ref={visual} className="story-visual"><HandoffScene paused={paused}/></div></div>
     <section className="story-chapter story-opening" aria-labelledby="opening-title">
       <div className="story-content studio-wrap"><div className="story-copy">
         <p className="kicker light">Virtual support for your business</p>
