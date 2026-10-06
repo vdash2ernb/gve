@@ -17,14 +17,18 @@ const kinds: Kind[] = ['plans', 'schedule', 'accounts', 'clients'];
 const DOC_SCALE = .42;
 
 type Pose = { p: [number, number, number]; r: [number, number, number] };
+// Each document keeps its own depth layer in every pose. A document with its clip is about
+// .17 deep at this scale, so closer layers made overlapping documents cut through each other
+// and flicker as they moved.
+const layer = (i: number) => 1 + i * .32;
 const desk: Pose[] = [
-  { p: [1.3, -1.3, 1], r: [-.08, .14, .2] },
-  { p: [1.78, -1.12, 1.12], r: [-.06, .1, -.16] },
-  { p: [1.42, -1.62, 1.24], r: [-.1, .16, .07] },
-  { p: [1.95, -1.55, 1.36], r: [-.08, .12, -.24] },
+  { p: [1.3, -1.3, layer(0)], r: [-.05, .08, .2] },
+  { p: [1.78, -1.12, layer(1)], r: [-.04, .06, -.16] },
+  { p: [1.42, -1.62, layer(2)], r: [-.06, .08, .07] },
+  { p: [1.95, -1.55, layer(3)], r: [-.05, .07, -.24] },
 ];
-const withExpert: Pose[] = kinds.map((_, i) => ({ p: [-.78 + i * .44, -1.5 + (i % 2) * .08, .95 + i * .07], r: [0, 0, .12 - i * .07] }));
-const done: Pose[] = kinds.map((_, i) => ({ p: [.45 + i * .5, -1.45, 1.2 + i * .06], r: [0, 0, -.05 + i * .03] }));
+const withExpert: Pose[] = kinds.map((_, i) => ({ p: [-.78 + i * .44, -1.5 + (i % 2) * .08, layer(i)], r: [0, 0, .12 - i * .07] }));
+const done: Pose[] = kinds.map((_, i) => ({ p: [.45 + i * .5, -1.45, layer(i)], r: [0, 0, -.05 + i * .03] }));
 const stages = [desk, withExpert, done];
 
 export const captions = [
@@ -132,16 +136,23 @@ const smooth = (t: number) => t * t * (3 - 2 * t);
 const bezier = (a: number, c: number, b: number, t: number) => (1 - t) * (1 - t) * a + 2 * (1 - t) * t * c + t * t * b;
 
 // The phone loop: pause on each step, travel between them, then tidy away and start again.
-const LOOP = 8;
+// `reset` runs 0 → 1 at the end: the finished documents shrink away one by one (0–.5), then
+// the new pile grows back one by one (.5–1).
+const LOOP = 8.2;
 function loopAt(seconds: number) {
   const s = seconds % LOOP;
-  if (s < 1.5) return { p: 0, size: 1 };
-  if (s < 3) return { p: (s - 1.5) / 1.5, size: 1 };
-  if (s < 4.2) return { p: 1, size: 1 };
-  if (s < 5.7) return { p: 1 + (s - 4.2) / 1.5, size: 1 };
-  if (s < 7.2) return { p: 2, size: 1 };
-  if (s < 7.6) return { p: 2, size: 1 - (s - 7.2) / .4 };
-  return { p: 0, size: (s - 7.6) / .4 };
+  if (s < 1.5) return { p: 0, reset: 0 };
+  if (s < 3) return { p: (s - 1.5) / 1.5, reset: 0 };
+  if (s < 4.2) return { p: 1, reset: 0 };
+  if (s < 5.7) return { p: 1 + (s - 4.2) / 1.5, reset: 0 };
+  if (s < 7) return { p: 2, reset: 0 };
+  const reset = (s - 7) / 1.2;
+  return { p: reset < .5 ? 2 : 0, reset };
+}
+function resetSize(reset: number, i: number) {
+  if (reset <= 0) return 1;
+  const step = (phase: number) => smooth(THREE.MathUtils.clamp((phase * 2 - i * .1) / .7, 0, 1));
+  return reset < .5 ? 1 - step(reset) : step(reset - .5);
 }
 
 function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; reduced: boolean; auto: boolean; panel: boolean; onStage: (stage: number) => void }) {
@@ -194,10 +205,10 @@ function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; 
   useFrame(({ clock }, delta) => {
     if (!root.current) return;
     const playing = !still && inView.current;
-    let p: number, size = 1;
+    let p: number, reset = 0;
     if (auto) {
       if (loopStart.current === null) loopStart.current = clock.elapsedTime;
-      ({ p, size } = playing ? loopAt(clock.elapsedTime - loopStart.current) : { p: 0, size: 1 });
+      ({ p, reset } = playing ? loopAt(clock.elapsedTime - loopStart.current) : { p: 0, reset: 0 });
     } else {
       const speed = still ? 1 : 1 - Math.exp(-THREE.MathUtils.clamp(delta, 0, .05) * 6);
       progress.current = THREE.MathUtils.lerp(progress.current, wanted.current, speed);
@@ -210,16 +221,19 @@ function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; 
     const tilt = still ? 0 : 1;
     root.current.rotation.set(-.05 + pointer.current.y * .04 * tilt, -.1 + pointer.current.x * .08 * tilt, 0);
 
-    // Each document flies over the globe between poses, a little after the one before it.
+    // Each document arcs up over the globe between poses, a little after the one before it.
+    // The arc only rises, so every document stays in its own depth layer.
     const segment = Math.min(1, Math.floor(p)), f = p - segment;
     docs.current.forEach((doc, i) => {
       if (!doc) return;
       const t = smooth(THREE.MathUtils.clamp((f - i * .1) / .7, 0, 1));
       const a = stages[segment][i], b = stages[segment + 1][i];
-      const lift = [0, 1.7, .6];
+      const lift = [0, 1.3, 0];
       doc.position.set(...([0, 1, 2].map(n => bezier(a.p[n], (a.p[n] + b.p[n]) / 2 + lift[n], b.p[n], t)) as [number, number, number]));
       doc.rotation.set(...([0, 1, 2].map(n => THREE.MathUtils.lerp(a.r[n], b.r[n], t)) as [number, number, number]));
-      doc.scale.setScalar(DOC_SCALE * size);
+      const size = resetSize(reset, i);
+      doc.visible = size > .01;
+      doc.scale.setScalar(DOC_SCALE * Math.max(size, .01));
       const tick = segment === 1 ? smooth(THREE.MathUtils.clamp((f - .55 - i * .08) / .25, 0, 1)) : 0;
       badges.current[i]?.scale.setScalar(tick);
     });
