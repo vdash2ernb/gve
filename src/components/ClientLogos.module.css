@@ -54,10 +54,15 @@
   .band[data-expanded='true'] .item { height: 92px; }
 }
 
-/* Reduced motion: no scrolling strip, just the grid. */
+/* Reduced motion: the same single row, still, for visitors to swipe or scroll themselves.
+   View all still opens the grid; Pause has nothing to pause. */
 @media (prefers-reduced-motion: reduce) {
-  .track { animation: none; width: auto; }
-  .viewport { -webkit-mask-image: none; mask-image: none; }
-  .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 28px 24px; width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-  .duplicate, .controls { display: none; }
+  .track { animation: none; }
+  .viewport { overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .viewport::-webkit-scrollbar { display: none; }
+  .logos { padding-left: 24px; }
+  .item { scroll-snap-align: start; scroll-margin-left: 24px; }
+  .duplicate, .motionButton { display: none; }
+  .band[data-expanded='true'] .viewport { overflow: visible; }
+  .band[data-expanded='true'] .logos { padding-left: 0; }
 }
