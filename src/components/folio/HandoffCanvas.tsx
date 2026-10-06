@@ -165,7 +165,7 @@ function resetSize(reset: number, i: number) {
   return reset < .5 ? 1 - step(reset) : step(reset - .5);
 }
 
-function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; reduced: boolean; auto: boolean; panel: boolean; onStage: (stage: number) => void }) {
+function Assembly({ paused, auto, panel, onStage }: { paused: boolean; auto: boolean; panel: boolean; onStage: (stage: number) => void }) {
   const root = useRef<THREE.Group>(null);
   const docs = useRef<(THREE.Group | null)[]>([]);
   const badges = useRef<(THREE.Mesh | null)[]>([]);
@@ -175,7 +175,12 @@ function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; 
   const progress = useRef(0), wanted = useRef(0), stage = useRef(-1);
   const pointer = useRef({ x: 0, y: 0 });
   const inView = useRef(true), loopStart = useRef<number | null>(null);
-  const still = reduced || paused;
+  // "Reduce 3D motion": documents never travel. They fade out, change step, and fade back in.
+  const shown = useRef(0), fade = useRef(1);
+  const materials = useRef<THREE.Material[][]>([]);
+  const nextStep = useRef(0);
+  useEffect(() => () => clearTimeout(nextStep.current), []);
+  const still = paused;
 
   useEffect(() => {
     const scroll = () => {
@@ -216,13 +221,22 @@ function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; 
     if (!root.current) return;
     const playing = !still && inView.current;
     let p: number, reset = 0;
-    if (auto) {
-      if (loopStart.current === null) loopStart.current = clock.elapsedTime;
+    const step = THREE.MathUtils.clamp(delta, 0, .05);
+    if (loopStart.current === null) loopStart.current = clock.elapsedTime;
+    if (still) {
+      // The phone opening scene steps through the story every few seconds; the others follow the scroll.
+      const target = auto ? (inView.current ? Math.floor((clock.elapsedTime - loopStart.current) / 3.2) % 3 : 0) : Math.round(wanted.current);
+      progress.current = wanted.current;
+      if (target !== shown.current) {
+        fade.current = Math.max(0, fade.current - step / .25);
+        if (fade.current === 0) shown.current = target;
+      } else fade.current = Math.min(1, fade.current + step / .3);
+      p = shown.current;
+    } else if (auto) {
       ({ p, reset } = playing ? loopAt(clock.elapsedTime - loopStart.current) : { p: 0, reset: 0 });
     } else {
-      const speed = still ? 1 : 1 - Math.exp(-THREE.MathUtils.clamp(delta, 0, .05) * 6);
-      progress.current = THREE.MathUtils.lerp(progress.current, wanted.current, speed);
-      p = still ? Math.round(progress.current) : progress.current;
+      progress.current = THREE.MathUtils.lerp(progress.current, wanted.current, 1 - Math.exp(-step * 6));
+      p = progress.current;
     }
     const now = p < .5 ? 0 : p < 1.5 ? 1 : 2;
     if (now !== stage.current) { stage.current = now; onStage(now); }
@@ -244,8 +258,15 @@ function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; 
       const size = resetSize(reset, i);
       doc.visible = size > .01;
       doc.scale.setScalar(DOC_SCALE * Math.max(size, .01));
-      const tick = segment === 1 ? smooth(THREE.MathUtils.clamp((f - .55 - i * .08) / .25, 0, 1)) : 0;
+      const tick = segment === 1 ? smooth(THREE.MathUtils.clamp((f - .5 - i * .08) / .24, 0, 1)) : 0;
       badges.current[i]?.scale.setScalar(tick);
+      // Collect each document's materials the first time a fade is needed, then follow the fade.
+      if (still && !materials.current[i]) {
+        const list: THREE.Material[] = [];
+        doc.traverse(part => { const material = (part as THREE.Mesh).material; if (material) for (const m of Array.isArray(material) ? material : [material]) { m.transparent = true; list.push(m); } });
+        materials.current[i] = list;
+      }
+      materials.current[i]?.forEach(m => { m.opacity = still ? fade.current : 1; });
     });
 
     // Lights travel the routes: out to the Philippines, then back once the work is done.
@@ -261,7 +282,13 @@ function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; 
       (pulse.current.material as THREE.MeshBasicMaterial).opacity = .6 * (1 - beat);
     }
 
-    if (playing || Math.abs(wanted.current - progress.current) > .001) invalidate();
+    const fading = still && (fade.current < 1 || p !== (auto ? shown.current : Math.round(wanted.current)));
+    if (playing || fading || Math.abs(wanted.current - progress.current) > .001) invalidate();
+    // Between steps nothing moves, so draw again only when the next step is due.
+    else if (still && auto && inView.current && !nextStep.current) {
+      const due = 3.2 - (clock.elapsedTime - loopStart.current) % 3.2;
+      nextStep.current = window.setTimeout(() => { nextStep.current = 0; invalidate(); }, due * 1000 + 20);
+    }
   });
 
   return <group ref={root}>
@@ -275,8 +302,9 @@ function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; 
 }
 
 // `panel` is the phone version pinned below chapters 01 and 02, driven by their scroll.
+// The scene animates for every visitor, including those with Reduce Motion on (the site owner's
+// choice); the page's "Reduce 3D motion" button switches it to gentle fades instead.
 export default function HandoffCanvas({ paused, panel = false }: { paused: boolean; panel?: boolean }) {
-  const [reduced, setReduced] = useState(true);
   const [ready, setReady] = useState(false);
   const [stage, setStage] = useState(0);
   // Touch devices and narrow screens get a lighter render: lower pixel density and no shadows.
@@ -284,11 +312,11 @@ export default function HandoffCanvas({ paused, panel = false }: { paused: boole
   // On narrow screens the opening scene sits in the page, so it plays as a loop instead of following the scroll.
   const [auto, setAuto] = useState(() => !panel && window.matchMedia('(max-width: 900px)').matches);
   useEffect(() => {
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)'), narrow = window.matchMedia('(max-width: 900px)');
-    const update = () => { setReduced(motion.matches); setAuto(!panel && narrow.matches); };
+    const narrow = window.matchMedia('(max-width: 900px)');
+    const update = () => setAuto(!panel && narrow.matches);
     update();
-    motion.addEventListener('change', update); narrow.addEventListener('change', update);
-    return () => { motion.removeEventListener('change', update); narrow.removeEventListener('change', update); };
+    narrow.addEventListener('change', update);
+    return () => narrow.removeEventListener('change', update);
   }, [panel]);
   return <div className="handoff-scene">
     <Canvas className={ready ? 'folio-canvas is-ready' : 'folio-canvas'} onCreated={() => setReady(true)} shadows={lite ? false : 'soft'} frameloop="demand" dpr={[1, lite ? 1.25 : 1.6]} camera={{ position: [0, 0, 10], fov: 37, near: .1, far: 50 }} gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }} style={{ touchAction: 'pan-y' }}>
@@ -296,7 +324,7 @@ export default function HandoffCanvas({ paused, panel = false }: { paused: boole
       <directionalLight position={[-4, 6, 7]} intensity={2.1} color="#fff4df" castShadow shadow-mapSize={[1024, 1024]} shadow-camera-left={-8} shadow-camera-right={8} shadow-camera-top={7} shadow-camera-bottom={-7} shadow-bias={-.0005}/>
       <directionalLight position={[4, 1, 4]} intensity={1.5} color="#afdfff"/>
       <directionalLight position={[0, -3, 4]} intensity={.4} color={ICE}/>
-      <Assembly paused={paused} reduced={reduced} auto={auto} panel={panel} onStage={setStage}/>
+      <Assembly paused={paused} auto={auto} panel={panel} onStage={setStage}/>
     </Canvas>
     <p className="handoff-caption" key={stage}><span>{captions[stage].kicker}</span>{captions[stage].text}</p>
   </div>;

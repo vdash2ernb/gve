@@ -54,15 +54,13 @@
   .band[data-expanded='true'] .item { height: 92px; }
 }
 
-/* Reduced motion: the same single row, still, for visitors to swipe or scroll themselves.
-   View all still opens the grid; Pause has nothing to pause. */
+/* The strip scrolls for every visitor, including those with Reduce Motion on (the site owner's
+   choice); Pause stops it. The site-wide reduced-motion rule stops all animation with
+   !important, so the strip restates its own animation and states here the same way. */
 @media (prefers-reduced-motion: reduce) {
-  .track { animation: none; }
-  .viewport { overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
-  .viewport::-webkit-scrollbar { display: none; }
-  .logos { padding-left: 24px; }
-  .item { scroll-snap-align: start; scroll-margin-left: 24px; }
-  .duplicate, .motionButton { display: none; }
-  .band[data-expanded='true'] .viewport { overflow: visible; }
-  .band[data-expanded='true'] .logos { padding-left: 0; }
+  .track { animation: logo-loop 70s linear infinite !important; }
+  .band[data-paused='true'] .track, .viewport:focus-within .track { animation-play-state: paused !important; }
+  .band[data-expanded='true'] .track { animation: none !important; }
 }
+@media (prefers-reduced-motion: reduce) and (hover: hover) { .viewport:hover .track { animation-play-state: paused !important; } }
+@media (prefers-reduced-motion: reduce) and (max-width: 700px) { .track { animation-duration: 55s !important; } }
