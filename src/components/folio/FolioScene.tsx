@@ -19,7 +19,7 @@ export default function FolioScene({ mode = 'story', selected = 'plans', paused 
   return <SceneBoundary><Canvas mode={mode} selected={selected} paused={paused}/></SceneBoundary>;
 }
 
-// Homepage story: tasks handed from Seattle to an Expert in the Philippines and back, done.
-export function HandoffScene({ paused = false }: { paused?: boolean }) {
-  return <SceneBoundary><Handoff paused={paused}/></SceneBoundary>;
+// Homepage story: tasks handed from your business to an Expert in the Philippines and back, done.
+export function HandoffScene({ paused = false, panel = false }: { paused?: boolean; panel?: boolean }) {
+  return <SceneBoundary><Handoff paused={paused} panel={panel}/></SceneBoundary>;
 }

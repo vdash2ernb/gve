@@ -8,8 +8,17 @@ import { Reveal } from './Reveal';
 export default function WorkStory({ proof }: { proof?: ReactNode }) {
   const [paused, setPaused] = useState(false);
   const visual = useRef<HTMLDivElement>(null);
-  // Phones and tablets: the 3D appears once, in the space below the opening copy, and
-  // scrolls with the page. The later chapters are text only there.
+  // Phones and tablets also get a second scene, pinned below chapters 01 and 02.
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 900px)');
+    const update = () => setNarrow(query.matches);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+  // Phones and tablets: the opening 3D sits in the space below the opening copy and
+  // scrolls with the page.
   useEffect(() => {
     const story = document.getElementById('work-story');
     const opening = story?.querySelector<HTMLElement>('.story-opening');
@@ -50,11 +59,14 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
       <div className="scroll-cue studio-wrap"><a href="#clients"><span className="scroll-line"/>Meet our clients</a><button className="motion-control" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? 'Restore 3D motion' : 'Reduce 3D motion'}</button></div>
     </section>
     {proof}
+    <div className="story-pair">
+    {narrow && <div className="pair-stage" aria-hidden="true"><HandoffScene paused={paused} panel/></div>}
     <section className="story-chapter story-right" id="the-work" aria-labelledby="work-title">
       <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">01 / The work</p><h2 id="work-title">Help with<br/><em>daily tasks.</em></h2><p className="story-lede">Start with the tasks that take up most of your day.</p><div className="work-tags"><span>Admin & inbox</span><span>Books & billing</span><span>Projects & plans</span><span>Sales & customers</span></div></Reveal></div>
     </section>
     <section className="story-chapter story-handoff" aria-labelledby="handoff-title">
       <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">02 / Choosing your assistant</p><h2 id="handoff-title">Choose your<br/><em>Expert.</em></h2><p className="story-lede">Interview screened candidates and choose who you work with. You set the tasks, tools, and hours. GVE helps with onboarding and ongoing support.</p><Link href="/how-it-works" className="underlined light">See the hiring process</Link></Reveal></div>
     </section>
+    </div>
   </div>;
 }

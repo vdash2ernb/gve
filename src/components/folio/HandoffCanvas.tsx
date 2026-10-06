@@ -144,7 +144,7 @@ function loopAt(seconds: number) {
   return { p: 0, size: (s - 7.6) / .4 };
 }
 
-function Assembly({ paused, reduced, auto, onStage }: { paused: boolean; reduced: boolean; auto: boolean; onStage: (stage: number) => void }) {
+function Assembly({ paused, reduced, auto, panel, onStage }: { paused: boolean; reduced: boolean; auto: boolean; panel: boolean; onStage: (stage: number) => void }) {
   const root = useRef<THREE.Group>(null);
   const docs = useRef<(THREE.Group | null)[]>([]);
   const badges = useRef<(THREE.Mesh | null)[]>([]);
@@ -160,7 +160,12 @@ function Assembly({ paused, reduced, auto, onStage }: { paused: boolean; reduced
     const scroll = () => {
       const section = document.getElementById('work-story');
       const chapters = section ? Array.from(section.querySelectorAll<HTMLElement>('.story-chapter')) : [];
-      if (section && chapters.length >= 3) {
+      if (section && chapters.length >= 3 && panel) {
+        // The phone panel pinned under chapters 01 and 02: each chapter scrolling in moves the story one step.
+        const h = window.innerHeight;
+        const enter = (chapter: HTMLElement) => THREE.MathUtils.clamp((h - chapter.getBoundingClientRect().top) / (h * .85), 0, 1);
+        wanted.current = enter(chapters[1]) + enter(chapters[2]);
+      } else if (section && chapters.length >= 3) {
         const offsets = chapters.map(chapter => chapter.offsetTop);
         const y = Math.max(0, -section.getBoundingClientRect().top);
         const interval = y < offsets[1] ? 0 : 1;
@@ -183,7 +188,7 @@ function Assembly({ paused, reduced, auto, onStage }: { paused: boolean; reduced
     window.addEventListener('pointermove', move, { passive: true });
     scroll();
     return () => { observer.disconnect(); window.removeEventListener('scroll', scroll); window.removeEventListener('resize', scroll); window.removeEventListener('pointermove', move); };
-  }, [invalidate, gl]);
+  }, [invalidate, gl, panel]);
   useEffect(() => { loopStart.current = null; invalidate(); }, [still, auto, invalidate]);
 
   useFrame(({ clock }, delta) => {
@@ -245,28 +250,29 @@ function Assembly({ paused, reduced, auto, onStage }: { paused: boolean; reduced
   </group>;
 }
 
-export default function HandoffCanvas({ paused }: { paused: boolean }) {
+// `panel` is the phone version pinned below chapters 01 and 02, driven by their scroll.
+export default function HandoffCanvas({ paused, panel = false }: { paused: boolean; panel?: boolean }) {
   const [reduced, setReduced] = useState(true);
   const [ready, setReady] = useState(false);
   const [stage, setStage] = useState(0);
   // Touch devices and narrow screens get a lighter render: lower pixel density and no shadows.
   const [lite] = useState(() => window.matchMedia('(max-width: 900px), (pointer: coarse)').matches);
-  // Narrow screens show the scene below each chapter, so it plays as a loop instead of following the scroll.
-  const [auto, setAuto] = useState(() => window.matchMedia('(max-width: 900px)').matches);
+  // On narrow screens the opening scene sits in the page, so it plays as a loop instead of following the scroll.
+  const [auto, setAuto] = useState(() => !panel && window.matchMedia('(max-width: 900px)').matches);
   useEffect(() => {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)'), narrow = window.matchMedia('(max-width: 900px)');
-    const update = () => { setReduced(motion.matches); setAuto(narrow.matches); };
+    const update = () => { setReduced(motion.matches); setAuto(!panel && narrow.matches); };
     update();
     motion.addEventListener('change', update); narrow.addEventListener('change', update);
     return () => { motion.removeEventListener('change', update); narrow.removeEventListener('change', update); };
-  }, []);
+  }, [panel]);
   return <div className="handoff-scene">
     <Canvas className={ready ? 'folio-canvas is-ready' : 'folio-canvas'} onCreated={() => setReady(true)} shadows={lite ? false : 'soft'} frameloop="demand" dpr={[1, lite ? 1.25 : 1.6]} camera={{ position: [0, 0, 10], fov: 37, near: .1, far: 50 }} gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }} style={{ touchAction: 'pan-y' }}>
       <ambientLight intensity={.95}/>
       <directionalLight position={[-4, 6, 7]} intensity={2.1} color="#fff4df" castShadow shadow-mapSize={[1024, 1024]} shadow-camera-left={-8} shadow-camera-right={8} shadow-camera-top={7} shadow-camera-bottom={-7} shadow-bias={-.0005}/>
       <directionalLight position={[4, 1, 4]} intensity={1.5} color="#afdfff"/>
       <directionalLight position={[0, -3, 4]} intensity={.4} color={ICE}/>
-      <Assembly paused={paused} reduced={reduced} auto={auto} onStage={setStage}/>
+      <Assembly paused={paused} reduced={reduced} auto={auto} panel={panel} onStage={setStage}/>
     </Canvas>
     <p className="handoff-caption" key={stage}><span>{captions[stage].kicker}</span>{captions[stage].text}</p>
   </div>;
