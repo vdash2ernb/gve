@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { RoundedBox } from '@react-three/drei';
+import { Html, RoundedBox } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import * as THREE from 'three';
 import globePoints from '@/lib/globe-points.json';
@@ -44,7 +44,16 @@ const onGlobe = (lat: number, lon: number, r = R) => new THREE.Vector3(Math.cos(
 const PHILIPPINES = onGlobe(14.6, 121);
 // Unlabelled points spread across the US: clients can be anywhere.
 const CLIENTS = [onGlobe(47.6, -122.3), onGlobe(34, -118.2), onGlobe(32.8, -96.8), onGlobe(41.9, -87.6)];
-const CLIENT_LABEL = CLIENTS.reduce((sum, v) => sum.add(v), new THREE.Vector3()).normalize().multiplyScalar(R * 1.22);
+const GLOBE_TURN = new THREE.Euler(0, -196.5 * D2R, 0), GLOBE_TILT = new THREE.Euler(26 * D2R, 0, 0);
+// Where a point on the globe ends up in the scene once the globe is turned, tilted and placed.
+const inScene = (v: THREE.Vector3) => v.clone().applyEuler(GLOBE_TURN).applyEuler(GLOBE_TILT).add(new THREE.Vector3(...GLOBE_AT));
+// Labels sit where no route passes: "Philippines" just left of its point, outside the globe,
+// and "Your business" just below the US points, since the routes leave them upwards.
+const PH_LABEL = inScene(PHILIPPINES).add(new THREE.Vector3(-.16, 0, 0));
+const US_LABEL = (() => {
+  const points = CLIENTS.map(inScene);
+  return new THREE.Vector3(points.reduce((x, p) => x + p.x, 0) / points.length, Math.min(...points.map(p => p.y)) - .14, Math.max(...points.map(p => p.z)));
+})();
 
 function arc(from: THREE.Vector3, to: THREE.Vector3) {
   const a = from.clone().normalize(), turn = new THREE.Quaternion().setFromUnitVectors(a, to.clone().normalize());
@@ -65,10 +74,10 @@ function textTexture(width: number, height: number, draw: (c: CanvasRenderingCon
   return texture;
 }
 
-function Label({ at, text }: { at: THREE.Vector3; text: string }) {
-  const tag = useMemo(() => textTexture(320, 64, c => { c.fillStyle = '#dbe8f2'; c.font = '600 30px sans-serif'; c.textAlign = 'center'; c.fillText(text, 160, 42); }), [text]);
-  useEffect(() => () => tag.dispose(), [tag]);
-  return <sprite position={at} scale={[1.25, .25, 1]}><spriteMaterial map={tag} transparent depthWrite={false}/></sprite>;
+// Labels are page text placed over the scene, so they stay a readable size however small the
+// scene is drawn. `side` sets which side of the point the label sits on.
+function Label({ at, text, side }: { at: THREE.Vector3; text: string; side: 'left' | 'below' }) {
+  return <Html position={at} zIndexRange={[2, 0]} pointerEvents="none"><span className={`globe-label globe-label-${side}`}>{text}</span></Html>;
 }
 
 function Globe({ packets, pulse }: { packets: RefObject<(THREE.Mesh | null)[]>; pulse: RefObject<THREE.Mesh | null> }) {
@@ -76,8 +85,8 @@ function Globe({ packets, pulse }: { packets: RefObject<(THREE.Mesh | null)[]>; 
   const tubes = useMemo(() => ROUTES.map(route => new THREE.TubeGeometry(route, 80, .014, 6, false)), []);
   const facing = useMemo(() => new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), PHILIPPINES.clone().normalize()), []);
   useEffect(() => () => { dots.dispose(); tubes.forEach(tube => tube.dispose()); }, [dots, tubes]);
-  return <group position={GLOBE_AT} rotation={[26 * D2R, 0, 0]}>
-    <group rotation={[0, -196.5 * D2R, 0]}>
+  return <><group position={GLOBE_AT} rotation={GLOBE_TILT}>
+    <group rotation={GLOBE_TURN}>
       <mesh><sphereGeometry args={[R * .985, 48, 32]}/><meshBasicMaterial color="#012b52"/></mesh>
       <points geometry={dots}><pointsMaterial color={ICE} size={.035} transparent opacity={.75}/></points>
       {tubes.map((tube, i) => <mesh key={i} geometry={tube}><meshBasicMaterial color={GOLD} transparent opacity={.55}/></mesh>)}
@@ -87,10 +96,11 @@ function Globe({ packets, pulse }: { packets: RefObject<(THREE.Mesh | null)[]>; 
         <mesh ref={pulse} quaternion={facing}><ringGeometry args={[.11, .14, 32]}/><meshBasicMaterial color={GOLD} transparent opacity={.6} side={THREE.DoubleSide}/></mesh>
       </group>
       {ROUTES.map((route, i) => <mesh key={i} ref={el => { packets.current[i] = el; }} position={route.getPoint(0)}><sphereGeometry args={[.06, 12, 12]}/><meshBasicMaterial color="#ffd27a"/></mesh>)}
-      <Label at={CLIENT_LABEL} text="Your business"/>
-      <Label at={PHILIPPINES.clone().normalize().multiplyScalar(R * 1.2).add(new THREE.Vector3(0, .25, 0))} text="Philippines"/>
     </group>
-  </group>;
+  </group>
+  <Label at={US_LABEL} text="Your business" side="below"/>
+  <Label at={PH_LABEL} text="Philippines" side="left"/>
+  </>;
 }
 
 // A faceless Expert: an outline figure with a headset, never a real team member.
