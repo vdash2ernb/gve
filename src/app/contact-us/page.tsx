@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { contact } from '@/content/site';
-import HubSpotContactForm from '@/components/HubSpotContactForm';
+import ContactForm from '@/components/ContactForm';
 import ContactTestimonials from '@/components/ContactTestimonials';
 import styles from '@/components/Contact.module.css';
 
@@ -26,7 +26,7 @@ export default function Contact() {
       </div>
       <div className={'contact-booking ' + styles.booking}>
         <div className="booking-heading"><h2>How can we help?</h2></div>
-        <HubSpotContactForm/>
+        <ContactForm/>
         <p className="contact-note">Prefer to talk? <a href={contact.calendly} target="_blank" rel="noopener noreferrer" className="underlined">Book a free 30-minute call</a>.</p>
       </div>
       <ContactTestimonials/>

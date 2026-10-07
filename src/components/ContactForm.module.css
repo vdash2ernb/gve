@@ -1,0 +1,41 @@
+.notice {
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  border-left: 3px solid #ffa600;
+  background: #fff7e6;
+  font-size: .8125rem;
+  line-height: 1.6;
+  color: #00203d;
+}
+.form { display: grid; gap: 20px; color: #00203d; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.field { display: grid; gap: 8px; font-size: .875rem; font-weight: 500; line-height: 1.5; }
+.required { color: #955800; margin-left: 3px; }
+.field input, .field select, .field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 11px 14px;
+  border: 1px solid #b5c8d5;
+  border-radius: 4px;
+  background: #fff;
+  font: inherit;
+  font-weight: 400;
+  color: #00203d;
+}
+.field textarea { resize: vertical; min-height: 120px; }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible,
+.option input:focus-visible { outline: 3px solid #ffa600; outline-offset: 2px; }
+.services { margin: 0; padding: 0; border: 0; min-width: 0; }
+.services legend { padding: 0; margin-bottom: 12px; font-size: .875rem; font-weight: 500; }
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; }
+.option { display: flex; align-items: flex-start; gap: 10px; font-size: .875rem; line-height: 1.5; cursor: pointer; }
+.option input { flex-shrink: 0; width: 18px; height: 18px; margin: 1px 0 0; accent-color: #00203d; }
+.consent { font-size: .8125rem; line-height: 1.7; color: #496071; }
+.policyLink { color: #00203d; text-decoration: underline; text-decoration-color: #b5c8d5; text-underline-offset: 4px; }
+.policyLink:hover { text-decoration-color: #ffa600; }
+.form :global(.button) { justify-self: start; margin-top: 0; width: auto; border: 0; }
+.previewed { font-size: .875rem; line-height: 1.7; color: #00203d; }
+@media (max-width: 600px) {
+  .pair, .options { grid-template-columns: 1fr; }
+  .form :global(.button) { width: 100%; }
+}
