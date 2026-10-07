@@ -12,7 +12,7 @@ export default function ClientStoryCard({ story, compact = false, linkToStory = 
       <h3>{story.headline}</h3>
       {!compact && <>{story.company && <p className={styles.role}>{story.role}</p>}<p className={styles.summary}>{story.summary}</p></>}
       {linkToStory
-        ? <Link className={styles.watchLink} href={`/client-stories/#${story.id}`}>Read {story.name.split(' ')[0]}&rsquo;s story <span aria-hidden="true">→</span></Link>
+        ? <Link className={styles.watchLink} href={`/client-stories/#${story.id}`}>Watch {story.name.split(' ')[0]}&rsquo;s story <span aria-hidden="true">→</span></Link>
         : <a className={styles.watchLink} href={`https://www.youtube.com/watch?v=${story.video}`} target="_blank" rel="noopener noreferrer">
           Watch on YouTube <span aria-hidden="true">↗</span>
         </a>}

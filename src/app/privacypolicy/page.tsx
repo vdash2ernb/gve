@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import PageHero from '@/components/PageHero';
 import policy from '@/content/privacy-policy.json';
 
-export const metadata: Metadata = { title: 'Privacy Policy' };
+export const metadata: Metadata = { title: 'Privacy Policy', alternates: { canonical: '/privacypolicy/' } };
 
 export default function PrivacyPolicyPage() {
   return <>

@@ -11,6 +11,8 @@ import Footer from "@/components/Footer";
 
 
 export const metadata: Metadata = {
+  // The site moves to this domain at launch; canonical links on every page resolve against it.
+  metadataBase: new URL("https://globalvirtualexperts.com"),
   icons: { icon: [{url:"/brand/gve-favicon.png",sizes:"32x32",type:"image/png"},{url:"/brand/gve-icon-192.png",sizes:"192x192",type:"image/png"}], apple:"/brand/gve-apple-icon.png" },
   title: {
     default: "Global Virtual Experts · Virtual assistants for your business",

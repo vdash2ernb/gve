@@ -7,9 +7,11 @@ import type { WorkDomain } from '@/content/domains';
 const Canvas = dynamic(() => import('./FolioCanvas'), { ssr: false });
 const Handoff = dynamic(() => import('./HandoffCanvas'), { ssr: false });
 
-class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+// `onFail` lets the page hide controls that only work while the 3D is running.
+class SceneBoundary extends Component<{ children: ReactNode; onFail?: () => void }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch() { this.props.onFail?.(); }
   render() {
     return this.state.failed ? <div className="folio-fallback"><span>GVE services</span><strong>Admin, bookkeeping,<br/>design, and more.</strong></div> : this.props.children;
   }
@@ -20,6 +22,6 @@ export default function FolioScene({ mode = 'story', selected = 'plans', paused 
 }
 
 // Homepage story: tasks handed from your business to an Expert in the Philippines and back, done.
-export function HandoffScene({ paused = false, panel = false }: { paused?: boolean; panel?: boolean }) {
-  return <SceneBoundary><Handoff paused={paused} panel={panel}/></SceneBoundary>;
+export function HandoffScene({ paused = false, panel = false, onFail }: { paused?: boolean; panel?: boolean; onFail?: () => void }) {
+  return <SceneBoundary onFail={onFail}><Handoff paused={paused} panel={panel}/></SceneBoundary>;
 }

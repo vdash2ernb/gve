@@ -7,7 +7,7 @@ import { Reveal } from '@/components/Reveal';
 import { clientStories } from '@/content/client-stories';
 import styles from '@/components/ClientStories.module.css';
 
-export const metadata: Metadata = { title: 'Client stories', description: 'Client interviews about virtual assistants for bookkeeping, drafting, marketing, and nonprofit work.' };
+export const metadata: Metadata = { title: 'Client stories', description: 'Client interviews about virtual assistants for bookkeeping, drafting, marketing, and nonprofit work.', alternates: { canonical: '/client-stories/' } };
 
 export default function ClientStoriesPage() {
   return <>

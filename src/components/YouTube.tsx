@@ -4,6 +4,10 @@ import {loadYouTubePlayer,type YouTubePlayer,type YouTubePlayerEvent} from '@/li
 
 export default function YouTube({id,title,showTitle=true,highResolution=false}:{id:string;title:string;showTitle?:boolean;highResolution?:boolean}){
 const [play,setPlay]=useState(false);
+// Poster falls back from the large thumbnail to the standard one, then to the plain navy card,
+// so a missing or blocked image never shows a broken-image icon.
+const [poster,setPoster]=useState<'max'|'hq'|'none'>(highResolution?'max':'hq');
+const posterFailed=()=>setPoster(p=>p==='max'?'hq':'none');
 const iframe=useRef<HTMLIFrameElement>(null);
 useEffect(()=>{
   if(!play || !iframe.current) return;
@@ -26,4 +30,4 @@ useEffect(()=>{
 const origin=play ? '&origin='+encodeURIComponent(window.location.origin) : '';
 return <div className={showTitle ? "video-card" : "video-card video-card-plain"}>{play?<iframe ref={iframe} src={'https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&enablejsapi=1&cc_load_policy=0&playsinline=1'+origin} title={title} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen/>:<button type="button" onClick={()=>setPlay(true)} aria-label={'Play video: '+title}>
 {/* eslint-disable-next-line @next/next/no-img-element */}
-<img src={'https://i.ytimg.com/vi/'+id+(highResolution?'/maxresdefault.jpg':'/hqdefault.jpg')} alt="" loading="lazy"/><span className="video-play" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>{showTitle&&<span className="video-title">{title}</span>}</button>}</div>}
+{poster!=='none'&&<img key={poster} src={'https://i.ytimg.com/vi/'+id+(poster==='max'?'/maxresdefault.jpg':'/hqdefault.jpg')} alt="" loading="lazy" onError={posterFailed} onLoad={e=>{if(e.currentTarget.naturalWidth<=120)posterFailed();}}/>}<span className="video-play" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>{showTitle&&<span className="video-title">{title}</span>}</button>}</div>}

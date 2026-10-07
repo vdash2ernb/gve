@@ -5,6 +5,8 @@
 }
 .intro { grid-area: intro; }
 .booking { grid-area: booking; min-width: 0; }
+.messageHeading { margin-top: 56px; }
+.bookAnchor { scroll-margin-top: 124px; }
 .feedback { grid-area: feedback; min-width: 0; align-self: stretch; }
 .sticky { position: sticky; top: min(128px, calc(100svh - 24px - var(--feedback-height, 700px))); }
 .profile { grid-column: 1 / -1; }

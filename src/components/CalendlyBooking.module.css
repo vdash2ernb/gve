@@ -1,0 +1,13 @@
+.scheduler {
+  min-height: 700px;
+  background: #fff;
+  border: 1px solid #d5e0e9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.scheduler iframe { display: block; width: 100%; border: 0; }
+.direct { margin-top: 14px; font-size: .875rem; line-height: 1.7; color: #496071; }
+.direct :global(.underlined) { padding: 0; }
+@media (max-width: 600px) {
+  .scheduler { min-height: 900px; }
+}

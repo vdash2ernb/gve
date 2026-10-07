@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import { contact } from '@/content/site';
 import ContactForm from '@/components/ContactForm';
+import CalendlyBooking from '@/components/CalendlyBooking';
 import ContactTestimonials from '@/components/ContactTestimonials';
 import styles from '@/components/Contact.module.css';
 
 export const metadata: Metadata = {
   title: 'Contact us',
   description: 'Tell Global Virtual Experts about the support your business needs.',
-  alternates: { canonical: 'https://globalvirtualexperts.netlify.app/contact-us/' },
+  alternates: { canonical: '/contact-us/' },
 };
 
 export default function Contact() {
@@ -25,9 +26,10 @@ export default function Contact() {
         </dl>
       </div>
       <div className={'contact-booking ' + styles.booking}>
-        <div className="booking-heading"><h2>How can we help?</h2></div>
+        <div className={'booking-heading ' + styles.bookAnchor} id="book"><h2>Book a free 30-minute call</h2><p>Pick a time that suits you. We’ll talk through the role, hours, and pricing.</p></div>
+        <CalendlyBooking/>
+        <div className={'booking-heading ' + styles.messageHeading}><h2>Or send us a message</h2><p>Tell us what you need and we’ll reply by email.</p></div>
         <ContactForm/>
-        <p className="contact-note">Prefer to talk? <a href={contact.calendly} target="_blank" rel="noopener noreferrer" className="underlined">Book a free 30-minute call</a>.</p>
       </div>
       <ContactTestimonials/>
     </div>

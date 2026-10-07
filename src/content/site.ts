@@ -310,7 +310,7 @@ export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
       { q: "How do I start?", a: "Book a free call. We agree on your role, screen candidates, and help you interview and choose your Expert." },
       { q: "How long does hiring take?", a: "Usually 5–10 business days. If you need someone sooner, we may have pre-vetted Experts ready to go." },
       { q: "Can I interview candidates first?", a: "Yes. You get a shortlist and you pick who you work with." },
-      { q: "What happens after I choose?", a: "We finalize the agreement, set a start date, help with onboarding and assign you a client success representative." },
+      { q: "What happens after I choose?", a: "We finalize the agreement, set a start date, help with onboarding and assign you a client success manager." },
     ],
   },
   {
