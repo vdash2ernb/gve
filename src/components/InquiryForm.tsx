@@ -5,11 +5,13 @@ import { useEffect, useRef, useState } from 'react';
 import { contact } from '@/content/site';
 import styles from './InquiryForm.module.css';
 
-// Step 1 of the inquiry: the "GVE Website Inquiry" form in Go High Level. After submitting,
-// GHL sends visitors to /book-a-call/ to pick a time (set in the form's On Submit settings).
+// The "GVE Website Inquiry" form in Go High Level. The GVE team follows up with each inquiry
+// to arrange a call; the thank-you message is set in the form's On Submit settings.
 const formId = '2c3i3cmNyHMyOnHZPf15';
 const formOrigin = 'https://api.leadconnectorhq.com';
 const slowAfterMs = 12000;
+// The form is about 1,700–2,100px tall; larger reports are glitches while it loads.
+const maxFormHeight = 4000;
 
 // Attributes from GHL's "Inline" embed code.
 const frameAttributes: Record<string, string> = {
@@ -49,7 +51,7 @@ export default function InquiryForm() {
       if (e.origin !== formOrigin || typeof e.data !== 'string' || !e.data.startsWith('[iFrameSizer]inline-' + formId)) return;
       const height = Number(e.data.split(':')[1]);
       const frame = host.current?.querySelector('iframe');
-      if (frame && height > 0) frame.style.height = height + 'px';
+      if (frame && height > 0 && height <= maxFormHeight) frame.style.height = height + 'px';
     };
     window.addEventListener('message', resize);
     const el = host.current;

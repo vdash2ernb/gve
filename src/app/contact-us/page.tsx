@@ -25,7 +25,7 @@ export default function Contact() {
         </dl>
       </div>
       <div className={'contact-booking ' + styles.booking}>
-        <div className={'booking-heading ' + styles.bookAnchor} id="book"><p className={styles.step}>Step 1 of 2</p><h2>Book a free 30-minute call</h2><p>Tell us what you need. Next, you’ll pick a time for your call.</p></div>
+        <div className={'booking-heading ' + styles.bookAnchor} id="book"><h2>Request a free call</h2><p>Tell us what you need. Our team will reach out to set up a time.</p></div>
         <InquiryForm/>
       </div>
       <ContactTestimonials/>

@@ -5,7 +5,6 @@
 }
 .intro { grid-area: intro; }
 .booking { grid-area: booking; min-width: 0; }
-.bookAnchor .step { margin: 0 0 6px; font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #955800; }
 .bookAnchor { scroll-margin-top: 124px; }
 .feedback { grid-area: feedback; min-width: 0; align-self: stretch; }
 .sticky { position: sticky; top: min(128px, calc(100svh - 24px - var(--feedback-height, 700px))); }

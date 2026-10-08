@@ -9,7 +9,6 @@ export const contact = {
   salesPhone: "(206) 876-8829",
   salesPhoneHref: "tel:+12068768829",
   location: "Seattle, WA, USA",
-  calendly: "https://calendly.com/globalvirtualexperts/30min",
   depositLink: "https://link.fastpaydirect.com/payment-link/69bc7bf0c1b7344f595a5f73",
   youtube: "https://www.youtube.com/@gvecareers",
   instagram: "https://www.instagram.com/gvecareers/",
@@ -307,7 +306,7 @@ export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
   {
     topic: "Getting started",
     items: [
-      { q: "How do I start?", a: "Book a free call. We agree on your role, screen candidates, and help you interview and choose your Expert." },
+      { q: "How do I start?", a: "Request a free call. We agree on your role, screen candidates, and help you interview and choose your Expert." },
       { q: "How long does hiring take?", a: "Usually 5–10 business days. If you need someone sooner, we may have pre-vetted Experts ready to go." },
       { q: "Can I interview candidates first?", a: "Yes. You get a shortlist and you pick who you work with." },
       { q: "What happens after I choose?", a: "We finalize the agreement, set a start date, help with onboarding and assign you a client success manager." },
