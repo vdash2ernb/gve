@@ -9,7 +9,19 @@ type CalendlyWindow = Window & {
   Calendly?: { initInlineWidget: (options: { url: string; parentElement: HTMLElement; resize?: boolean }) => void };
 };
 
-const bookingUrl = contact.calendly + '?primary_color=00203d';
+// The inquiry form can send visitors here with their details in the address. Calendly
+// reads name and email from its own link, so the scheduler starts with them filled in.
+function bookingUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const read = (...keys: string[]) => keys.map(k => params.get(k)?.trim()).find(Boolean);
+  const firstName = read('first_name', 'firstName');
+  const lastName = read('last_name', 'lastName');
+  const name = read('full_name', 'name') || [firstName, lastName].filter(Boolean).join(' ');
+  const email = read('email');
+  // Built by hand: Calendly reads "+" literally, so spaces must be encoded as %20.
+  const fields: [string, string | undefined][] = [['primary_color', '00203d'], ['name', name], ['first_name', firstName], ['last_name', lastName], ['email', email]];
+  return contact.calendly + '?' + fields.filter(([, v]) => v).map(([k, v]) => k + '=' + encodeURIComponent(v!)).join('&');
+}
 
 // Shows the Calendly scheduler in the page. The plain link underneath always works,
 // including when the scheduler is blocked or slow to load.
@@ -22,7 +34,7 @@ export default function CalendlyBooking() {
     if (!calendly || !host.current) { setFailed(true); return; }
     host.current.replaceChildren();
     try {
-      calendly.initInlineWidget({ url: bookingUrl, parentElement: host.current, resize: true });
+      calendly.initInlineWidget({ url: bookingUrl(), parentElement: host.current, resize: true });
     } catch { setFailed(true); }
   }
 
