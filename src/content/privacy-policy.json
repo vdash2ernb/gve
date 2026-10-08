@@ -3,7 +3,8 @@
   "updated": "Last Updated: September 01, 2023",
   "intro": [
     "Global Virtual Experts (\"we,\" \"our,\" or \"us\") is committed to protecting the privacy and security of your personal information. This Privacy Policy outlines the types of information we collect, how we use and protect that information, and the choices you have concerning your personal data.",
-    "By accessing or using our website, www.globalvirtualexperts.com (the \"Website\"), you consent to the practices described in this Privacy Policy."
+    "By accessing or using our website, www.globalvirtualexperts.com (the \"Website\"), you consent to the practices described in this Privacy Policy.",
+    "Our Terms of Use are included near the end of this page."
   ],
   "sections": [
     {
@@ -104,6 +105,48 @@
         {
           "type": "paragraph",
           "text": "We may update this Privacy Policy from time to time. The updated version will be indicated by the \"Last Updated\" date at the top of the policy. We recommend reviewing this page periodically to stay informed about our privacy practices."
+        }
+      ]
+    },
+    {
+      "heading": "Terms of Use",
+      "id": "terms-of-use",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "These Terms of Use apply when you visit this Website or contact Global Virtual Experts through it. By using the Website or submitting a form, you agree to these Terms of Use and to the Privacy Policy above. Last updated: October 8, 2026."
+        },
+        {
+          "type": "paragraph",
+          "text": "Our services. This Website describes our virtual assistant services in general terms. The details, pricing, and terms of any service we provide to you are set out in your written agreement with Global Virtual Experts."
+        },
+        {
+          "type": "paragraph",
+          "text": "Communications. When you submit a form or agree to receive communications, you allow Global Virtual Experts to contact you by email, phone call, and text message about your inquiry, scheduled calls, and our services. Calls may be recorded, and messages may be sent using automated technology. Agreeing to be contacted is not a condition of purchasing any product or service."
+        },
+        {
+          "type": "paragraph",
+          "text": "Text messages. Message frequency varies. Message and data rates may apply. Reply HELP for help, or reply STOP at any time to stop receiving text messages. Mobile carriers are not liable for delayed or undelivered messages. We do not share your mobile number or text messaging consent with third parties for marketing purposes, as described in Third-Party Sharing above."
+        },
+        {
+          "type": "paragraph",
+          "text": "Using this Website. Please give accurate information in our forms and use the Website only for lawful purposes. Do not try to disrupt the Website or access it in ways it is not intended to be used."
+        },
+        {
+          "type": "paragraph",
+          "text": "Content. The text, logos, images, and videos on this Website belong to Global Virtual Experts or are used with permission. Please do not copy or reuse them without our written permission."
+        },
+        {
+          "type": "paragraph",
+          "text": "Third-party services. This Website uses services from other companies, such as video, scheduling, and payment providers. When you use those services, their own terms and privacy policies also apply."
+        },
+        {
+          "type": "paragraph",
+          "text": "Availability. We work to keep the Website accurate and available, but we cannot guarantee that it will always be complete, error-free, or uninterrupted."
+        },
+        {
+          "type": "paragraph",
+          "text": "Changes. We may update these Terms of Use from time to time. Changes take effect when they are posted on this page."
         }
       ]
     },

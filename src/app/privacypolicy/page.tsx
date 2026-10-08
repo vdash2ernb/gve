@@ -10,7 +10,7 @@ export default function PrivacyPolicyPage() {
     <section className="page-content">
       <div className="studio-wrap legal-content">
         <div>{policy.intro.map(text => <p key={text}>{text}</p>)}</div>
-        {policy.sections.map(section => <article key={section.heading}>
+        {policy.sections.map(section => <article key={section.heading} id={section.id}>
           <h2>{section.heading}</h2>
           {section.blocks.filter(block => block.type === 'paragraph').map(block => <p key={block.text}>{block.text}</p>)}
           {section.blocks.some(block => block.type === 'item') && <ul>
