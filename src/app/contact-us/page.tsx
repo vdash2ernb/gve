@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { contact } from '@/content/site';
-import ContactForm from '@/components/ContactForm';
-import CalendlyBooking from '@/components/CalendlyBooking';
+import InquiryForm from '@/components/InquiryForm';
 import ContactTestimonials from '@/components/ContactTestimonials';
 import styles from '@/components/Contact.module.css';
 
@@ -26,10 +25,8 @@ export default function Contact() {
         </dl>
       </div>
       <div className={'contact-booking ' + styles.booking}>
-        <div className={'booking-heading ' + styles.bookAnchor} id="book"><h2>Book a free 30-minute call</h2><p>Pick a time that suits you. We’ll talk through the role, hours, and pricing.</p></div>
-        <CalendlyBooking/>
-        <div className={'booking-heading ' + styles.messageHeading}><h2>Or send us a message</h2><p>Tell us what you need and we’ll reply by email.</p></div>
-        <ContactForm/>
+        <div className={'booking-heading ' + styles.bookAnchor} id="book"><p className={styles.step}>Step 1 of 2</p><h2>Book a free 30-minute call</h2><p>Tell us what you need. Next, you’ll pick a time for your call.</p></div>
+        <InquiryForm/>
       </div>
       <ContactTestimonials/>
     </div>
