@@ -274,7 +274,6 @@ export const team = [
   { name: "Hannah", role: "Finance Manager & Bookkeeper", img: "/team/hannah.webp" },
   { name: "Laila", role: "Sales Development Rep", img: "/team/laila.webp" },
   { name: "Kate", role: "Architectural Drafter & Designer", img: "/team/kate.webp" },
-  { name: "Randell", role: "Technical Project Lead & Estimator", img: "/team/randell.webp" },
   { name: "Jimbert", role: "Social Media & Content Manager", img: "/team/jimbert.webp" },
   { name: "Mae", role: "General Admin Assistant", img: "/team/mae.webp" },
   { name: "Loury", role: "General Admin Assistant", img: "/team/loury.png" },
