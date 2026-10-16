@@ -28,8 +28,11 @@ export type Service = {
   slug: string;
   name: string;
   short: string;
+  /** The page heading: names the service so search engines and readers see it first. */
   tagline: string;
   intro: string;
+  seoTitle: string;
+  metaDescription: string;
   group: "Admin & operations" | "Sales & marketing" | "Specialist services";
   groups: TaskGroup[];
   proof?: { text: string; person?: string };
@@ -40,7 +43,10 @@ export const services: Service[] = [
     slug: "executive-assistant",
     name: "Executive & admin assistance",
     short: "Inbox, calendar, documents, follow-ups.",
-    tagline: "Help with your inbox, calendar, and paperwork.",
+    tagline: "Executive virtual assistant support.",
+    seoTitle: "Executive Virtual Assistant Services",
+    metaDescription:
+      "Hire an executive virtual assistant for email, scheduling, documents, client follow-ups, data entry, and travel bookings. Screened and supported by GVE.",
     intro:
       "An assistant for email, scheduling, documents, client follow-ups, and travel bookings.",
     group: "Admin & operations",
@@ -57,7 +63,10 @@ export const services: Service[] = [
     slug: "project-management",
     name: "Project management",
     short: "Schedules, updates, task tracking.",
-    tagline: "Help managing your project schedules.",
+    tagline: "Virtual project management support.",
+    seoTitle: "Virtual Project Management Support",
+    metaDescription:
+      "Get a virtual assistant to update project schedules, coordinate vendors, keep clients and crews informed, and track tasks and approvals.",
     intro:
       "Get help updating schedules, coordinating vendors, and tracking tasks and approvals.",
     group: "Admin & operations",
@@ -75,7 +84,10 @@ export const services: Service[] = [
     slug: "bookkeeping",
     name: "Bookkeeping",
     short: "Invoices, reconciliation, reports.",
-    tagline: "Keep your books in order.",
+    tagline: "Virtual bookkeeping for your business.",
+    seoTitle: "Virtual Bookkeeping Services",
+    metaDescription:
+      "Hire a virtual bookkeeper for invoices, bank and card reconciliation, payroll, expense tracking, and organized records for your accountant.",
     intro:
       "Help with invoices, account reconciliation, payroll, and reports for your accountant.",
     group: "Admin & operations",
@@ -96,7 +108,10 @@ export const services: Service[] = [
     slug: "customer-support",
     name: "Customer support",
     short: "Email, phone, chat and social.",
-    tagline: "Help answering your customers.",
+    tagline: "Virtual customer support assistants.",
+    seoTitle: "Virtual Customer Support Services",
+    metaDescription:
+      "Hire a virtual customer support assistant to answer email, calls, chat, and social messages, follow up on issues, and keep customer records current.",
     intro:
       "An assistant to answer questions, follow up on issues, and update customer records by email, phone, chat, or social media.",
     group: "Admin & operations",
@@ -112,7 +127,10 @@ export const services: Service[] = [
     slug: "sales-and-crm",
     name: "Lead outreach & CRM",
     short: "Lead research, outreach, CRM updates.",
-    tagline: "Help finding and following up with leads.",
+    tagline: "Virtual assistants for leads and CRM.",
+    seoTitle: "Lead Outreach & CRM Virtual Assistants",
+    metaDescription:
+      "Get a virtual assistant to research leads, contact prospects, book appointments, and keep your CRM pipeline and follow-ups up to date.",
     intro:
       "Get help researching leads, contacting prospects, booking appointments, and updating your CRM.",
     group: "Sales & marketing",
@@ -128,7 +146,10 @@ export const services: Service[] = [
     slug: "marketing",
     name: "Social media & email marketing",
     short: "Posts, campaigns, SEO, ads.",
-    tagline: "Help with social media and email campaigns.",
+    tagline: "Social media and email marketing support.",
+    seoTitle: "Social Media & Email Marketing Assistants",
+    metaDescription:
+      "Hire a virtual marketing assistant to create and schedule social posts, send email campaigns, support SEO and ads, and report on results.",
     intro:
       "Get help creating posts, sending email campaigns, managing ads, and tracking results.",
     group: "Sales & marketing",
@@ -144,7 +165,10 @@ export const services: Service[] = [
     slug: "copywriting",
     name: "Copywriting",
     short: "Web pages, blogs, emails, ads.",
-    tagline: "Clear words for your customers.",
+    tagline: "Virtual copywriting for your business.",
+    seoTitle: "Virtual Copywriting Services",
+    metaDescription:
+      "Get a virtual copywriter for website pages, blog posts, emails, ads, and sales materials, written for your customers and for search engines.",
     intro:
       "Website pages, blog posts, emails, ads and sales materials, written for your customers and for search engines.",
     group: "Sales & marketing",
@@ -160,7 +184,10 @@ export const services: Service[] = [
     slug: "graphic-design",
     name: "Graphic design",
     short: "Logos, social graphics, print, presentations.",
-    tagline: "Design for your business materials.",
+    tagline: "Virtual graphic design support.",
+    seoTitle: "Virtual Graphic Design Services",
+    metaDescription:
+      "Hire a virtual graphic designer for logos, social graphics, print materials, presentations, and web assets that follow your brand guidelines.",
     intro:
       "Get help designing logos, social graphics, print materials, and presentations using your brand guidelines.",
     group: "Specialist services",
@@ -177,7 +204,10 @@ export const services: Service[] = [
     slug: "web-development",
     name: "Web development",
     short: "Builds, updates, fixes.",
-    tagline: "Websites built, fixed and kept current.",
+    tagline: "Virtual web development support.",
+    seoTitle: "Virtual Web Development Services",
+    metaDescription:
+      "Hire a virtual web developer for custom builds, online stores, updates, and fixes on WordPress, Shopify, Magento, and more.",
     intro:
       "Custom builds, online stores, updates and fixes on WordPress, Shopify, Magento and more.",
     group: "Specialist services",
@@ -194,7 +224,10 @@ export const services: Service[] = [
     slug: "cad-drafting",
     name: "CAD drafting",
     short: "Plans, models, as-builts.",
-    tagline: "From ideas to detailed drawings.",
+    tagline: "Virtual CAD drafting support.",
+    seoTitle: "Remote CAD Drafting Services",
+    metaDescription:
+      "Hire a remote CAD drafter for 2D plans, 3D models, as-builts, revisions, and renderings for architecture, construction, and engineering projects.",
     intro:
       "2D plans, 3D models, as-builts and revisions for architecture, construction and engineering projects.",
     group: "Specialist services",
@@ -214,7 +247,10 @@ export const services: Service[] = [
     slug: "dispatch-logistics",
     name: "Dispatch & logistics",
     short: "Drivers, loads, deliveries.",
-    tagline: "Help coordinating drivers and deliveries.",
+    tagline: "Virtual dispatch and logistics support.",
+    seoTitle: "Virtual Dispatch & Logistics Support",
+    metaDescription:
+      "Get a virtual dispatcher to coordinate drivers and deliveries, plan routes, send shipment updates, and keep fleet records current.",
     intro:
       "Get help with dispatch, route planning, shipment updates, and fleet records.",
     group: "Specialist services",

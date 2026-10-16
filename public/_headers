@@ -1,0 +1,4 @@
+# The temporary workers.dev addresses must never show up in search results;
+# globalvirtualexperts.com is the real address once the domain is switched over.
+https://:worker.gve-revamp.workers.dev/*
+  X-Robots-Tag: noindex, nofollow

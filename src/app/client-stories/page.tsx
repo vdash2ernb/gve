@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import {pageMeta} from '@/content/seo';
 import PageHero from '@/components/PageHero';
 import ClientStoryCard from '@/components/ClientStoryCard';
 import FounderStory from '@/components/FounderStory';
@@ -7,7 +8,7 @@ import { Reveal } from '@/components/Reveal';
 import { clientStories } from '@/content/client-stories';
 import styles from '@/components/ClientStories.module.css';
 
-export const metadata: Metadata = { title: 'Client stories', description: 'Client interviews about virtual assistants for bookkeeping, drafting, marketing, and nonprofit work.', alternates: { canonical: '/client-stories/' } };
+export const metadata:Metadata=pageMeta({title:'Client Stories & Video Testimonials',description:'Watch business owners explain how their GVE virtual assistants help with bookkeeping, drafting, social media, research, and grant writing.',path:'/client-stories/'});
 
 export default function ClientStoriesPage() {
   return <>

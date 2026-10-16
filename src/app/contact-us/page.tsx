@@ -1,14 +1,11 @@
 import type { Metadata } from 'next';
+import {pageMeta} from '@/content/seo';
 import { contact } from '@/content/site';
 import InquiryForm from '@/components/InquiryForm';
 import ContactTestimonials from '@/components/ContactTestimonials';
 import styles from '@/components/Contact.module.css';
 
-export const metadata: Metadata = {
-  title: 'Contact us',
-  description: 'Tell Global Virtual Experts about the support your business needs.',
-  alternates: { canonical: '/contact-us/' },
-};
+export const metadata:Metadata=pageMeta({title:'Contact Global Virtual Experts | Request a Free Call',description:'Tell us what you need help with and request a free 30-minute call about virtual assistant support for admin, bookkeeping, marketing, and more.',path:'/contact-us/'});
 
 export default function Contact() {
   return <section className="page-content contact-page">

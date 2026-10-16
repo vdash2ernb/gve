@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import {pageMeta} from '@/content/seo';
 import PageHero from '@/components/PageHero';
 import policy from '@/content/privacy-policy.json';
 
-export const metadata: Metadata = { title: 'Privacy Policy', alternates: { canonical: '/privacypolicy/' } };
+export const metadata:Metadata=pageMeta({title:'Privacy Policy and Terms of Use',description:'Read the Global Virtual Experts Privacy Policy and Terms of Use, including how website information is collected and used, communications, and contact details.',path:'/privacypolicy/'});
 
 export default function PrivacyPolicyPage() {
   return <>
