@@ -1,0 +1,125 @@
+/* First-visit "mission" intro, shown over the homepage. Everything is scoped under .gvm. */
+
+.gvm {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  overflow: hidden;
+  background: #05070d;
+  color: #eef2f8;
+  font-family: var(--font-body);
+  transition: opacity 0.7s ease, visibility 0.7s;
+}
+.gvm.is-closing { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* Only shown when the inline check in <head> decided to play it (so no flash for returning visitors or without JS). */
+html[data-gvm-intro="play"] .gvm { display: block; }
+
+.gvm-loader {
+  position: absolute; left: 50%; top: 50%;
+  width: 160px; height: 2px; margin-left: -80px;
+  background: rgba(255, 255, 255, 0.1); overflow: hidden;
+}
+.gvm-loader::after {
+  content: ""; position: absolute; inset: 0; width: 40%;
+  background: #ffa600;
+  animation: gvm-load 1.1s ease-in-out infinite;
+}
+@keyframes gvm-load { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
+
+.gvm-stage { position: absolute; inset: 0; }
+.gvm-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.gvm-bar {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 3;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px clamp(16px, 3vw, 48px);
+}
+.gvm-logo { width: 116px; height: 80px; object-fit: contain; display: block; }
+.gvm-skip {
+  background: rgba(5, 7, 13, 0.55); border: 1px solid rgba(255, 255, 255, 0.22); color: #eef2f8;
+  font: 600 0.8125rem/1 var(--font-body); padding: 11px 16px; border-radius: 2px;
+}
+.gvm-skip:hover { border-color: #ffa600; color: #ffa600; }
+
+.gvm-layer {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 96px 16px 72px;
+  opacity: 0; visibility: hidden;
+}
+.gvm-eyebrow { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8cc8ff; }
+.gvm-display {
+  font-family: var(--font-heading); font-weight: 700; letter-spacing: -0.035em; line-height: 1;
+  font-size: clamp(2.75rem, 8vw, 6.5rem); margin-top: 16px;
+  text-shadow: 0 4px 40px rgba(5, 7, 13, 0.7);
+}
+.gvm-display em, .gvm-accent { font-style: normal; color: #ffa600; }
+.gvm-lede {
+  margin: 20px auto 0; max-width: 540px; font-size: clamp(1rem, 1.5vw, 1.125rem); line-height: 1.6; color: #b9cbd8;
+  text-shadow: 0 2px 20px rgba(5, 7, 13, 0.9);
+}
+
+.gvm-begin {
+  margin-top: 34px; display: inline-flex; align-items: center; gap: 14px;
+  padding: 8px 8px 8px 22px; border-radius: 999px;
+  background: rgba(5, 7, 13, 0.75); color: #eef2f8; border: 1px solid rgba(140, 200, 255, 0.3);
+  font: 600 0.9375rem/1 var(--font-body); backdrop-filter: blur(8px);
+  transition: border-color 0.25s, transform 0.25s;
+}
+.gvm-begin:hover { border-color: #ffa600; transform: translateY(-1px); }
+.gvm-begin-icon {
+  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+  background: #ffa600; color: #03233c; font-size: 1.05rem; transition: transform 0.3s;
+}
+.gvm-begin:hover .gvm-begin-icon { transform: translateX(3px); }
+
+.gvm-captions { justify-content: flex-end; padding-bottom: 13vh; pointer-events: none; }
+.gvm-caption {
+  font-family: var(--font-heading); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;
+  font-size: clamp(1.75rem, 3.6vw, 3rem); max-width: 900px;
+  text-shadow: 0 2px 30px rgba(5, 7, 13, 0.95);
+}
+.gvm-w { display: inline-block; white-space: pre; }
+.gvm-sub { margin-top: 12px; max-width: 560px; color: #b9cbd8; font-size: clamp(0.9375rem, 1.3vw, 1.0625rem); text-shadow: 0 2px 20px rgba(5, 7, 13, 0.95); }
+
+.gvm-pin {
+  position: absolute; left: 0; top: 0; z-index: 2;
+  display: flex; align-items: center; gap: 8px; white-space: nowrap;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 6px 10px 6px 8px; border-radius: 999px;
+  background: rgba(5, 7, 13, 0.72); border: 1px solid rgba(140, 200, 255, 0.22);
+  opacity: 0; pointer-events: none; will-change: transform;
+}
+.gvm-pin span { width: 8px; height: 8px; border-radius: 50%; background: #ffa600; box-shadow: 0 0 10px #ffa600; }
+
+.gvm-outro { justify-content: safe center; overflow-y: auto; background: radial-gradient(60% 55% at 50% 50%, rgba(5, 7, 13, 0.72), transparent 75%); }
+.gvm-facts {
+  list-style: none; margin: 34px auto 0; padding: 0; width: 100%; max-width: 520px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: rgba(255, 255, 255, 0.09); border: 1px solid rgba(255, 255, 255, 0.09); border-radius: 4px; overflow: hidden;
+}
+.gvm-facts li { background: rgba(5, 7, 13, 0.82); padding: 18px 12px; }
+.gvm-facts b { display: block; font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.25rem); letter-spacing: -0.03em; }
+.gvm-facts span { display: block; margin-top: 4px; font-size: 0.8125rem; color: #b9cbd8; }
+.gvm-actions { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.gvm-enter {
+  min-height: 52px; padding: 14px 24px; border-radius: 2px;
+  background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.3);
+  font: 700 0.875rem/1.4 var(--font-body); transition: border-color 0.2s, color 0.2s;
+}
+.gvm-enter:hover { border-color: #ffa600; color: #ffa600; }
+.gvm-replay { margin-top: 18px; background: none; border: 0; color: #8fa4c4; font: 600 0.8125rem var(--font-body); text-decoration: underline; text-underline-offset: 4px; }
+.gvm-replay:hover { color: #fff; }
+
+.gvm-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; z-index: 3; }
+.gvm-progress span { display: block; height: 100%; width: 0; background: #ffa600; }
+
+.gvm :focus-visible { outline: 3px solid #ffa600; outline-offset: 4px; }
+
+@media (max-width: 900px) {
+  .gvm-logo { width: 96px; height: 66px; }
+  .gvm-captions { padding-bottom: 12vh; }
+  .gvm-outro { padding-top: 84px; padding-bottom: 32px; }
+}

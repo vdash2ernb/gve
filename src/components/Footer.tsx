@@ -40,7 +40,12 @@ export default function Footer() {
           <p className={styles.location}>{contact.location}</p>
         </div>
       </div>
-      <div className={styles.bottom}><span>© {new Date().getFullYear()} Global Virtual Experts</span><Link href="/privacypolicy" className={styles.privacy}>Privacy Policy</Link></div>
+      <div className={styles.bottom}><span>© {new Date().getFullYear()} Global Virtual Experts</span><span>
+        {/* A full page load, so the homepage restarts the intro even when it is already open. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a href="/?intro" className={styles.privacy}>Watch the intro</a>
+        {" · "}<Link href="/privacypolicy" className={styles.privacy}>Privacy Policy</Link>
+      </span></div>
     </div>
   </footer>;
 }
