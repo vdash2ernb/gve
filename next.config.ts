@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   // Let phones and other computers on the office network open the dev preview.
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*"],
+  // Development only: no floating Next.js badge over the page.
+  devIndicators: false,
+  // Development only: Strict Mode's double-mounting makes drei's <Html> globe labels log
+  // "Attempted to synchronously unmount a root while React was already rendering".
+  // Production builds never double-mount, so this changes nothing on the live site.
+  reactStrictMode: false,
 };
 
 export default nextConfig;
