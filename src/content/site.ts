@@ -17,8 +17,8 @@ export const contact = {
 
 export const nav = [
   { href: "/services", label: "Services" },
-  { href: "/how-it-works", label: "How it works" },
-  { href: "/client-stories", label: "Client stories" },
+  { href: "/how-it-works", label: "How It Works" },
+  { href: "/client-stories", label: "Client Stories" },
   { href: "/stories", label: "Meet the Experts" },
   { href: "/about", label: "About" },
 ];

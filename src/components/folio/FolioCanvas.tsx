@@ -9,7 +9,7 @@ import type { WorkDomain } from '@/content/domains';
 // Original GVE work folio. Every mesh and surface is generated here.
 // No models, scene code, textures, or materials from the port-3000 site.
 const NAVY = '#00203d', BLUE = '#003870', ICE = '#79a7c3', GOLD = '#ffa600';
-export type Kind = 'plans' | 'schedule' | 'accounts' | 'clients' | 'marketing' | 'digital' | 'logistics';
+export type Kind = 'plans' | 'schedule' | 'accounts' | 'clients' | 'support' | 'marketing' | 'digital' | 'logistics';
 type Pose = [number, number, number, number, number, number];
 const names: Kind[] = ['plans', 'schedule', 'accounts', 'clients'];
 
@@ -25,7 +25,7 @@ function makeSurface(kind: Kind) {
   c.fillStyle = ink; c.font = '500 24px sans-serif';
   c.fillText('GLOBAL VIRTUAL EXPERTS', 54, 114);
   c.font = 'bold 59px sans-serif';
-  c.fillText({ plans: 'PROJECT PLANS', schedule: 'TASKS & DATES', accounts: 'BOOKKEEPING', clients: 'FOLLOW-UPS', marketing: 'MARKETING', digital: 'YOUR WEBSITE', logistics: 'DISPATCH' }[kind], 52, 199);
+  c.fillText({ plans: 'PROJECT PLANS', schedule: 'TASKS & DATES', accounts: 'BOOKKEEPING', clients: 'FOLLOW-UPS', support: 'SUPPORT', marketing: 'MARKETING', digital: 'YOUR WEBSITE', logistics: 'DISPATCH' }[kind], 52, 199);
   c.strokeStyle = dark ? '#79a7c355' : '#00203d30'; c.lineWidth = 2;
   c.beginPath(); c.moveTo(54, 237); c.lineTo(714, 237); c.stroke();
   if (kind === 'plans') {
@@ -81,6 +81,16 @@ function makeSurface(kind: Kind) {
     c.beginPath(); c.moveTo(164, 742); c.lineTo(164, 522); c.lineTo(439, 522); c.lineTo(439, 687); c.lineTo(604, 687); c.lineTo(604, 412); c.stroke();
     [[164,742],[439,522],[604,412]].forEach(([x,y],i) => { c.fillStyle = i === 2 ? GOLD : BLUE; c.beginPath(); c.arc(x, y, 21, 0, Math.PI * 2); c.fill(); });
     c.fillStyle = NAVY; c.font = '24px sans-serif'; c.fillText('ROUTES / SHIPMENTS / STATUS', 54, 943);
+  } else if (kind === 'support') {
+    // Customer conversations: incoming messages on the left, Expert replies on the right.
+    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText('Email, phone, and chat', 54, 304);
+    [['Where is my order?', 0], ['It ships today. Tracking sent.', 1], ['Can I change my booking?', 0], ['Done. See you on Friday.', 1]].forEach(([s, reply], i) => {
+      const y = 360 + i * 128, w = 430, x = reply ? 714 - w : 54;
+      c.fillStyle = reply ? BLUE : '#dee8ee'; c.beginPath(); c.roundRect(x, y, w, 92, 22); c.fill();
+      c.fillStyle = reply ? '#ecf5fc' : NAVY; c.font = '27px sans-serif'; c.fillText(String(s), x + 26, y + 56);
+    });
+    c.fillStyle = GOLD; c.beginPath(); c.arc(76, 917, 12, 0, Math.PI * 2); c.fill();
+    c.fillStyle = NAVY; c.font = '24px sans-serif'; c.fillText('ALL CUSTOMERS ANSWERED', 104, 926);
   } else {
     ['Client enquiries', 'Calendar & inbox', 'Customer updates'].forEach((s, i) => {
       const y = 350 + i * 190;

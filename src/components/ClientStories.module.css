@@ -12,8 +12,10 @@
 .caption h3 { font-size: clamp(1.35rem, 2.2vw, 2rem); line-height: 1.25; letter-spacing: -.035em; margin-top: 15px; }
 .role { font-size: .8125rem; color: #496071; margin-top: 12px; }
 .summary { font-size: .9375rem; line-height: 1.8; color: #496071; margin-top: 14px; max-width: 560px; }
-.watchLink { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px; color: #00203d; font-size: .8125rem; line-height: 1.7; margin-top: 19px; text-decoration: underline; text-decoration-color: #c7d3dd; text-underline-offset: 5px; transition: text-decoration-color .2s; }
-.watchLink:hover { color: #00203d; text-decoration-color: #ffa600; }
+/* A bottom border (not text-decoration) keeps the underline continuous under the text, the gap and the arrow. */
+.watchLink { display: inline-flex; align-items: center; gap: 8px; color: #00203d; font-size: .8125rem; line-height: 1.7; margin-top: 19px; padding-bottom: 3px; border-bottom: 2px solid #c7d3dd; transition: border-color .2s; }
+.watchLink span { font-size: 1.7em; line-height: 1; }
+.watchLink:hover { color: #00203d; border-color: #ffa600; }
 .watchLink:focus-visible { outline: 2px solid #ffa600; outline-offset: 5px; }
 .sideStories { display: flex; flex-direction: column; gap: 27px; }
 .compactCard { display: grid; grid-template-columns: minmax(120px, .85fr) 1fr; gap: 22px; align-items: start; }
@@ -42,3 +44,6 @@
 @media (max-width: 700px) { .proof { padding: 48px 0 35px; } .intro { display: block; margin-bottom: 30px; } .intro h2 { font-size: 2.35rem; } .homeGrid { grid-template-columns: 1fr; gap: 35px; } .sideStories { gap: 25px; } .compactCard { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; } .compactCard .caption { padding-top: 0; } .compactCard .caption h3 { font-size: 1.1rem; } .storyGrid { grid-template-columns: 1fr; gap: 38px; } .collection { padding: 35px 0 50px; } .storyGrid h3 { font-size: 1.7rem; } .founderStory { padding: 48px 0; } .founderGrid, .serviceProof { grid-template-columns: 1fr; gap: 30px; } .founderGrid h2 { font-size: 2.35rem; } .serviceProof { padding: 35px 0; margin-top: 35px; } }
 @media (max-width: 360px) { .clientHeading { font-size: 2rem; } .intro h2 { font-size: 2.1rem; } .compactCard { grid-template-columns: 1fr; } .compactCard .caption { padding-top: 14px; } }
 @media (prefers-reduced-motion: reduce) { .watchLink { transition: none; } }
+/* Each card fills its grid cell, so the dividers under side-by-side cards line up. */
+.storyGrid > * { display: flex; }
+.storyGrid .card { flex: 1; }

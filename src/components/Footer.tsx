@@ -6,14 +6,14 @@ import styles from './Footer.module.css';
 const groups = [
   { title: 'Get started', links: [
     { href: '/services', label: 'Services' },
-    { href: '/how-it-works', label: 'How it works' },
+    { href: '/how-it-works', label: 'How It Works' },
     { href: '/faq', label: 'FAQ' },
     { href: '/start', label: 'Start your search' },
   ] },
   { title: 'Company', links: [
     { href: '/about', label: 'About GVE' },
     { href: '/stories', label: 'Meet the Experts' },
-    { href: '/client-stories', label: 'Client stories' },
+    { href: '/client-stories', label: 'Client Stories' },
   ] },
 ];
 

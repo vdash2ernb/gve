@@ -1,16 +1,18 @@
 export type YouTubePlayer = {
   getOptions: (module?: string) => string[];
   setOption: (module: string, option: string, value: unknown) => void;
+  pauseVideo: () => void;
   destroy: () => void;
 };
 
-export type YouTubePlayerEvent = { target: YouTubePlayer };
+export type YouTubePlayerEvent = { target: YouTubePlayer; data?: number };
 
 type YouTubeApi = {
   Player: new (iframe: HTMLIFrameElement, options: {
     events: {
       onReady: (event: YouTubePlayerEvent) => void;
       onApiChange: (event: YouTubePlayerEvent) => void;
+      onStateChange?: (event: YouTubePlayerEvent) => void;
     };
   }) => YouTubePlayer;
 };

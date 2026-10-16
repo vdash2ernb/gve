@@ -88,3 +88,21 @@ body{background:var(--bg);font-size:1rem;line-height:1.75}h1,h2,h3{font-weight:6
 }
 
 .story-video { scroll-margin-top: 124px; }
+
+/* Website audit refinements (Oct 2026). Hover-only effects sit behind (hover: hover) so touch screens never keep a tapped item highlighted. */
+.desktop-nav a:after { height: 3px; bottom: 3px; }
+.underlined, .text-link, .related-link, .detailed-steps a { border-bottom-width: 2px; }
+.cta-section .underlined:hover { border-bottom-width: 2px; }
+.underlined span[aria-hidden="true"] { display: inline-block; font-size: 1.35em; line-height: 1; vertical-align: -.08em; margin-left: 2px; }
+.brand-logo { width: 140px; height: 96px; }
+@media (max-width: 900px) { .brand-logo { width: 128px; height: 88px; } }
+.catalogue-list a { box-shadow: inset 0 0 0 transparent; transition: background .2s, box-shadow .2s; }
+@media (hover: hover) {
+  .catalogue-tabs button { transition: color .2s, border-color .2s; }
+  .catalogue-tabs button:hover { color: #03233c; border-top-color: #ffa600; }
+  .catalogue-list a:hover { background: #e3edf6; box-shadow: inset 4px 0 0 #ffa600; }
+  .button.amber:hover, .btn-primary:hover { background: #ffbc3d; box-shadow: 0 8px 22px #ffa60059, 0 0 0 3px #ffa60040; }
+  .button.navy:hover { background: #0a3d6b; box-shadow: 0 8px 20px #00203d40; }
+}
+.catalogue-list a:focus-visible { background: #e3edf6; box-shadow: inset 4px 0 0 #ffa600; }
+@media (prefers-reduced-motion: reduce) { .catalogue-list a, .catalogue-tabs button { transition: none; } }
