@@ -9,18 +9,18 @@ export const contact = {
   salesPhone: "(206) 876-8829",
   salesPhoneHref: "tel:+12068768829",
   location: "Seattle, WA, USA",
-  calendly: "https://calendly.com/globalvirtualexperts/30min",
   depositLink: "https://link.fastpaydirect.com/payment-link/69bc7bf0c1b7344f595a5f73",
   youtube: "https://www.youtube.com/@gvecareers",
   instagram: "https://www.instagram.com/gvecareers/",
+  googleBusinessProfile: "https://share.google/J4HIrJlOjA3Ttos4z",
 };
 
 export const nav = [
   { href: "/services", label: "Services" },
   { href: "/how-it-works", label: "How it works" },
+  { href: "/client-stories", label: "Client stories" },
+  { href: "/stories", label: "Meet the Experts" },
   { href: "/about", label: "About" },
-  { href: "/stories", label: "Stories" },
-  { href: "/faq", label: "FAQ" },
 ];
 
 export type TaskGroup = { title: string; items: string[] };
@@ -30,7 +30,7 @@ export type Service = {
   short: string;
   tagline: string;
   intro: string;
-  group: "Run the office" | "Win more work" | "Specialists";
+  group: "Admin & operations" | "Sales & marketing" | "Specialist services";
   groups: TaskGroup[];
   proof?: { text: string; person?: string };
 };
@@ -40,15 +40,15 @@ export const services: Service[] = [
     slug: "executive-assistant",
     name: "Executive & admin assistance",
     short: "Inbox, calendar, documents, follow-ups.",
-    tagline: "Your inbox, calendar and paperwork. Handled.",
+    tagline: "Help with your inbox, calendar, and paperwork.",
     intro:
-      "An Expert who keeps your day running: email, scheduling, documents, client follow-ups and travel.",
-    group: "Run the office",
+      "An assistant for email, scheduling, documents, client follow-ups, and travel bookings.",
+    group: "Admin & operations",
     groups: [
       { title: "Email & calendar", items: ["Sort and prioritize email", "Book meetings and appointments", "Keep the calendar matched to your priorities"] },
       { title: "Documents", items: ["Create and edit docs, sheets and decks", "Keep digital files organized", "Prepare reports and summaries"] },
       { title: "Client follow-ups", items: ["Answer client emails and inquiries", "Send follow-ups on time", "Keep a professional tone on every channel"] },
-      { title: "Projects & tasks", items: ["Track deadlines and milestones", "Manage task lists", "Keep your team in sync"] },
+      { title: "Projects & tasks", items: ["Track deadlines and milestones", "Manage task lists", "Send updates to your team"] },
       { title: "Data entry", items: ["Keep client databases accurate", "Maintain records", "Pull reports when you need them"] },
       { title: "Travel & expenses", items: ["Book flights, hotels and transport", "Track spending against budget", "Prepare expense reports"] },
     ],
@@ -57,10 +57,10 @@ export const services: Service[] = [
     slug: "project-management",
     name: "Project management",
     short: "Schedules, updates, task tracking.",
-    tagline: "Jobs stay on schedule. You stop chasing updates.",
+    tagline: "Help managing your project schedules.",
     intro:
-      "Your Expert keeps schedules current, sends updates and tracks every task, then brings you the decisions that need you.",
-    group: "Run the office",
+      "Get help updating schedules, coordinating vendors, and tracking tasks and approvals.",
+    group: "Admin & operations",
     groups: [
       { title: "Scheduling", items: ["Build and update project schedules", "Coordinate with vendors and stakeholders", "Rework plans when things change"] },
       { title: "Updates", items: ["Keep clients and crews informed", "Flag what needs your approval", "Send you a daily task report"] },
@@ -75,14 +75,14 @@ export const services: Service[] = [
     slug: "bookkeeping",
     name: "Bookkeeping",
     short: "Invoices, reconciliation, reports.",
-    tagline: "Clean books, every month.",
+    tagline: "Keep your books in order.",
     intro:
-      "Accurate records, invoices sent on time, and reports ready when your accountant asks.",
-    group: "Run the office",
+      "Help with invoices, account reconciliation, payroll, and reports for your accountant.",
+    group: "Admin & operations",
     groups: [
       { title: "Payables & receivables", items: ["Pay vendors and send invoices", "Track bills, receipts and payments", "Follow up on collections"] },
       { title: "Reconciliation", items: ["Reconcile bank and card accounts monthly", "Catch discrepancies early", "Report on cash flow"] },
-      { title: "Reporting", items: ["Financial statements and custom reports", "Track the numbers that matter to you"] },
+      { title: "Reporting", items: ["Prepare financial statements and custom reports", "Track income and expenses"] },
       { title: "Payroll", items: ["Run payroll on time", "Manage employee data and deductions"] },
       { title: "Expenses & budget", items: ["Categorize expenses and receipts", "Track spending against budget"] },
       { title: "Tax prep support", items: ["Prepare documents for filing", "Give your accountant accurate records"] },
@@ -96,10 +96,10 @@ export const services: Service[] = [
     slug: "customer-support",
     name: "Customer support",
     short: "Email, phone, chat and social.",
-    tagline: "Quick, friendly answers for your customers.",
+    tagline: "Help answering your customers.",
     intro:
-      "Email, phone, chat and social media, covered. Issues get followed through and records stay up to date.",
-    group: "Run the office",
+      "An assistant to answer questions, follow up on issues, and update customer records by email, phone, chat, or social media.",
+    group: "Admin & operations",
     groups: [
       { title: "Inquiries", items: ["Answer email, calls and chat", "Escalate complex issues to the right person"] },
       { title: "Problem solving", items: ["Resolve complaints", "Troubleshoot product or service issues", "Check back to make sure it's fixed"] },
@@ -111,47 +111,47 @@ export const services: Service[] = [
   {
     slug: "sales-and-crm",
     name: "Lead outreach & CRM",
-    short: "Prospecting, outreach, pipeline.",
-    tagline: "More qualified leads. No dropped follow-ups.",
+    short: "Lead research, outreach, CRM updates.",
+    tagline: "Help finding and following up with leads.",
     intro:
-      "Your Expert builds prospect lists, reaches out, books appointments and keeps your pipeline current.",
-    group: "Win more work",
+      "Get help researching leads, contacting prospects, booking appointments, and updating your CRM.",
+    group: "Sales & marketing",
     groups: [
       { title: "Prospecting", items: ["Find and qualify leads", "Build targeted contact lists"] },
       { title: "Outreach", items: ["Cold calls, email and social outreach", "Steady follow-up with every prospect"] },
       { title: "Appointment setting", items: ["Book calls and demos", "Confirm meetings and prep the details"] },
       { title: "CRM", items: ["Keep your pipeline current", "Track reminders and follow-ups", "Report on leads and conversions"] },
-      { title: "Sales funnel", items: ["Spot where prospects drop off", "Tighten how leads are nurtured"] },
+      { title: "Sales follow-up", items: ["Spot where prospects drop off", "Review and improve follow-up steps"] },
     ],
   },
   {
     slug: "marketing",
     name: "Social media & email marketing",
     short: "Posts, campaigns, SEO, ads.",
-    tagline: "Show up online. Consistently.",
+    tagline: "Help with social media and email campaigns.",
     intro:
-      "Social posts, email campaigns, SEO and paid ads: planned, published and measured.",
-    group: "Win more work",
+      "Get help creating posts, sending email campaigns, managing ads, and tracking results.",
+    group: "Sales & marketing",
     groups: [
       { title: "Social media", items: ["Create and schedule posts", "Manage comments and community", "Run social campaigns and ads"] },
       { title: "Email marketing", items: ["Campaigns and follow-up sequences", "Manage and segment your lists", "Track opens and clicks"] },
       { title: "SEO", items: ["Keyword research", "On-page and off-page optimization", "Track rankings and traffic"] },
       { title: "Paid ads", items: ["Google and Facebook ads", "Manage ad budgets", "Targeted campaigns"] },
-      { title: "Reporting", items: ["Traffic, conversions and ROI in one place"] },
+      { title: "Reporting", items: ["Report website traffic, conversions, and ad results"] },
     ],
   },
   {
     slug: "copywriting",
     name: "Copywriting",
     short: "Web pages, blogs, emails, ads.",
-    tagline: "Clear words that sell, and get found.",
+    tagline: "Clear words for your customers.",
     intro:
       "Website pages, blog posts, emails, ads and sales materials, written for your customers and for search engines.",
-    group: "Win more work",
+    group: "Sales & marketing",
     groups: [
       { title: "Website copy", items: ["Pages written for readers and search", "Product and service descriptions"] },
-      { title: "Blogs & articles", items: ["Useful, search-friendly posts", "Content that builds trust"] },
-      { title: "Email", items: ["Newsletters, promos and drip sequences", "Subject lines and calls to action"] },
+      { title: "Blogs & articles", items: ["Research and write blog posts", "Edit articles for clarity and search"] },
+      { title: "Email", items: ["Newsletters, promotions, and follow-up emails", "Subject lines and calls to action"] },
       { title: "Social & ads", items: ["On-brand social posts", "Ad copy for Facebook, Instagram and LinkedIn"] },
       { title: "Sales materials", items: ["Brochures, flyers and sales letters", "eBooks and whitepapers that capture leads"] },
     ],
@@ -159,17 +159,17 @@ export const services: Service[] = [
   {
     slug: "graphic-design",
     name: "Graphic design",
-    short: "Brand, social, print, decks.",
-    tagline: "A brand that looks the part.",
+    short: "Logos, social graphics, print, presentations.",
+    tagline: "Design for your business materials.",
     intro:
-      "Logos, social graphics, print pieces and presentations. On brand, every time.",
-    group: "Specialists",
+      "Get help designing logos, social graphics, print materials, and presentations using your brand guidelines.",
+    group: "Specialist services",
     groups: [
       { title: "Branding", items: ["Logos, colors and brand guidelines", "One look across digital and print"] },
       { title: "Marketing materials", items: ["Brochures, flyers and business cards", "Banners and ad graphics"] },
       { title: "Social graphics", items: ["Posts, covers and ads", "Reusable on-brand templates"] },
       { title: "Web & app", items: ["Page layouts and visual assets", "UI elements for apps"] },
-      { title: "Presentations", items: ["Pitch and client decks", "Complex info made easy to follow"] },
+      { title: "Presentations", items: ["Pitch and client presentations", "Charts and slide layouts"] },
       { title: "Illustration", items: ["Custom illustrations and icons", "Infographics"] },
     ],
   },
@@ -180,11 +180,11 @@ export const services: Service[] = [
     tagline: "Websites built, fixed and kept current.",
     intro:
       "Custom builds, online stores, updates and fixes on WordPress, Shopify, Magento and more.",
-    group: "Specialists",
+    group: "Specialist services",
     groups: [
-      { title: "Custom sites", items: ["Built around how your business works", "Mobile-friendly on every screen"] },
+      { title: "Custom sites", items: ["Build business websites", "Create layouts for phones, tablets, and desktop"] },
       { title: "Maintenance", items: ["Updates and security", "Bug fixes and speed improvements"] },
-      { title: "Online stores", items: ["Secure checkout", "Store setups that convert"] },
+      { title: "Online stores", items: ["Set up checkout", "Create product catalogs and store pages"] },
       { title: "CMS work", items: ["WordPress, Shopify and Magento", "Custom themes and plugins"] },
       { title: "SEO & analytics", items: ["Search best practices", "Analytics set up and reported"] },
       { title: "Redesigns", items: ["Refresh design and usability", "Add features as you grow"] },
@@ -194,16 +194,16 @@ export const services: Service[] = [
     slug: "cad-drafting",
     name: "CAD drafting",
     short: "Plans, models, as-builts.",
-    tagline: "Precise drawings, ready to build.",
+    tagline: "From ideas to detailed drawings.",
     intro:
       "2D plans, 3D models, as-builts and revisions for architecture, construction and engineering projects.",
-    group: "Specialists",
+    group: "Specialist services",
     groups: [
       { title: "2D & 3D drafting", items: ["Plans and 3D models", "MEP drafting and detailing", "Structural and civil layouts"] },
       { title: "Design development", items: ["Concepts turned into technical drawings", "Construction documents to industry standards"] },
       { title: "As-builts & revisions", items: ["As-builts from field measurements", "Revisions that meet project requirements"] },
       { title: "Coordination", items: ["Work with your team, PMs and engineers", "Fold in design changes quickly"] },
-      { title: "3D renderings", items: ["Show clients the result before you build", "Stronger proposals and presentations"] },
+      { title: "3D renderings", items: ["Show clients the proposed design", "Prepare renderings for proposals and presentations"] },
     ],
     proof: {
       text: "Kate works directly with homeowners and builders, turning renovation ideas into buildable plans, from kitchen upgrades to full extensions.",
@@ -214,16 +214,16 @@ export const services: Service[] = [
     slug: "dispatch-logistics",
     name: "Dispatch & logistics",
     short: "Drivers, loads, deliveries.",
-    tagline: "Drivers, loads and customers, kept in sync.",
+    tagline: "Help coordinating drivers and deliveries.",
     intro:
-      "Real-time dispatch, route and load planning, shipment updates and fleet admin.",
-    group: "Specialists",
+      "Get help with dispatch, route planning, shipment updates, and fleet records.",
+    group: "Specialist services",
     groups: [
       { title: "Dispatch", items: ["Coordinate drivers and customers in real time", "Assign and track shipments", "Keep delivery schedules current"] },
       { title: "Load planning", items: ["Plan daily routes", "Manage pickups and deliveries", "Handle last-minute changes"] },
       { title: "Customer updates", items: ["Real-time shipment status", "Handle delays and complaints"] },
       { title: "Fleet & inventory", items: ["Maintenance schedules and safety compliance", "Fuel and cost tracking", "Stock levels and supplier restocks"] },
-      { title: "Reporting", items: ["Shipment and delivery data", "KPI reports"] },
+      { title: "Reporting", items: ["Shipment and delivery data", "Delivery performance reports"] },
     ],
   },
 ];
@@ -260,6 +260,11 @@ export const testimonials = [
 ];
 
 export const partners = [
+  { name: "Calistar Management", img: "/partners/calistar-management.png" },
+  { name: "Big Bear Automatic Gates", img: "/partners/big-bear-logo.jpg" },
+  { name: "onebio.space", img: "/partners/onebio.png" },
+  { name: "Navo Builders", img: "/partners/navo-builders.webp" },
+  { name: "High Desert Homes", img: "/partners/high-desert-homes.png" },
   { name: "Hill Mortgage", img: "/partners/hill-mortgage.png" },
   { name: "The Window & Door Shoppe", img: "/partners/window-door-shoppe.png" },
   { name: "Izozi", img: "/partners/izozi.png" },
@@ -270,13 +275,14 @@ export const partners = [
   { name: "Truss Payments", img: "/partners/truss.png" },
 ];
 
+// Video IDs and these short captions were checked against the current success-story page.
 export const stories = [
-  { name: "Ernest", role: "Technical Operations Manager", img: "/team/ernest.webp", text: "Started in tech support. Now he keeps every GVE system running and the whole operation connected." },
-  { name: "Evander", role: "Executive Admin", text: "Calendars, social content, bookkeeping. He found work that fits his strengths, his goals and his life." },
-  { name: "Hannah", role: "Finance Manager & Bookkeeper", img: "/team/hannah.webp", text: "Learned the books side by side with our accountant, and grew into running finance." },
-  { name: "Boy", role: "Draftsman & Designer", text: "Helps builders and homeowners cut errors and produce plans that meet industry standards." },
-  { name: "Kate", role: "Architectural Drafter & Designer", img: "/team/kate.webp", text: "Turns renovation ideas into buildable plans, from a kitchen upgrade to a full home extension." },
-  { name: "Loury", role: "General Admin Assistant", img: "/team/loury.png", text: "Email, calendars, graphics, social media and phone calls. Always learning the next thing." },
+  { name: "Ernest", role: "Technical Operations Manager", img: "/team/ernest.webp", video:"vVj07FcQABo", text: "Manages GVE’s technical systems and daily operations." },
+  { name: "Evander", role: "Executive Admin", video:"Je7Di4CWWk4", text: "Supports calendars, content, and bookkeeping." },
+  { name: "Hannah", role: "Finance Manager & Bookkeeper", img: "/team/hannah.webp", video:"hgE0tnptJb8", text: "Developed her bookkeeping skills alongside GVE’s accountant." },
+  { name: "Boy", role: "Draftsman & Designer", video:"-TWxzWlfukA", text: "Supports drafting and design for professionals and homeowners." },
+  { name: "Kate", role: "Architectural Drafter & Designer", img: "/team/kate.webp", video:"GawQr_6qCKk", text: "Turns renovation ideas into plans for homeowners and builders." },
+  { name: "Loury", role: "General Admin Assistant", img: "/team/loury.png", video:"rG7ysQoPUP4", text: "Handles email, calendars, graphics, social media, and calls." },
 ];
 
 export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
@@ -300,17 +306,17 @@ export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
   {
     topic: "Getting started",
     items: [
-      { q: "How do I start?", a: "Book a free consultation. We learn what you need, shortlist candidates, you interview and choose, and we onboard your Expert within a few days." },
+      { q: "How do I start?", a: "Request a free call. After you pay the search deposit, we prepare your job description for your approval, screen candidates, and schedule final interviews so you can choose your Expert." },
       { q: "How long does hiring take?", a: "Usually 5–10 business days. If you need someone sooner, we may have pre-vetted Experts ready to go." },
       { q: "Can I interview candidates first?", a: "Yes. You get a shortlist and you pick who you work with." },
-      { q: "What happens after I choose?", a: "We finalize the agreement, set a start date, help with onboarding and assign you a client success representative." },
+      { q: "What happens after I choose?", a: "We finalize your service agreement, set a start date, help with onboarding and assign you a client success manager." },
     ],
   },
   {
     topic: "Pricing",
     items: [
       { q: "How much does it cost?", a: "It depends on the role, experience level and hours. Pricing is a flat monthly rate, all-inclusive. Contact us for a quote." },
-      { q: "Any setup fees or hidden charges?", a: "No." },
+      { q: "Is there a search deposit?", a: "Yes. A $1,000 deposit starts the search. It is refundable if we do not present at least two qualified candidates who match the job description we both approved. See Start your search for the full terms." },
       { q: "How do I pay?", a: "ACH transfer through our secure payment portal, or any major credit card. Card payments carry a 3.5% transaction fee." },
     ],
   },

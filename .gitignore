@@ -43,5 +43,17 @@ next-env.d.ts
 # local Claude preview config
 /.claude/
 
+preview-*.png
+preview-*.log
+*.tar.gz
+
+
+# Local review evidence and preview logs
+/*.log
+/audit-*
+/AUDIT-*.md
+/DESIGN-REVIEW.md
+/preview-*.jpg
+
 # cloudflare
 .wrangler/

@@ -1,0 +1,66 @@
+.band {
+  scroll-margin-top: 104px;
+  background: #f7f9fa;
+  color: #00203d;
+  border-bottom: 1px solid #d5e0e9;
+  padding: 30px 0 36px;
+}
+
+.headingRow { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
+.heading { display: flex; align-items: center; gap: 14px; flex: 1; font-size: .9375rem; font-weight: 500; line-height: 1.5; }
+.heading::before { content: ''; width: 18px; height: 2px; flex-shrink: 0; background: #ffa600; }
+.controls { display: flex; gap: 8px; }
+.motionButton, .viewButton { color: #00203d; font-size: .8125rem; padding: 10px 14px; min-height: 44px; border: 1px solid #c5d2dc; border-radius: 3px; white-space: nowrap; }
+.motionButton:hover, .viewButton:hover { background: #fff; border-color: #00203d; }
+.motionButton:focus-visible, .viewButton:focus-visible, .viewport:focus-visible { outline: 2px solid #ffa600; outline-offset: 3px; }
+
+/* One continuous strip of navy logos, fading out at both edges. */
+.viewport {
+  overflow: hidden;
+  padding: 6px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.track { display: flex; width: max-content; animation: logo-loop 70s linear infinite; }
+.logos { display: flex; align-items: center; gap: 64px; padding: 0 64px 0 0; margin: 0; list-style: none; }
+.item { display: flex; align-items: center; justify-content: center; flex: none; height: 84px; }
+.image { display: block; width: var(--logo-w); height: var(--logo-h); opacity: .88; transition: opacity .2s ease; }
+.item:hover .image { opacity: 1; }
+.band[data-paused='true'] .track, .viewport:focus-within .track { animation-play-state: paused; }
+@media (hover: hover) { .viewport:hover .track { animation-play-state: paused; } }
+@keyframes logo-loop { to { transform: translateX(-50%); } }
+
+@media (max-width: 700px) {
+  .band { padding: 24px 0 28px; }
+  .headingRow { margin-bottom: 18px; gap: 12px; }
+  .heading { font-size: .875rem; gap: 10px; }
+  .motionButton, .viewButton { padding: 8px 12px; min-height: 40px; font-size: .75rem; }
+  .track { animation-duration: 55s; }
+  .logos { gap: 44px; padding-right: 44px; }
+  .item { height: 64px; }
+  .image { width: calc(var(--logo-w) * .78); height: calc(var(--logo-h) * .78); }
+}
+
+/* View all: every logo at once, in even cells. */
+.band[data-expanded='true'] .track { animation: none; width: auto; }
+.band[data-expanded='true'] .viewport { -webkit-mask-image: none; mask-image: none; }
+.band[data-expanded='true'] .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; width: 100%; padding: 0; }
+.band[data-expanded='true'] .item { height: 110px; background: #fff; border: 1px solid #e3e9ee; border-radius: 6px; }
+.band[data-expanded='true'] .image { opacity: 1; }
+.band[data-expanded='true'] .duplicate, .band[data-expanded='true'] .motionButton { display: none; }
+
+@media (max-width: 700px) {
+  .band[data-expanded='true'] .logos { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .band[data-expanded='true'] .item { height: 92px; }
+}
+
+/* The strip scrolls for every visitor, including those with Reduce Motion on (the site owner's
+   choice); Pause stops it. The site-wide reduced-motion rule stops all animation with
+   !important, so the strip restates its own animation and states here the same way. */
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: logo-loop 70s linear infinite !important; }
+  .band[data-paused='true'] .track, .viewport:focus-within .track { animation-play-state: paused !important; }
+  .band[data-expanded='true'] .track { animation: none !important; }
+}
+@media (prefers-reduced-motion: reduce) and (hover: hover) { .viewport:hover .track { animation-play-state: paused !important; } }
+@media (prefers-reduced-motion: reduce) and (max-width: 700px) { .track { animation-duration: 55s !important; } }

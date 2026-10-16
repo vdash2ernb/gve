@@ -1,54 +1,46 @@
-import Image from "next/image";
-import Link from "next/link";
-import { contact, nav } from "@/content/site";
+import Image from 'next/image';
+import Link from 'next/link';
+import { contact } from '@/content/site';
+import styles from './Footer.module.css';
+
+const groups = [
+  { title: 'Get started', links: [
+    { href: '/services', label: 'Services' },
+    { href: '/how-it-works', label: 'How it works' },
+    { href: '/faq', label: 'FAQ' },
+    { href: '/start', label: 'Start your search' },
+  ] },
+  { title: 'Company', links: [
+    { href: '/about', label: 'About GVE' },
+    { href: '/stories', label: 'Meet the Experts' },
+    { href: '/client-stories', label: 'Client stories' },
+  ] },
+];
 
 export default function Footer() {
-  return (
-    <footer className="relative border-t border-line bg-bg/80 backdrop-blur-sm">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
-        <div>
-          <Image src="/brand/gve-logo.webp" alt="Global Virtual Experts" width={1536} height={384} className="h-9 w-auto" />
-          <p className="mt-4 max-w-xs text-sm text-muted">Real people. AI powered. Building your success.</p>
+  return <footer className={styles.footer} id="site-footer">
+    <div className="studio-wrap">
+      <div className={styles.grid}>
+        <div className={styles.brand}>
+          <Image src="/brand/gve-original-logo.png" alt="Global Virtual Experts" width={500} height={500}/>
+          <p>Real People. AI Powered.<br/>Building Your Success.</p>
         </div>
-        <div>
-          <p className="eyebrow">Explore</p>
-          <ul className="mt-4 space-y-2 text-sm">
-            {[...nav, { href: "/start", label: "Start your search" }, { href: "/privacy", label: "Privacy" }].map((n) => (
-              <li key={n.href}>
-                <Link href={n.href} className="text-muted transition-colors hover:text-ink">
-                  {n.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <p className="eyebrow">Contact</p>
-          <ul className="mt-4 space-y-2 text-sm text-muted">
-            <li>{contact.location}</li>
-            <li>
-              <a href={`mailto:${contact.email}`} className="hover:text-ink">
-                {contact.email}
-              </a>
-            </li>
-            <li>
-              <a href={contact.phoneHref} className="hover:text-ink">
-                {contact.phone}
-              </a>
-            </li>
-            <li>
-              Sales:{" "}
-              <a href={contact.salesPhoneHref} className="hover:text-ink">
-                {contact.salesPhone}
-              </a>
-            </li>
-          </ul>
+        <nav className={styles.navigation} aria-label="Footer">
+          {groups.map(group => <div key={group.title}><h3>{group.title}</h3>
+            <ul>{group.links.map(link => <li key={link.href}><Link href={link.href}>{link.label}</Link></li>)}</ul>
+          </div>)}
+        </nav>
+        <div className={styles.contact}>
+          <h3>Let’s talk</h3>
+          <a className={styles.email} href={'mailto:' + contact.email}>{contact.email}</a>
+          <dl className={styles.phones}>
+            <div><dt>Sales</dt><dd><a href={contact.salesPhoneHref}>{contact.salesPhone}</a></dd></div>
+            <div><dt>Office</dt><dd><a href={contact.phoneHref}>{contact.phone}</a></dd></div>
+          </dl>
+          <p className={styles.location}>{contact.location}</p>
         </div>
       </div>
-      <div className="mx-auto flex max-w-6xl flex-col gap-2 border-t border-line px-4 py-6 text-xs text-muted sm:flex-row sm:justify-between sm:px-6">
-        <p>© {new Date().getFullYear()} Global Virtual Experts</p>
-        <p>Demo redesign. Not the live site.</p>
-      </div>
-    </footer>
-  );
+      <div className={styles.bottom}><span>© {new Date().getFullYear()} Global Virtual Experts</span><Link href="/privacypolicy" className={styles.privacy}>Privacy Policy</Link></div>
+    </div>
+  </footer>;
 }
