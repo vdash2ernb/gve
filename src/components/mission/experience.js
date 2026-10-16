@@ -111,7 +111,7 @@ export function createMission(root, { onExit }) {
   // Expert pod
   const pod = createPod();
   scene.add(pod.outer);
-  const POD_HOME = new THREE.Vector3(4.4, 4.6, 1.5);
+  const POD_HOME = new THREE.Vector3(10, 4.6, 0); // right of the headline, clear of the intro text
   pod.outer.position.copy(POD_HOME);
   pod.outer.scale.setScalar(0.85);
 
@@ -134,7 +134,7 @@ export function createMission(root, { onExit }) {
     }
     return d;
   };
-  const placed = [];
+  const placed = [{ v: POD_HOME, size: 1.6 }]; // keep icons off the pod
   const freeSpot = (minPlanetDist, box, size = 0.5) => {
     for (let i = 0; i < 400; i++) {
       const v = new THREE.Vector3(range(...box.x), range(...box.y), range(...box.z));
@@ -197,7 +197,8 @@ export function createMission(root, { onExit }) {
 
   /* ---------- Camera rig ---------- */
 
-  const rig = { pos: new THREE.Vector3(0, -0.6, 15.5), look: new THREE.Vector3(0, 3.7, 0), chaos: 0 };
+  // Aimed above the globe so it sits below the intro text, clear of the subtitle.
+  const rig = { pos: new THREE.Vector3(0, -0.6, 15.5), look: new THREE.Vector3(0, 5.0, 0), chaos: 0 };
   const mouse = { x: 0, y: 0, sx: 0, sy: 0 };
 
   const resize = () => {

@@ -76,8 +76,12 @@ function textTexture(width: number, height: number, draw: (c: CanvasRenderingCon
 
 // Labels are page text placed over the scene, so they stay a readable size however small the
 // scene is drawn. `side` sets which side of the point the label sits on.
+// The portal is the canvas wrapper from the first render. Left to itself, <Html> starts in another
+// element and moves once pointer events connect, remounting mid-render and logging a React error.
 function Label({ at, text, side }: { at: THREE.Vector3; text: string; side: 'left' | 'below' }) {
-  return <Html position={at} zIndexRange={[2, 0]} pointerEvents="none"><span className={`globe-label globe-label-${side}`}>{text}</span></Html>;
+  const gl = useThree(s => s.gl);
+  const portal = useMemo(() => ({ current: gl.domElement.closest<HTMLElement>('.folio-canvas') }), [gl]);
+  return <Html position={at} portal={portal as RefObject<HTMLElement>} zIndexRange={[2, 0]} pointerEvents="none"><span className={`globe-label globe-label-${side}`}>{text}</span></Html>;
 }
 
 function Globe({ packets, pulse }: { packets: RefObject<(THREE.Mesh | null)[]>; pulse: RefObject<THREE.Mesh | null> }) {

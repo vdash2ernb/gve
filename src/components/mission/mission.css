@@ -55,6 +55,8 @@ html[data-gvm-intro="play"] .gvm { display: block; }
   font-size: clamp(2.75rem, 8vw, 6.5rem); margin-top: 16px;
   text-shadow: 0 4px 40px rgba(5, 7, 13, 0.7);
 }
+/* Sits a little above centre so the globe below never reaches the subtitle. */
+.gvm-intro { padding-bottom: 16vh; }
 .gvm-display em, .gvm-accent { font-style: normal; color: #ffa600; }
 .gvm-lede {
   margin: 20px auto 0; max-width: 540px; font-size: clamp(1rem, 1.5vw, 1.125rem); line-height: 1.6; color: #b9cbd8;
