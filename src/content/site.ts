@@ -33,12 +33,78 @@ export type Service = {
   intro: string;
   seoTitle: string;
   metaDescription: string;
-  group: "Admin & operations" | "Sales & marketing" | "Specialist services";
+  group: "Construction & trades" | "Admin & operations" | "Sales & marketing" | "Design & web";
   groups: TaskGroup[];
   proof?: { text: string; person?: string };
 };
 
 export const services: Service[] = [
+  {
+    slug: "project-management",
+    name: "Project management",
+    short: "Permits, job schedules, subs, change orders.",
+    tagline: "Virtual project management support.",
+    seoTitle: "Virtual Project Management Support",
+    metaDescription:
+      "Get a virtual assistant for permits, job schedules, subcontractors, COIs and lien waivers, change orders, and job costs, in tools like Buildertrend and JobTread.",
+    intro:
+      "Get help with permits, job schedules, subs and vendors, and change orders, in tools like Buildertrend and JobTread.",
+    group: "Construction & trades",
+    groups: [
+      { title: "Permits & paperwork", items: ["Prepare and track permit applications", "Keep crew documents current"] },
+      { title: "Job schedules", items: ["Build and update job schedules", "Rework plans when things change"] },
+      { title: "Subs & vendors", items: ["Coordinate subcontractors and vendors", "Collect COIs and lien waivers"] },
+      { title: "Change orders & job costs", items: ["Write up and track change orders", "Track job costs and material orders"] },
+      { title: "Updates", items: ["Keep homeowners and crews informed", "Send you a daily task report"] },
+      { title: "Project software", items: ["Keep Buildertrend or JobTread up to date", "Keep project files current"] },
+    ],
+    proof: {
+      text: "At Silver Peak Design Build, Kate moved into pre-production management in her first year, handling permits, crew documents and material orders.",
+      person: "kate",
+    },
+  },
+  {
+    slug: "cad-drafting",
+    name: "CAD drafting",
+    short: "Plans, models, as-builts.",
+    tagline: "Virtual CAD drafting support.",
+    seoTitle: "Remote CAD Drafting Services",
+    metaDescription:
+      "Hire a remote CAD drafter for 2D plans, 3D models, as-builts, revisions, and renderings for architecture, construction, and engineering projects.",
+    intro:
+      "2D plans, 3D models, as-builts and revisions for architecture, construction and engineering projects.",
+    group: "Construction & trades",
+    groups: [
+      { title: "2D & 3D drafting", items: ["Plans and 3D models", "MEP drafting and detailing", "Structural and civil layouts"] },
+      { title: "Design development", items: ["Concepts turned into technical drawings", "Construction documents to industry standards"] },
+      { title: "As-builts & revisions", items: ["As-builts from field measurements", "Revisions that meet project requirements"] },
+      { title: "Coordination", items: ["Work with your team, PMs and engineers", "Fold in design changes quickly"] },
+      { title: "3D renderings", items: ["Show clients the proposed design", "Prepare renderings for proposals and presentations"] },
+    ],
+    proof: {
+      text: "Kate works directly with homeowners and builders, turning renovation ideas into buildable plans, from kitchen upgrades to full extensions.",
+      person: "kate",
+    },
+  },
+  {
+    slug: "dispatch-logistics",
+    name: "Dispatch & logistics",
+    short: "Crews, service calls, routes.",
+    tagline: "Virtual dispatch and logistics support.",
+    seoTitle: "Virtual Dispatch & Logistics Support",
+    metaDescription:
+      "Get a virtual dispatcher to schedule crews and service calls, plan routes, update customers, and keep records current in Jobber or ServiceTitan.",
+    intro:
+      "Get help scheduling crews and service calls, planning routes, and updating customers, in tools like Jobber and ServiceTitan.",
+    group: "Construction & trades",
+    groups: [
+      { title: "Dispatch", items: ["Schedule crews and service calls", "Coordinate drivers and customers in real time", "Keep Jobber or ServiceTitan current"] },
+      { title: "Load planning", items: ["Plan daily routes", "Manage pickups and deliveries", "Handle last-minute changes"] },
+      { title: "Customer updates", items: ["Real-time shipment status", "Handle delays and complaints"] },
+      { title: "Fleet & inventory", items: ["Maintenance schedules and safety compliance", "Fuel and cost tracking", "Stock levels and supplier restocks"] },
+      { title: "Reporting", items: ["Shipment and delivery data", "Delivery performance reports"] },
+    ],
+  },
   {
     slug: "executive-assistant",
     name: "Executive & admin assistance",
@@ -60,41 +126,20 @@ export const services: Service[] = [
     ],
   },
   {
-    slug: "project-management",
-    name: "Project management",
-    short: "Schedules, updates, task tracking.",
-    tagline: "Virtual project management support.",
-    seoTitle: "Virtual Project Management Support",
-    metaDescription:
-      "Get a virtual assistant to update project schedules, coordinate vendors, keep clients and crews informed, and track tasks and approvals.",
-    intro:
-      "Get help updating schedules, coordinating vendors, and tracking tasks and approvals.",
-    group: "Admin & operations",
-    groups: [
-      { title: "Scheduling", items: ["Build and update project schedules", "Coordinate with vendors and stakeholders", "Rework plans when things change"] },
-      { title: "Updates", items: ["Keep clients and crews informed", "Flag what needs your approval", "Send you a daily task report"] },
-      { title: "Task tracking", items: ["Track deadlines and milestones", "Assign and follow up on tasks", "Keep project files current"] },
-    ],
-    proof: {
-      text: "At Silver Peak Design Build, Kate moved into pre-production management in her first year, handling permits, crew documents and material orders.",
-      person: "kate",
-    },
-  },
-  {
     slug: "bookkeeping",
     name: "Bookkeeping",
     short: "Invoices, reconciliation, reports.",
     tagline: "Virtual bookkeeping for your business.",
     seoTitle: "Virtual Bookkeeping Services",
     metaDescription:
-      "Hire a virtual bookkeeper for invoices, bank and card reconciliation, payroll, expense tracking, and organized records for your accountant.",
+      "Hire a virtual bookkeeper for invoices, reconciliation, payroll, and job costs in QuickBooks, with organized records for your accountant.",
     intro:
-      "Help with invoices, account reconciliation, payroll, and reports for your accountant.",
+      "Help with invoices, reconciliation, payroll, and job costs in QuickBooks, plus reports for your accountant.",
     group: "Admin & operations",
     groups: [
       { title: "Payables & receivables", items: ["Pay vendors and send invoices", "Track bills, receipts and payments", "Follow up on collections"] },
       { title: "Reconciliation", items: ["Reconcile bank and card accounts monthly", "Catch discrepancies early", "Report on cash flow"] },
-      { title: "Reporting", items: ["Prepare financial statements and custom reports", "Track income and expenses"] },
+      { title: "Reporting", items: ["Prepare financial statements and custom reports", "Track job costs, income and expenses"] },
       { title: "Payroll", items: ["Run payroll on time", "Manage employee data and deductions"] },
       { title: "Expenses & budget", items: ["Categorize expenses and receipts", "Track spending against budget"] },
       { title: "Tax prep support", items: ["Prepare documents for filing", "Give your accountant accurate records"] },
@@ -116,7 +161,7 @@ export const services: Service[] = [
       "An assistant to answer questions, follow up on issues, and update customer records by email, phone, chat, or social media.",
     group: "Admin & operations",
     groups: [
-      { title: "Inquiries", items: ["Answer email, calls and chat", "Escalate complex issues to the right person"] },
+      { title: "Inquiries", items: ["Answer email, calls and chat", "Book service calls and appointments", "Escalate complex issues to the right person"] },
       { title: "Problem solving", items: ["Resolve complaints", "Troubleshoot product or service issues", "Check back to make sure it's fixed"] },
       { title: "Accounts & orders", items: ["Handle account questions", "Manage subscriptions and updates", "Process orders and returns"] },
       { title: "Feedback", items: ["Collect customer feedback", "Report patterns and suggest fixes"] },
@@ -126,20 +171,20 @@ export const services: Service[] = [
   {
     slug: "sales-and-crm",
     name: "Lead outreach & CRM",
-    short: "Lead research, outreach, CRM updates.",
+    short: "Leads, estimate follow-ups, CRM updates.",
     tagline: "Virtual assistants for leads and CRM.",
     seoTitle: "Lead Outreach & CRM Virtual Assistants",
     metaDescription:
       "Get a virtual assistant to research leads, contact prospects, book appointments, and keep your CRM pipeline and follow-ups up to date.",
     intro:
-      "Get help researching leads, contacting prospects, booking appointments, and updating your CRM.",
+      "Get help researching leads, following up on estimates and bids, booking appointments, and updating your CRM.",
     group: "Sales & marketing",
     groups: [
       { title: "Prospecting", items: ["Find and qualify leads", "Build targeted contact lists"] },
       { title: "Outreach", items: ["Cold calls, email and social outreach", "Steady follow-up with every prospect"] },
       { title: "Appointment setting", items: ["Book calls and demos", "Confirm meetings and prep the details"] },
       { title: "CRM", items: ["Keep your pipeline current", "Track reminders and follow-ups", "Report on leads and conversions"] },
-      { title: "Sales follow-up", items: ["Spot where prospects drop off", "Review and improve follow-up steps"] },
+      { title: "Estimates & bids", items: ["Send estimates and follow up with homeowners", "Spot where prospects drop off"] },
     ],
   },
   {
@@ -190,7 +235,7 @@ export const services: Service[] = [
       "Hire a virtual graphic designer for logos, social graphics, print materials, presentations, and web assets that follow your brand guidelines.",
     intro:
       "Get help designing logos, social graphics, print materials, and presentations using your brand guidelines.",
-    group: "Specialist services",
+    group: "Design & web",
     groups: [
       { title: "Branding", items: ["Logos, colors and brand guidelines", "One look across digital and print"] },
       { title: "Marketing materials", items: ["Brochures, flyers and business cards", "Banners and ad graphics"] },
@@ -210,7 +255,7 @@ export const services: Service[] = [
       "Hire a virtual web developer for custom builds, online stores, updates, and fixes on WordPress, Shopify, Magento, and more.",
     intro:
       "Custom builds, online stores, updates and fixes on WordPress, Shopify, Magento and more.",
-    group: "Specialist services",
+    group: "Design & web",
     groups: [
       { title: "Custom sites", items: ["Build business websites", "Create layouts for phones, tablets, and desktop"] },
       { title: "Maintenance", items: ["Updates and security", "Bug fixes and speed improvements"] },
@@ -218,48 +263,6 @@ export const services: Service[] = [
       { title: "CMS work", items: ["WordPress, Shopify and Magento", "Custom themes and plugins"] },
       { title: "SEO & analytics", items: ["Search best practices", "Analytics set up and reported"] },
       { title: "Redesigns", items: ["Refresh design and usability", "Add features as you grow"] },
-    ],
-  },
-  {
-    slug: "cad-drafting",
-    name: "CAD drafting",
-    short: "Plans, models, as-builts.",
-    tagline: "Virtual CAD drafting support.",
-    seoTitle: "Remote CAD Drafting Services",
-    metaDescription:
-      "Hire a remote CAD drafter for 2D plans, 3D models, as-builts, revisions, and renderings for architecture, construction, and engineering projects.",
-    intro:
-      "2D plans, 3D models, as-builts and revisions for architecture, construction and engineering projects.",
-    group: "Specialist services",
-    groups: [
-      { title: "2D & 3D drafting", items: ["Plans and 3D models", "MEP drafting and detailing", "Structural and civil layouts"] },
-      { title: "Design development", items: ["Concepts turned into technical drawings", "Construction documents to industry standards"] },
-      { title: "As-builts & revisions", items: ["As-builts from field measurements", "Revisions that meet project requirements"] },
-      { title: "Coordination", items: ["Work with your team, PMs and engineers", "Fold in design changes quickly"] },
-      { title: "3D renderings", items: ["Show clients the proposed design", "Prepare renderings for proposals and presentations"] },
-    ],
-    proof: {
-      text: "Kate works directly with homeowners and builders, turning renovation ideas into buildable plans, from kitchen upgrades to full extensions.",
-      person: "kate",
-    },
-  },
-  {
-    slug: "dispatch-logistics",
-    name: "Dispatch & logistics",
-    short: "Drivers, loads, deliveries.",
-    tagline: "Virtual dispatch and logistics support.",
-    seoTitle: "Virtual Dispatch & Logistics Support",
-    metaDescription:
-      "Get a virtual dispatcher to coordinate drivers and deliveries, plan routes, send shipment updates, and keep fleet records current.",
-    intro:
-      "Get help with dispatch, route planning, shipment updates, and fleet records.",
-    group: "Specialist services",
-    groups: [
-      { title: "Dispatch", items: ["Coordinate drivers and customers in real time", "Assign and track shipments", "Keep delivery schedules current"] },
-      { title: "Load planning", items: ["Plan daily routes", "Manage pickups and deliveries", "Handle last-minute changes"] },
-      { title: "Customer updates", items: ["Real-time shipment status", "Handle delays and complaints"] },
-      { title: "Fleet & inventory", items: ["Maintenance schedules and safety compliance", "Fuel and cost tracking", "Stock levels and supplier restocks"] },
-      { title: "Reporting", items: ["Shipment and delivery data", "Delivery performance reports"] },
     ],
   },
 ];
@@ -327,7 +330,7 @@ export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
     items: [
       { q: "Who will I be working with?", a: "Skilled professionals based in the Philippines. Each one passes a multi-step screening with assessments and interviews." },
       { q: "Do they speak English well?", a: "Yes. Spoken and written English is part of our hiring criteria." },
-      { q: "What can I hand off?", a: "Executive and admin support, email and calendar, customer service, bookkeeping, content, data entry, social media, research and more." },
+      { q: "What can I hand off?", a: "Permits and paperwork, job schedules, estimate follow-ups, bookkeeping, customer calls, email and calendar, social media, research and more." },
       { q: "Is my Expert shared with other clients?", a: "Full-time Experts work only for you during their hours. Part-time Experts may support another client, but your booked hours are yours alone." },
     ],
   },
@@ -369,7 +372,7 @@ export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
     items: [
       { q: "How is my data protected?", a: "Every Expert signs a strict NDA and is trained in data protection, secure file handling and confidentiality." },
       { q: "Can they sign my NDA too?", a: "Yes." },
-      { q: "What equipment do they use?", a: "Reliable internet, headsets and computers. If you use specific software like a CRM or project tool, we train them on it." },
+      { q: "What equipment do they use?", a: "Reliable internet, headsets and computers. Experts work in tools like QuickBooks, Buildertrend, JobTread, Jobber and ServiceTitan, and we train them on any other software you use." },
       { q: "Can they make international calls?", a: "Yes, with access to the tools you authorize, such as VoIP." },
     ],
   },

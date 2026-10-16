@@ -56,9 +56,9 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
     <div className="story-stage" aria-hidden="true"><div ref={visual} className="story-visual"><HandoffScene paused={paused || introOpen} onFail={sceneFail}/></div></div>
     <section className="story-chapter story-opening" aria-labelledby="opening-title">
       <div className="story-content studio-wrap"><div className="story-copy">
-        <p className="kicker light">Virtual support for your business</p>
+        <p className="kicker light">Virtual support for builders, trades, and service businesses</p>
         <h1 id="opening-title">Virtual assistants.<br/>More time <em>for you.</em></h1>
-        <p className="story-lede">Get help with admin, bookkeeping, and other business tasks. We find the right person and support you along the way.</p>
+        <p className="story-lede">Get help with permits, estimates, job schedules, bookkeeping, and customer calls. We find the right person and support you along the way.</p>
         <div className="hero-actions"><Link href="/contact-us" className="button amber">Find your Expert</Link><Link href="/services" className="underlined light">Explore our services</Link></div>
         <p className="story-origin">Based in Seattle.<br/>Experts in the Philippines.</p>
       </div></div>
@@ -68,7 +68,7 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
     <div className="story-pair">
     {narrow && <div className="pair-stage" aria-hidden="true"><HandoffScene paused={paused || introOpen} panel onFail={sceneFail}/></div>}
     <section className="story-chapter story-right" id="the-work" aria-labelledby="work-title">
-      <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">01 / The work</p><h2 id="work-title">Help with<br/><em>daily tasks.</em></h2><p className="story-lede">Start with the tasks that take up most of your day.</p><div className="work-tags"><span>Admin & inbox</span><span>Books & billing</span><span>Projects & plans</span><span>Sales & customers</span></div></Reveal></div>
+      <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">01 / The work</p><h2 id="work-title">Help with<br/><em>daily tasks.</em></h2><p className="story-lede">Start with the office work behind every job.</p><div className="work-tags"><span>Permits & paperwork</span><span>Estimates & follow-ups</span><span>Job schedules</span><span>Invoices & payroll</span></div></Reveal></div>
     </section>
     <section className="story-chapter story-handoff" aria-labelledby="handoff-title">
       <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">02 / Choosing your assistant</p><h2 id="handoff-title">Choose your<br/><em>Expert.</em></h2><p className="story-lede">Interview screened candidates and choose who you work with. You set the tasks, tools, and hours. GVE helps with onboarding and ongoing support.</p><Link href="/how-it-works" className="underlined light">See the hiring process</Link></Reveal></div>

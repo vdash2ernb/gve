@@ -12,16 +12,16 @@ export type ClientStory = {
 // Headlines are summaries, not verbatim quotations or promises of typical results.
 export const clientStories: ClientStory[] = [
   {
-    id: 'mw-design', name: 'Josiah', role: 'CEO', company: 'MW Design Workshop',
-    headline: 'Help with social media and research.',
-    summary: 'Josiah discusses delegating social media and research, and the support his assistant receives from GVE.',
-    video: 'XqHtApU0Qno',
-  },
-  {
     id: 'river-roofing', name: 'Martha', role: 'Office Manager & Bookkeeper', company: 'River Roofing',
     headline: 'Bookkeeping and paperwork support.',
     summary: 'Martha describes getting help with payroll, bills, and paperwork at River Roofing.',
     video: 'nhq0_DsNkuM',
+  },
+  {
+    id: 'mw-design', name: 'Josiah', role: 'CEO', company: 'MW Design Workshop',
+    headline: 'Help with social media and research.',
+    summary: 'Josiah discusses delegating social media and research, and the support his assistant receives from GVE.',
+    video: 'XqHtApU0Qno',
   },
   {
     id: 'architect', name: 'John', role: 'Architect',

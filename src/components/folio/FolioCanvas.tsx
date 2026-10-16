@@ -25,7 +25,7 @@ function makeSurface(kind: Kind) {
   c.fillStyle = ink; c.font = '500 24px sans-serif';
   c.fillText('GLOBAL VIRTUAL EXPERTS', 54, 114);
   c.font = 'bold 59px sans-serif';
-  c.fillText({ plans: 'PROJECT PLANS', schedule: 'TASKS & DATES', accounts: 'BOOKKEEPING', clients: 'FOLLOW-UPS', support: 'SUPPORT', marketing: 'MARKETING', digital: 'YOUR WEBSITE', logistics: 'DISPATCH' }[kind], 52, 199);
+  c.fillText({ plans: 'PROJECT PLANS', schedule: 'JOB SCHEDULE', accounts: 'BOOKKEEPING', clients: 'FOLLOW-UPS', support: 'SUPPORT', marketing: 'MARKETING', digital: 'YOUR WEBSITE', logistics: 'DISPATCH' }[kind], 52, 199);
   c.strokeStyle = dark ? '#79a7c355' : '#00203d30'; c.lineWidth = 2;
   c.beginPath(); c.moveTo(54, 237); c.lineTo(714, 237); c.stroke();
   if (kind === 'plans') {
@@ -39,9 +39,9 @@ function makeSurface(kind: Kind) {
     c.lineWidth = 2; c.strokeStyle = ICE;
     c.strokeRect(191, 425, 133, 63); c.strokeRect(421, 651, 150, 69);
     c.beginPath(); c.arc(383, 578, 61, Math.PI, Math.PI * 1.5); c.stroke();
-    c.fillStyle = '#b4d0df'; c.font = '22px monospace'; c.fillText('PLAN / DIMENSIONS / REVISIONS', 54, 941);
+    c.fillStyle = '#b4d0df'; c.font = '22px monospace'; c.fillText('PLANS / PERMIT SET / REVISIONS', 54, 941);
   } else if (kind === 'schedule') {
-    ['Update the schedule', 'Coordinate vendors', 'Track milestones'].forEach((s, i) => {
+    ['Permit submitted', 'Materials ordered', 'Crew booked'].forEach((s, i) => {
       const y = 333 + i * 173;
       c.fillStyle = '#164c7e'; c.fillRect(53, y - 43, 659, 136);
       c.fillStyle = GOLD; c.font = 'bold 32px sans-serif'; c.fillText(`0${i + 1}`, 83, y + 6);
@@ -50,8 +50,8 @@ function makeSurface(kind: Kind) {
     });
     c.fillStyle = GOLD; c.fillRect(54, 902, 660, 6);
   } else if (kind === 'accounts') {
-    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText('Monthly accounts', 54, 306);
-    ['Invoices', 'Expenses', 'Reconciliation'].forEach((s, i) => {
+    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText('Jobs and payroll', 54, 306);
+    ['Invoices', 'Job costs', 'Payroll'].forEach((s, i) => {
       const y = 408 + i * 123;
       c.fillStyle = NAVY; c.font = '32px sans-serif'; c.fillText(s, 54, y);
       c.fillStyle = '#d6e1e5'; c.fillRect(54, y + 32, 659, 2);
@@ -73,18 +73,18 @@ function makeSurface(kind: Kind) {
     c.fillStyle = GOLD; c.fillRect(118, 574, 126, 13);
     [81, 291, 501].forEach(x => { c.fillStyle = '#cadce7'; c.fillRect(x, 663, 186, 176); });
   } else if (kind === 'logistics') {
-    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText('Drivers, deliveries, and updates', 54, 304);
+    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText('Crews, service calls, and updates', 54, 304);
     c.strokeStyle = '#d7e1e8'; c.lineWidth = 2;
     for (let x = 54; x < 715; x += 55) { c.beginPath(); c.moveTo(x, 357); c.lineTo(x, 870); c.stroke(); }
     for (let y = 357; y < 871; y += 55) { c.beginPath(); c.moveTo(54, y); c.lineTo(714, y); c.stroke(); }
     c.strokeStyle = BLUE; c.lineWidth = 14; c.lineJoin = 'round';
     c.beginPath(); c.moveTo(164, 742); c.lineTo(164, 522); c.lineTo(439, 522); c.lineTo(439, 687); c.lineTo(604, 687); c.lineTo(604, 412); c.stroke();
     [[164,742],[439,522],[604,412]].forEach(([x,y],i) => { c.fillStyle = i === 2 ? GOLD : BLUE; c.beginPath(); c.arc(x, y, 21, 0, Math.PI * 2); c.fill(); });
-    c.fillStyle = NAVY; c.font = '24px sans-serif'; c.fillText('ROUTES / SHIPMENTS / STATUS', 54, 943);
+    c.fillStyle = NAVY; c.font = '24px sans-serif'; c.fillText('ROUTES / JOBS / STATUS', 54, 943);
   } else if (kind === 'support') {
     // Customer conversations: incoming messages on the left, Expert replies on the right.
     c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText('Email, phone, and chat', 54, 304);
-    [['Where is my order?', 0], ['It ships today. Tracking sent.', 1], ['Can I change my booking?', 0], ['Done. See you on Friday.', 1]].forEach(([s, reply], i) => {
+    [['Can you come Tuesday?', 0], ['Booked 9am. Tech confirmed.', 1], ['Is my estimate ready?', 0], ['Sent to your inbox today.', 1]].forEach(([s, reply], i) => {
       const y = 360 + i * 128, w = 430, x = reply ? 714 - w : 54;
       c.fillStyle = reply ? BLUE : '#dee8ee'; c.beginPath(); c.roundRect(x, y, w, 92, 22); c.fill();
       c.fillStyle = reply ? '#ecf5fc' : NAVY; c.font = '27px sans-serif'; c.fillText(String(s), x + 26, y + 56);
@@ -92,7 +92,7 @@ function makeSurface(kind: Kind) {
     c.fillStyle = GOLD; c.beginPath(); c.arc(76, 917, 12, 0, Math.PI * 2); c.fill();
     c.fillStyle = NAVY; c.font = '24px sans-serif'; c.fillText('ALL CUSTOMERS ANSWERED', 104, 926);
   } else {
-    ['Client enquiries', 'Calendar & inbox', 'Customer updates'].forEach((s, i) => {
+    ['Estimate sent', 'Homeowner callback', 'Review request'].forEach((s, i) => {
       const y = 350 + i * 190;
       c.fillStyle = '#deE8ee'; c.beginPath(); c.arc(103, y, 48, 0, Math.PI * 2); c.fill();
       c.fillStyle = BLUE; c.font = 'bold 30px sans-serif'; c.fillText(`0${i + 1}`, 85, y + 11);

@@ -5,9 +5,10 @@ import { Reveal } from './Reveal';
 import Accordion from './Accordion';
 import CTA from './CTA';
 const groups = [
-  { name: 'Admin & operations', text: 'Email, schedules, accounts, and customer support.' },
-  { name: 'Sales & marketing', text: 'Lead outreach, social media, and writing.' },
-  { name: 'Specialist services', text: 'Design, websites, CAD, and dispatch.' },
+  { name: 'Construction & trades', text: 'Permits, job schedules, drafting, and dispatch.' },
+  { name: 'Admin & operations', text: 'Email, bookkeeping, and customer calls.' },
+  { name: 'Sales & marketing', text: 'Estimate follow-ups, social media, and writing.' },
+  { name: 'Design & web', text: 'Graphics and websites.' },
 ];
 export default function HomeContent() {
   return <>

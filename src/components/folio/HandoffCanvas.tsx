@@ -32,7 +32,7 @@ const done: Pose[] = kinds.map((_, i) => ({ p: [.45 + i * .5, -1.45, layer(i)], 
 const stages = [desk, withExpert, done];
 
 export const captions = [
-  { kicker: 'Your business', text: 'Hand off the tasks that fill your day.' },
+  { kicker: 'Your business', text: 'Hand off the office work behind every job.' },
   { kicker: 'Your Expert', text: 'Your Expert gets to work, in your hours.' },
   { kicker: 'Daily report', text: 'Done, and reported back to you.' },
 ];
