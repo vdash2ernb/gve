@@ -46,3 +46,29 @@
 /ibs-book/ / 301
 /ibs-rules / 301
 /ibs-rules/ / 301
+
+# Old pages search engines still list that weren't in the old sitemap, plus common WordPress addresses.
+/gve-success-stories /client-stories/ 301
+/gve-success-stories/ /client-stories/ 301
+/testimonials /client-stories/ 301
+/testimonials/ /client-stories/ 301
+/news /services/ 301
+/news/ /services/ 301
+/blog /services/ 301
+/blog/ /services/ 301
+/category/uncategorized /services/ 301
+/category/uncategorized/ /services/ 301
+/author/globalve /about/ 301
+/author/globalve/ /about/ 301
+/about-us /about/ 301
+/about-us/ /about/ 301
+/pricing /faq/ 301
+/pricing/ /faq/ 301
+/privacy-policy /privacypolicy/ 301
+/privacy-policy/ /privacypolicy/ 301
+/home / 301
+/home/ / 301
+/feed / 301
+/feed/ / 301
+/comments/feed / 301
+/comments/feed/ / 301
