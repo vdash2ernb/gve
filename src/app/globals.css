@@ -121,3 +121,11 @@ body{background:var(--bg);font-size:1rem;line-height:1.75}h1,h2,h3{font-weight:6
 @media(max-width:600px){.business-types div{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-20px;padding:2px 20px}.business-types div::-webkit-scrollbar{display:none}.business-types button{flex-shrink:0;font-size:.75rem;padding:8px 12px}}
 @media(prefers-reduced-motion:reduce){.business-types button{transition:none}}
 .business-types>a{display:inline-block;margin-top:16px;font-size:.8125rem}
+
+/* Phones and tablets: the chapter text slides over the pinned 3D on a solid, soft-edged backing,
+   so the scene never shows through the words. */
+@media(max-width:900px){.story-pair .story-copy{background:#00203d;box-shadow:0 0 24px 18px #00203d}}
+/* Phones: a group's services sit right under the group buttons; the 3D card follows them. */
+@media(max-width:600px){.catalogue-list{grid-row:2}.catalogue-object{grid-row:3}}
+/* The phone menu's call link matches the amber header button shown on wider screens. */
+.mobile-navigation a.mobile-call{display:inline-flex;margin-top:14px;padding:13px 22px;color:#03233c}
