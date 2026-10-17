@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import Link from 'next/link';
 import { HandoffScene } from './folio/FolioScene';
 import { Reveal } from './Reveal';
 import { useIntroOpen } from './mission/introState';
+import { segments, generalCaption, generalChips, readSegment, saveSegment, subscribeSegment, type SegmentId } from '@/content/segments';
 
 export default function WorkStory({ proof }: { proof?: ReactNode }) {
   const [paused, setPaused] = useState(false);
@@ -14,6 +15,11 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
   const [sceneFailed, setSceneFailed] = useState(false);
   const sceneFail = () => setSceneFailed(true);
   const visual = useRef<HTMLDivElement>(null);
+  // The visitor's business type swaps the 3D sheets, their caption and the chapter 01 chips.
+  // Choosing the same type again goes back to the general version.
+  const segmentId = useSyncExternalStore(subscribeSegment, readSegment, () => null);
+  const segment = segments.find(s => s.id === segmentId);
+  const pick = (id: SegmentId) => saveSegment(id === segmentId ? null : id);
   // Phones and tablets also get a second scene, pinned below chapters 01 and 02.
   const [narrow, setNarrow] = useState(false);
   useEffect(() => {
@@ -53,22 +59,23 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
     return () => { cancelAnimationFrame(measure); observer.disconnect(); window.removeEventListener('resize', queueMeasure); narrow.removeEventListener('change', queueMeasure); };
   }, []);
   return <div className="work-story" id="work-story">
-    <div className="story-stage" aria-hidden="true"><div ref={visual} className="story-visual"><HandoffScene paused={paused || introOpen} onFail={sceneFail}/></div></div>
+    <div className="story-stage" aria-hidden="true"><div ref={visual} className="story-visual"><HandoffScene paused={paused || introOpen} sheets={segment?.sheets} caption={segment?.caption ?? generalCaption} onFail={sceneFail}/></div></div>
     <section className="story-chapter story-opening" aria-labelledby="opening-title">
       <div className="story-content studio-wrap"><div className="story-copy">
         <p className="kicker light">Virtual support for builders, trades, and service businesses</p>
         <h1 id="opening-title">Virtual assistants.<br/>More time <em>for you.</em></h1>
         <p className="story-lede">Get help with permits, estimates, job schedules, bookkeeping, and customer calls. We find the right person and support you along the way.</p>
         <div className="hero-actions"><Link href="/contact-us" className="button amber">Find your Expert</Link><Link href="/services" className="underlined light">Explore our services</Link></div>
+        <div className="business-types" role="group" aria-labelledby="business-type-label"><p id="business-type-label">Your type of business</p><div>{segments.map(s => <button key={s.id} type="button" aria-pressed={s.id === segmentId} onClick={() => pick(s.id)}>{s.label}</button>)}</div></div>
         <p className="story-origin">Based in Seattle.<br/>Experts in the Philippines.</p>
       </div></div>
       <div className="scroll-cue studio-wrap"><a href="#clients"><span className="scroll-line"/>Meet our clients</a>{!sceneFailed && <button className="motion-control" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? 'Restore 3D motion' : 'Reduce 3D motion'}</button>}</div>
     </section>
     {proof}
     <div className="story-pair">
-    {narrow && <div className="pair-stage" aria-hidden="true"><HandoffScene paused={paused || introOpen} panel onFail={sceneFail}/></div>}
+    {narrow && <div className="pair-stage" aria-hidden="true"><HandoffScene paused={paused || introOpen} panel sheets={segment?.sheets} onFail={sceneFail}/></div>}
     <section className="story-chapter story-right" id="the-work" aria-labelledby="work-title">
-      <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">01 / The work</p><h2 id="work-title">Help with<br/><em>daily tasks.</em></h2><p className="story-lede">Start with the office work behind every job.</p><div className="work-tags"><span>Permits & paperwork</span><span>Estimates & follow-ups</span><span>Job schedules</span><span>Invoices & payroll</span></div></Reveal></div>
+      <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">01 / The work</p><h2 id="work-title">Help with<br/><em>daily tasks.</em></h2><p className="story-lede">Start with the office work behind every job.</p><div className="work-tags">{(segment?.chips ?? generalChips).map(chip => <span key={chip}>{chip}</span>)}</div></Reveal></div>
     </section>
     <section className="story-chapter story-handoff" aria-labelledby="handoff-title">
       <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">02 / Choosing your assistant</p><h2 id="handoff-title">Choose your<br/><em>Expert.</em></h2><p className="story-lede">Interview screened candidates and choose who you work with. You set the tasks, tools, and hours. GVE helps with onboarding and ongoing support.</p><Link href="/how-it-works" className="underlined light">See the hiring process</Link></Reveal></div>

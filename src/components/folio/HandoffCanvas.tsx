@@ -5,7 +5,8 @@ import { Html, RoundedBox } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import * as THREE from 'three';
 import globePoints from '@/lib/globe-points.json';
-import { WorkDocument, type Kind } from './FolioCanvas';
+import { WorkDocument } from './FolioCanvas';
+import { generalSheets, type Sheet } from '@/content/segments';
 
 // "Hand it off" story for the homepage: your tasks travel from your business in the US
 // to your Expert in the Philippines and come back done. Progress runs from 0 (your
@@ -13,7 +14,7 @@ import { WorkDocument, type Kind } from './FolioCanvas';
 // screens play it as a short loop while it is on screen.
 const NAVY = '#00203d', BLUE = '#003870', ICE = '#79a7c3', GOLD = '#ffa600';
 const D2R = Math.PI / 180;
-const kinds: Kind[] = ['plans', 'schedule', 'accounts', 'clients'];
+const SLOTS = [0, 1, 2, 3];
 const DOC_SCALE = .42;
 
 type Pose = { p: [number, number, number]; r: [number, number, number] };
@@ -27,8 +28,8 @@ const desk: Pose[] = [
   { p: [1.42, -1.62, layer(2)], r: [-.06, .08, .07] },
   { p: [1.95, -1.55, layer(3)], r: [-.05, .07, -.24] },
 ];
-const withExpert: Pose[] = kinds.map((_, i) => ({ p: [-.78 + i * .44, -1.5 + (i % 2) * .08, layer(i)], r: [0, 0, .12 - i * .07] }));
-const done: Pose[] = kinds.map((_, i) => ({ p: [.45 + i * .5, -1.45, layer(i)], r: [0, 0, -.05 + i * .03] }));
+const withExpert: Pose[] = SLOTS.map((_, i) => ({ p: [-.78 + i * .44, -1.5 + (i % 2) * .08, layer(i)], r: [0, 0, .12 - i * .07] }));
+const done: Pose[] = SLOTS.map((_, i) => ({ p: [.45 + i * .5, -1.45, layer(i)], r: [0, 0, -.05 + i * .03] }));
 const stages = [desk, withExpert, done];
 
 export const captions = [
@@ -169,7 +170,11 @@ function resetSize(reset: number, i: number) {
   return reset < .5 ? 1 - step(reset) : step(reset - .5);
 }
 
-function Assembly({ paused, auto, panel, onStage }: { paused: boolean; auto: boolean; panel: boolean; onStage: (stage: number) => void }) {
+// A new business type flips each sheet over, one after another, and swaps its content at the halfway point.
+const FLIP = .6, FLIP_STAGGER = .08;
+const flipSquash = (t: number) => t < .5 ? 1 - smooth(t * 2) : smooth((t - .5) * 2);
+
+function Assembly({ paused, auto, panel, sheets, onStage }: { paused: boolean; auto: boolean; panel: boolean; sheets: Sheet[]; onStage: (stage: number) => void }) {
   const root = useRef<THREE.Group>(null);
   const docs = useRef<(THREE.Group | null)[]>([]);
   const badges = useRef<(THREE.Mesh | null)[]>([]);
@@ -185,6 +190,15 @@ function Assembly({ paused, auto, panel, onStage }: { paused: boolean; auto: boo
   const nextStep = useRef(0);
   useEffect(() => () => clearTimeout(nextStep.current), []);
   const still = paused;
+  const [onSheet, setOnSheet] = useState(sheets);
+  const flip = useRef<{ start: number | null; pending: boolean }>({ start: null, pending: false });
+  const target = useRef(sheets);
+  useEffect(() => {
+    if (sheets === target.current) return;
+    target.current = sheets;
+    flip.current.pending = true;
+    invalidate();
+  }, [sheets, invalidate]);
 
   useEffect(() => {
     const scroll = () => {
@@ -242,6 +256,13 @@ function Assembly({ paused, auto, panel, onStage }: { paused: boolean; auto: boo
       progress.current = THREE.MathUtils.lerp(progress.current, wanted.current, 1 - Math.exp(-step * 6));
       p = progress.current;
     }
+    if (flip.current.pending) {
+      // With "Reduce 3D motion" on, the sheets change without flipping.
+      if (still) { flip.current = { start: null, pending: false }; materials.current = []; setOnSheet(sheets); }
+      else flip.current = { start: clock.elapsedTime, pending: false };
+    }
+    const flipAt = flip.current.start === null ? -1 : (clock.elapsedTime - flip.current.start) / FLIP;
+    if (flipAt > 1 + FLIP_STAGGER * 3) flip.current.start = null;
     const now = p < .5 ? 0 : p < 1.5 ? 1 : 2;
     if (now !== stage.current) { stage.current = now; onStage(now); }
 
@@ -262,6 +283,15 @@ function Assembly({ paused, auto, panel, onStage }: { paused: boolean; auto: boo
       const size = resetSize(reset, i);
       doc.visible = size > .01;
       doc.scale.setScalar(DOC_SCALE * Math.max(size, .01));
+      if (flipAt >= 0) {
+        const local = THREE.MathUtils.clamp(flipAt - i * FLIP_STAGGER, 0, 1);
+        doc.scale.x *= Math.max(flipSquash(local), .02);
+        if (local >= .5 && onSheet[i] !== sheets[i]) {
+          // The new sheet has new parts, so its fade materials are collected again.
+          delete materials.current[i];
+          setOnSheet(current => current.map((sheet, n) => n === i ? sheets[i] : sheet));
+        }
+      }
       const tick = segment === 1 ? smooth(THREE.MathUtils.clamp((f - .5 - i * .08) / .24, 0, 1)) : 0;
       badges.current[i]?.scale.setScalar(tick);
       // Collect each document's materials the first time a fade is needed, then follow the fade.
@@ -287,7 +317,7 @@ function Assembly({ paused, auto, panel, onStage }: { paused: boolean; auto: boo
     }
 
     const fading = still && (fade.current < 1 || p !== (auto ? shown.current : Math.round(wanted.current)));
-    if (playing || fading || Math.abs(wanted.current - progress.current) > .001) invalidate();
+    if (playing || fading || flipAt >= 0 || flip.current.pending || Math.abs(wanted.current - progress.current) > .001) invalidate();
     // Between steps nothing moves, so draw again only when the next step is due.
     else if (still && auto && inView.current && !nextStep.current) {
       const due = 3.2 - (clock.elapsedTime - loopStart.current) % 3.2;
@@ -298,8 +328,8 @@ function Assembly({ paused, auto, panel, onStage }: { paused: boolean; auto: boo
   return <group ref={root}>
     <Globe packets={packets} pulse={pulse}/>
     <ExpertCard/>
-    {kinds.map((kind, i) => <group key={kind} ref={el => { docs.current[i] = el; }} position={desk[i].p} rotation={desk[i].r} scale={DOC_SCALE}>
-      <WorkDocument kind={kind}/>
+    {onSheet.map((sheet, i) => <group key={i} ref={el => { docs.current[i] = el; }} position={desk[i].p} rotation={desk[i].r} scale={DOC_SCALE}>
+      <WorkDocument kind={sheet.kind} text={sheet.text}/>
       <Badge badge={el => { badges.current[i] = el; }}/>
     </group>)}
   </group>;
@@ -308,7 +338,8 @@ function Assembly({ paused, auto, panel, onStage }: { paused: boolean; auto: boo
 // `panel` is the phone version pinned below chapters 01 and 02, driven by their scroll.
 // The scene animates for every visitor, including those with Reduce Motion on (the site owner's
 // choice); the page's "Reduce 3D motion" button switches it to gentle fades instead.
-export default function HandoffCanvas({ paused, panel = false }: { paused: boolean; panel?: boolean }) {
+// `sheets` and `caption` follow the business type picked on the homepage.
+export default function HandoffCanvas({ paused, panel = false, sheets = generalSheets, caption }: { paused: boolean; panel?: boolean; sheets?: Sheet[]; caption?: string }) {
   const [ready, setReady] = useState(false);
   const [stage, setStage] = useState(0);
   // Touch devices and narrow screens get a lighter render: lower pixel density and no shadows.
@@ -328,8 +359,8 @@ export default function HandoffCanvas({ paused, panel = false }: { paused: boole
       <directionalLight position={[-4, 6, 7]} intensity={2.1} color="#fff4df" castShadow shadow-mapSize={[1024, 1024]} shadow-camera-left={-8} shadow-camera-right={8} shadow-camera-top={7} shadow-camera-bottom={-7} shadow-bias={-.0005}/>
       <directionalLight position={[4, 1, 4]} intensity={1.5} color="#afdfff"/>
       <directionalLight position={[0, -3, 4]} intensity={.4} color={ICE}/>
-      <Assembly paused={paused} auto={auto} panel={panel} onStage={setStage}/>
+      <Assembly paused={paused} auto={auto} panel={panel} sheets={sheets} onStage={setStage}/>
     </Canvas>
-    <p className="handoff-caption" key={stage}><span>{captions[stage].kicker}</span>{captions[stage].text}</p>
+    <p className="handoff-caption" key={stage + (stage === 0 ? caption ?? '' : '')}><span>{captions[stage].kicker}</span>{stage === 0 && caption ? caption : captions[stage].text}</p>
   </div>;
 }

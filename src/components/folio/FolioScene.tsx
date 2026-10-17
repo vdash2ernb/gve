@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { Component, type ReactNode } from 'react';
 import type { WorkDomain } from '@/content/domains';
+import type { Sheet } from '@/content/segments';
 
 const Canvas = dynamic(() => import('./FolioCanvas'), { ssr: false });
 const Handoff = dynamic(() => import('./HandoffCanvas'), { ssr: false });
@@ -22,6 +23,6 @@ export default function FolioScene({ mode = 'story', selected = 'plans', paused 
 }
 
 // Homepage story: tasks handed from your business to an Expert in the Philippines and back, done.
-export function HandoffScene({ paused = false, panel = false, onFail }: { paused?: boolean; panel?: boolean; onFail?: () => void }) {
-  return <SceneBoundary onFail={onFail}><Handoff paused={paused} panel={panel}/></SceneBoundary>;
+export function HandoffScene({ paused = false, panel = false, sheets, caption, onFail }: { paused?: boolean; panel?: boolean; sheets?: Sheet[]; caption?: string; onFail?: () => void }) {
+  return <SceneBoundary onFail={onFail}><Handoff paused={paused} panel={panel} sheets={sheets} caption={caption}/></SceneBoundary>;
 }

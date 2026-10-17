@@ -5,6 +5,7 @@ import { RoundedBox } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { WorkDomain } from '@/content/domains';
+import type { SheetText } from '@/content/segments';
 
 // Original GVE work folio. Every mesh and surface is generated here.
 // No models, scene code, textures, or materials from the port-3000 site.
@@ -13,7 +14,8 @@ export type Kind = 'plans' | 'schedule' | 'accounts' | 'clients' | 'support' | '
 type Pose = [number, number, number, number, number, number];
 const names: Kind[] = ['plans', 'schedule', 'accounts', 'clients'];
 
-function makeSurface(kind: Kind) {
+// `text` replaces the sheet's default wording, for the homepage business-type choice.
+function makeSurface(kind: Kind, text?: SheetText) {
   const canvas = document.createElement('canvas');
   canvas.width = 768; canvas.height = 1024;
   const c = canvas.getContext('2d')!;
@@ -24,8 +26,12 @@ function makeSurface(kind: Kind) {
   c.fillStyle = GOLD; c.fillRect(54, 62, 48, 6);
   c.fillStyle = ink; c.font = '500 24px sans-serif';
   c.fillText('GLOBAL VIRTUAL EXPERTS', 54, 114);
-  c.font = 'bold 59px sans-serif';
-  c.fillText({ plans: 'PROJECT PLANS', schedule: 'JOB SCHEDULE', accounts: 'BOOKKEEPING', clients: 'FOLLOW-UPS', support: 'SUPPORT', marketing: 'MARKETING', digital: 'YOUR WEBSITE', logistics: 'DISPATCH' }[kind], 52, 199);
+  // Long titles shrink to fit the sheet instead of running off its edge.
+  const title = text?.title ?? { plans: 'PROJECT PLANS', schedule: 'JOB SCHEDULE', accounts: 'BOOKKEEPING', clients: 'FOLLOW-UPS', support: 'SUPPORT', marketing: 'MARKETING', digital: 'YOUR WEBSITE', logistics: 'DISPATCH' }[kind];
+  let size = 59;
+  c.font = `bold ${size}px sans-serif`;
+  while (size > 36 && c.measureText(title).width > 660) { size -= 2; c.font = `bold ${size}px sans-serif`; }
+  c.fillText(title, 52, 199);
   c.strokeStyle = dark ? '#79a7c355' : '#00203d30'; c.lineWidth = 2;
   c.beginPath(); c.moveTo(54, 237); c.lineTo(714, 237); c.stroke();
   if (kind === 'plans') {
@@ -39,9 +45,9 @@ function makeSurface(kind: Kind) {
     c.lineWidth = 2; c.strokeStyle = ICE;
     c.strokeRect(191, 425, 133, 63); c.strokeRect(421, 651, 150, 69);
     c.beginPath(); c.arc(383, 578, 61, Math.PI, Math.PI * 1.5); c.stroke();
-    c.fillStyle = '#b4d0df'; c.font = '22px monospace'; c.fillText('PLANS / PERMIT SET / REVISIONS', 54, 941);
+    c.fillStyle = '#b4d0df'; c.font = '22px monospace'; c.fillText(text?.footer ?? 'PLANS / PERMIT SET / REVISIONS', 54, 941);
   } else if (kind === 'schedule') {
-    ['Permit submitted', 'Materials ordered', 'Crew booked'].forEach((s, i) => {
+    (text?.rows ?? ['Permit submitted', 'Materials ordered', 'Crew booked']).forEach((s, i) => {
       const y = 333 + i * 173;
       c.fillStyle = '#164c7e'; c.fillRect(53, y - 43, 659, 136);
       c.fillStyle = GOLD; c.font = 'bold 32px sans-serif'; c.fillText(`0${i + 1}`, 83, y + 6);
@@ -50,8 +56,8 @@ function makeSurface(kind: Kind) {
     });
     c.fillStyle = GOLD; c.fillRect(54, 902, 660, 6);
   } else if (kind === 'accounts') {
-    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText('Jobs and payroll', 54, 306);
-    ['Invoices', 'Job costs', 'Payroll'].forEach((s, i) => {
+    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText(text?.sub ?? 'Jobs and payroll', 54, 306);
+    (text?.rows ?? ['Invoices', 'Job costs', 'Payroll']).forEach((s, i) => {
       const y = 408 + i * 123;
       c.fillStyle = NAVY; c.font = '32px sans-serif'; c.fillText(s, 54, y);
       c.fillStyle = '#d6e1e5'; c.fillRect(54, y + 32, 659, 2);
@@ -73,26 +79,26 @@ function makeSurface(kind: Kind) {
     c.fillStyle = GOLD; c.fillRect(118, 574, 126, 13);
     [81, 291, 501].forEach(x => { c.fillStyle = '#cadce7'; c.fillRect(x, 663, 186, 176); });
   } else if (kind === 'logistics') {
-    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText('Crews, service calls, and updates', 54, 304);
+    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText(text?.sub ?? 'Crews, service calls, and updates', 54, 304);
     c.strokeStyle = '#d7e1e8'; c.lineWidth = 2;
     for (let x = 54; x < 715; x += 55) { c.beginPath(); c.moveTo(x, 357); c.lineTo(x, 870); c.stroke(); }
     for (let y = 357; y < 871; y += 55) { c.beginPath(); c.moveTo(54, y); c.lineTo(714, y); c.stroke(); }
     c.strokeStyle = BLUE; c.lineWidth = 14; c.lineJoin = 'round';
     c.beginPath(); c.moveTo(164, 742); c.lineTo(164, 522); c.lineTo(439, 522); c.lineTo(439, 687); c.lineTo(604, 687); c.lineTo(604, 412); c.stroke();
     [[164,742],[439,522],[604,412]].forEach(([x,y],i) => { c.fillStyle = i === 2 ? GOLD : BLUE; c.beginPath(); c.arc(x, y, 21, 0, Math.PI * 2); c.fill(); });
-    c.fillStyle = NAVY; c.font = '24px sans-serif'; c.fillText('ROUTES / JOBS / STATUS', 54, 943);
+    c.fillStyle = NAVY; c.font = '24px sans-serif'; c.fillText(text?.footer ?? 'ROUTES / JOBS / STATUS', 54, 943);
   } else if (kind === 'support') {
     // Customer conversations: incoming messages on the left, Expert replies on the right.
-    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText('Email, phone, and chat', 54, 304);
-    [['Can you come Tuesday?', 0], ['Booked 9am. Tech confirmed.', 1], ['Is my estimate ready?', 0], ['Sent to your inbox today.', 1]].forEach(([s, reply], i) => {
-      const y = 360 + i * 128, w = 430, x = reply ? 714 - w : 54;
+    c.fillStyle = muted; c.font = '26px sans-serif'; c.fillText(text?.sub ?? 'Email, phone, and chat', 54, 304);
+    (text?.messages ?? ['Can you come Tuesday?', 'Booked 9am. Tech confirmed.', 'Is my estimate ready?', 'Sent to your inbox today.']).forEach((s, i) => {
+      const reply = i % 2, y = 360 + i * 128, w = 430, x = reply ? 714 - w : 54;
       c.fillStyle = reply ? BLUE : '#dee8ee'; c.beginPath(); c.roundRect(x, y, w, 92, 22); c.fill();
       c.fillStyle = reply ? '#ecf5fc' : NAVY; c.font = '27px sans-serif'; c.fillText(String(s), x + 26, y + 56);
     });
     c.fillStyle = GOLD; c.beginPath(); c.arc(76, 917, 12, 0, Math.PI * 2); c.fill();
-    c.fillStyle = NAVY; c.font = '24px sans-serif'; c.fillText('ALL CUSTOMERS ANSWERED', 104, 926);
+    c.fillStyle = NAVY; c.font = '24px sans-serif'; c.fillText(text?.footer ?? 'ALL CUSTOMERS ANSWERED', 104, 926);
   } else {
-    ['Estimate sent', 'Homeowner callback', 'Review request'].forEach((s, i) => {
+    (text?.rows ?? ['Estimate sent', 'Homeowner callback', 'Review request']).forEach((s, i) => {
       const y = 350 + i * 190;
       c.fillStyle = '#deE8ee'; c.beginPath(); c.arc(103, y, 48, 0, Math.PI * 2); c.fill();
       c.fillStyle = BLUE; c.font = 'bold 30px sans-serif'; c.fillText(`0${i + 1}`, 85, y + 11);
@@ -114,8 +120,8 @@ function Box({ size, at = [0, 0, 0], color, metal = 0, rough = .42 }: { size: [n
   </RoundedBox>;
 }
 
-export function WorkDocument({ kind }: { kind: Kind }) {
-  const surface = useMemo(() => makeSurface(kind), [kind]);
+export function WorkDocument({ kind, text }: { kind: Kind; text?: SheetText }) {
+  const surface = useMemo(() => makeSurface(kind, text), [kind, text]);
   useEffect(() => () => surface.dispose(), [surface]);
   const dark = ['plans', 'schedule', 'digital'].includes(kind);
   return <group>
