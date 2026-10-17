@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { contact } from '@/content/site';
+import { industries, segmentFor } from '@/content/industries';
 import styles from './Footer.module.css';
 
 const groups = [
@@ -10,6 +11,7 @@ const groups = [
     { href: '/faq', label: 'FAQ' },
     { href: '/start', label: 'Start your search' },
   ] },
+  { title: 'Industries', links: industries.map(i => ({ href: '/industries/' + i.slug, label: segmentFor(i).label })) },
   { title: 'Company', links: [
     { href: '/about', label: 'About GVE' },
     { href: '/stories', label: 'Meet the Experts' },

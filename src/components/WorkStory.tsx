@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { HandoffScene } from './folio/FolioScene';
 import { Reveal } from './Reveal';
 import { useIntroOpen } from './mission/introState';
+import { industryFor } from '@/content/industries';
 import { segments, generalCaption, generalChips, readSegment, saveSegment, subscribeSegment, type SegmentId } from '@/content/segments';
 
 export default function WorkStory({ proof }: { proof?: ReactNode }) {
@@ -66,7 +67,7 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
         <h1 id="opening-title">Virtual assistants.<br/>More time <em>for you.</em></h1>
         <p className="story-lede">Get help with permits, estimates, job schedules, bookkeeping, and customer calls. We find the right person and support you along the way.</p>
         <div className="hero-actions"><Link href="/contact-us" className="button amber">Find your Expert</Link><Link href="/services" className="underlined light">Explore our services</Link></div>
-        <div className="business-types" role="group" aria-labelledby="business-type-label"><p id="business-type-label">Your type of business</p><div>{segments.map(s => <button key={s.id} type="button" aria-pressed={s.id === segmentId} onClick={() => pick(s.id)}>{s.label}</button>)}</div></div>
+        <div className="business-types" role="group" aria-labelledby="business-type-label"><p id="business-type-label">Your type of business</p><div>{segments.map(s => <button key={s.id} type="button" aria-pressed={s.id === segmentId} onClick={() => pick(s.id)}>{s.label}</button>)}</div>{segment && <Link href={'/industries/' + industryFor(segment.id).slug} className="underlined light">See how we help {segment.label.toLowerCase()} <span aria-hidden="true">→</span></Link>}</div>
         <p className="story-origin">Based in Seattle.<br/>Experts in the Philippines.</p>
       </div></div>
       <div className="scroll-cue studio-wrap"><a href="#clients"><span className="scroll-line"/>Meet our clients</a>{!sceneFailed && <button className="motion-control" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? 'Restore 3D motion' : 'Reduce 3D motion'}</button>}</div>

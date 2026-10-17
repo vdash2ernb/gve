@@ -1,0 +1,30 @@
+.block { padding: 70px 0 0; }
+.block h2 { margin-bottom: 0; }
+.toolList { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 0; padding: 0; list-style: none; }
+.toolList li { font-size: .9375rem; font-weight: 500; color: #00203d; padding: 10px 18px; border: 1px solid #b5c8d4; border-radius: 100px; background: #fff; }
+.note { margin-top: 18px; font-size: .9375rem; color: #496071; max-width: 560px; }
+.logos { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 44px; margin: 32px 0 0; padding: 0; list-style: none; }
+.logos li { display: flex; align-items: center; height: 84px; }
+.logos img { display: block; width: var(--logo-w); height: var(--logo-h); }
+.taskLink { display: inline-block; margin-top: 18px; font-size: .875rem; color: #003870; border-bottom: 1px solid #79a7c3; padding-bottom: 3px; }
+.taskLink:hover { border-color: #ffa600; }
+.others { display: flex; flex-wrap: wrap; gap: 12px 28px; margin: 22px 0 0; padding: 0; list-style: none; }
+.others a { font-size: 1rem; border-bottom: 1px solid #00203d; padding: 6px 0; }
+.others a:hover { border-color: #ffa600; }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid #d5e0e9; border-left: 1px solid #d5e0e9; margin: 0; padding: 0; list-style: none; }
+.cards li { border-right: 1px solid #d5e0e9; border-bottom: 1px solid #d5e0e9; }
+.cards a { display: block; height: 100%; padding: 35px; transition: background .2s; }
+.cards a:hover, .cards a:focus-visible { background: #eef3f7; }
+.cards h2 { font-size: 1.75rem; line-height: 1.25; margin: 12px 0 14px; font-weight: 500; }
+.cards p { font-size: 1rem; line-height: 1.7; color: #496071; }
+.cards span { font-size: .75rem; letter-spacing: .08em; color: #003870; }
+.cards strong { display: inline-block; margin-top: 18px; font-size: .9375rem; font-weight: 500; border-bottom: 1px solid #00203d; padding-bottom: 3px; }
+@media (max-width: 900px) { .block { padding-top: 55px; } }
+@media (max-width: 600px) {
+  .cards { grid-template-columns: 1fr; }
+  .cards a { padding: 26px; }
+  .logos { gap: 10px 30px; }
+  .logos li { height: 64px; }
+  .logos img { width: calc(var(--logo-w) * .78); height: calc(var(--logo-h) * .78); }
+}
+@media (prefers-reduced-motion: reduce) { .cards a { transition: none; } }

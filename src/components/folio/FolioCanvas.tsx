@@ -5,7 +5,7 @@ import { RoundedBox } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { WorkDomain } from '@/content/domains';
-import type { SheetText } from '@/content/segments';
+import type { Sheet, SheetText } from '@/content/segments';
 
 // Original GVE work folio. Every mesh and surface is generated here.
 // No models, scene code, textures, or materials from the port-3000 site.
@@ -147,7 +147,8 @@ const poses: Pose[][] = [
   [[-1.5, 1.8, 1.1, .025, 0, -.035], [1.5, 1.8, .15, -.02, .01, .035], [-1.5, -1.8, -.8, .01, -.01, -.025], [1.5, -1.8, 2.1, -.02, 0, .025]],
   [[-.1, 0, 1.1, 0, 0, -.02], [.28, .38, .15, 0, 0, .025], [-.32, -.27, -.8, 0, 0, -.035], [.8, -.82, 2.1, 0, 0, -.02]],
 ];
-function Assembly({ mode, selected, paused, reduced }: { mode: 'story' | 'object'; selected: WorkDomain; paused: boolean; reduced: boolean }) {
+// `sheets` (a business type's set) replaces the four documents, front one first.
+function Assembly({ mode, selected, sheets, paused, reduced }: { mode: 'story' | 'object'; selected: WorkDomain; sheets?: Sheet[]; paused: boolean; reduced: boolean }) {
   const root = useRef<THREE.Group>(null);
   const documents = useRef<(THREE.Group | null)[]>([]);
   const { viewport, invalidate } = useThree();
@@ -211,11 +212,11 @@ function Assembly({ mode, selected, paused, reduced }: { mode: 'story' | 'object
     if (needsFrame) invalidate();
   });
   return <group ref={root}>
-    {names.map((kind, i) => <group key={kind} position={mode === 'object' ? [i === 0 ? 0 : (i - 1.5) * .37, i === 0 ? 0 : .1, i === 0 ? 1.1 : -.85 - i * .55] : poses[0][i].slice(0, 3) as [number, number, number]} rotation={mode === 'object' ? [0, 0, i === 0 ? -.08 : (i - 1.5) * .07] : poses[0][i].slice(3) as [number, number, number]} ref={el => { documents.current[i] = el; }}><WorkDocument kind={mode === 'object' && i === active ? frontKind : kind}/></group>)}
+    {names.map((kind, i) => <group key={kind} position={mode === 'object' ? [i === 0 ? 0 : (i - 1.5) * .37, i === 0 ? 0 : .1, i === 0 ? 1.1 : -.85 - i * .55] : poses[0][i].slice(0, 3) as [number, number, number]} rotation={mode === 'object' ? [0, 0, i === 0 ? -.08 : (i - 1.5) * .07] : poses[0][i].slice(3) as [number, number, number]} ref={el => { documents.current[i] = el; }}><WorkDocument kind={sheets?.[i].kind ?? (mode === 'object' && i === active ? frontKind : kind)} text={sheets?.[i].text}/></group>)}
   </group>;
 }
 
-export default function FolioCanvas({ mode, selected, paused }: { mode: 'story' | 'object'; selected: WorkDomain; paused: boolean }) {
+export default function FolioCanvas({ mode, selected, sheets, paused }: { mode: 'story' | 'object'; selected: WorkDomain; sheets?: Sheet[]; paused: boolean }) {
   const [reduced, setReduced] = useState(true);
   const [ready, setReady] = useState(false);
   // Touch devices and narrow screens get a lighter render: lower pixel density and a smaller shadow map.
@@ -226,6 +227,6 @@ export default function FolioCanvas({ mode, selected, paused }: { mode: 'story' 
     <directionalLight position={[-4, 6, 7]} intensity={2.1} color="#fff4df" castShadow shadow-mapSize={lite ? [512, 512] : [1024, 1024]} shadow-camera-left={-8} shadow-camera-right={8} shadow-camera-top={7} shadow-camera-bottom={-7} shadow-bias={-.0005}/>
     <directionalLight position={[4, 1, 4]} intensity={1.5} color="#afdfff"/>
     <directionalLight position={[0, -3, 4]} intensity={.4} color="#79a7c3"/>
-    <Assembly mode={mode} selected={selected} paused={paused} reduced={reduced}/>
+    <Assembly mode={mode} selected={selected} sheets={sheets} paused={paused} reduced={reduced}/>
   </Canvas>;
 }

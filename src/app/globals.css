@@ -120,3 +120,4 @@ body{background:var(--bg);font-size:1rem;line-height:1.75}h1,h2,h3{font-weight:6
 /* Phones: one row that scrolls sideways, so the 3D keeps its space below. */
 @media(max-width:600px){.business-types div{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-20px;padding:2px 20px}.business-types div::-webkit-scrollbar{display:none}.business-types button{flex-shrink:0;font-size:.75rem;padding:8px 12px}}
 @media(prefers-reduced-motion:reduce){.business-types button{transition:none}}
+.business-types>a{display:inline-block;margin-top:16px;font-size:.8125rem}

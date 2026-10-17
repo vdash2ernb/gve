@@ -5,19 +5,11 @@ import { useState, type CSSProperties } from 'react';
 import { partners } from '@/content/site';
 import marks from '@/content/client-logos.json';
 import styles from './ClientLogos.module.css';
+import { logoSize as displaySize } from '@/lib/logo-size';
 
 // Navy versions of the supplied logos, made by scripts/make-client-logos.py.
 const mono = marks as Record<string, { src: string; width: number; height: number }>;
 
-// Every logo gets about the same visual area, so wide wordmarks and square badges read as
-// equally weighted: height = sqrt(area / aspect ratio), within a height and width limit.
-const AREA = 5800, MAX_HEIGHT = 74, MAX_WIDTH = 176;
-function displaySize(width: number, height: number) {
-  const aspect = width / height;
-  let h = Math.min(MAX_HEIGHT, Math.sqrt(AREA / aspect));
-  if (h * aspect > MAX_WIDTH) h = MAX_WIDTH / aspect;
-  return { width: Math.round(h * aspect), height: Math.round(h) };
-}
 
 function LogoSequence({ duplicate = false }: { duplicate?: boolean }) {
   return <ul className={`${styles.logos}${duplicate ? ` ${styles.duplicate}` : ''}`} aria-label={duplicate ? undefined : 'GVE clients'} aria-hidden={duplicate || undefined}>

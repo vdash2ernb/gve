@@ -18,8 +18,8 @@ class SceneBoundary extends Component<{ children: ReactNode; onFail?: () => void
   }
 }
 
-export default function FolioScene({ mode = 'story', selected = 'plans', paused = false }: { mode?: 'story' | 'object'; selected?: WorkDomain; paused?: boolean }) {
-  return <SceneBoundary><Canvas mode={mode} selected={selected} paused={paused}/></SceneBoundary>;
+export default function FolioScene({ mode = 'story', selected = 'plans', sheets, paused = false }: { mode?: 'story' | 'object'; selected?: WorkDomain; sheets?: Sheet[]; paused?: boolean }) {
+  return <SceneBoundary><Canvas mode={mode} selected={selected} sheets={sheets} paused={paused}/></SceneBoundary>;
 }
 
 // Homepage story: tasks handed from your business to an Expert in the Philippines and back, done.

@@ -267,6 +267,14 @@ export const services: Service[] = [
   },
 ];
 
+// "GVE's ongoing support", shown on service and business-type pages.
+export const supportPromises = [
+  { title: "Screened for the role", body: "Assessments and interviews before you meet." },
+  { title: "Your tools and hours", body: "Work scheduled around your business." },
+  { title: "Clear task reports", body: "Time tracking and daily updates." },
+  { title: "Ongoing support", body: "A client success manager to help." },
+];
+
 export const team = [
   { name: "Alma", role: "Managing Director", img: "/team/alma.webp" },
   { name: "Ernest", role: "Technical Operations Manager", img: "/team/ernest.webp" },
