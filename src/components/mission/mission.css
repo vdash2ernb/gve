@@ -123,6 +123,9 @@
   background: radial-gradient(70% 60% at 50% 42%, rgba(5, 7, 13, 0.85), rgba(5, 7, 13, 0.35) 70%, transparent);
 }
 .gvm-outro .gvm-display { font-size: clamp(2.5rem, 6.4vw, 5.25rem); }
+/* It still scrolls on very short screens, but never shows a scrollbar. */
+.gvm-outro { scrollbar-width: none; }
+.gvm-outro::-webkit-scrollbar { display: none; }
 /* The two numbers sit as one clean row, split by a hairline. */
 .gvm-facts {
   list-style: none; margin: 36px auto 0; padding: 0;
@@ -214,4 +217,14 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .gvm-bubble-globe::before { animation: none; }
+}
+
+/* Shorter windows: tighten the ending screen so it fits without scrolling. */
+@media (max-height: 940px) {
+  .gvm-outro { padding-top: 76px; padding-bottom: 24px; }
+  .gvm-outro .gvm-display { font-size: clamp(2.25rem, min(6.4vw, 9vh), 5.25rem); margin-top: 10px; }
+  .gvm-outro .gvm-lede { margin-top: 14px; }
+  .gvm-facts { margin-top: 22px; }
+  .gvm-actions { margin-top: 20px; }
+  .gvm-replay { margin-top: 12px; }
 }
