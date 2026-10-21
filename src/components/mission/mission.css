@@ -69,6 +69,8 @@
   text-align: center; padding: 96px 16px 72px;
   opacity: 0; visibility: hidden;
 }
+/* Never squash content in a short window: the outro scrolls instead. */
+.gvm-layer > * { flex-shrink: 0; }
 .gvm-eyebrow { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8cc8ff; }
 .gvm-display {
   font-family: var(--font-heading); font-weight: 700; letter-spacing: -0.035em; line-height: 1;
