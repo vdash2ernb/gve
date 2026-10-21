@@ -7,8 +7,9 @@ import * as THREE from 'three';
 import globePoints from '@/lib/globe-points.json';
 import { WorkDocument } from './FolioCanvas';
 import { generalSheets, type Sheet } from '@/content/segments';
+import { centroid, lean, MARKETS, PHILIPPINES as PH, reaim, REGION_MARKETS, visitorRegion, type LatLon, type Market } from '@/lib/markets';
 
-// "Hand it off" story for the homepage: your tasks travel from your business in the US
+// "Hand it off" story for the homepage: your tasks travel from your business
 // to your Expert in the Philippines and come back done. Progress runs from 0 (your
 // tasks) to 1 (with your Expert) to 2 (done). Desktop follows the scroll; narrow
 // screens play it as a short loop while it is on screen.
@@ -38,23 +39,33 @@ export const captions = [
   { kicker: 'Daily report', text: 'Done, and reported back to you.' },
 ];
 
-// Globe turned so the western US and the Philippines both face the camera.
+// The globe faces the Philippines and the visitor's own region; every other market is still drawn, quieter.
+// It was tuned with the western US facing the camera, and other regions get the same framing, north up.
 const R = 2.05;
 const GLOBE_AT: [number, number, number] = [.15, .55, -1.4];
 const onGlobe = (lat: number, lon: number, r = R) => new THREE.Vector3(Math.cos(lat * D2R) * Math.sin(lon * D2R) * r, Math.sin(lat * D2R) * r, Math.cos(lat * D2R) * Math.cos(lon * D2R) * r);
-const PHILIPPINES = onGlobe(14.6, 121);
-// Unlabelled points spread across the US: clients can be anywhere.
-const CLIENTS = [onGlobe(47.6, -122.3), onGlobe(34, -118.2), onGlobe(32.8, -96.8), onGlobe(41.9, -87.6)];
-const GLOBE_TURN = new THREE.Euler(0, -196.5 * D2R, 0), GLOBE_TILT = new THREE.Euler(26 * D2R, 0, 0);
+const at = ([lat, lon]: LatLon) => onGlobe(lat, lon);
+const PHILIPPINES = at(PH);
+const US_WEST: LatLon[] = [[47.6, -122.3], [34, -118.2], [32.8, -96.8], [41.9, -87.6]];
+const REGION = visitorRegion();
+const FOCUS = REGION_MARKETS[REGION];
+const TUNED = { view: { tilt: 26 * D2R, turn: -196.5 * D2R }, from: PH, to: centroid(US_WEST) };
+const REGION_AT = centroid(REGION === 'na' ? US_WEST : FOCUS.flatMap(m => MARKETS[m]));
+const AIM = reaim(TUNED.view, [PH, TUNED.to], [PH, REGION_AT]);
+// A lean (applied last, on screen) keeps the route crossing the globe as it was tuned. This globe is
+// dots rather than drawn continents, so it can lean further than the intro's before it looks odd.
+const GLOBE_TURN = new THREE.Euler(0, AIM.turn, 0), GLOBE_TILT = new THREE.Euler(AIM.tilt, 0, lean(TUNED, AIM, PH, REGION_AT, 1.05) ?? 0, 'ZYX');
+// Unlabelled points in every market: clients can be anywhere.
+const CLIENTS = (Object.entries(MARKETS) as [Market, LatLon[]][]).flatMap(([m, points]) => points.map(p => ({ at: at(p), lit: FOCUS.includes(m) })));
+const LIT = CLIENTS.filter(c => c.lit).map(c => c.at), QUIET = CLIENTS.filter(c => !c.lit).map(c => c.at);
 // Where a point on the globe ends up in the scene once the globe is turned, tilted and placed.
 const inScene = (v: THREE.Vector3) => v.clone().applyEuler(GLOBE_TURN).applyEuler(GLOBE_TILT).add(new THREE.Vector3(...GLOBE_AT));
-// Labels sit where no route passes: "Philippines" just left of its point, outside the globe,
-// and "Your business" just below the US points, since the routes leave them upwards.
-const PH_LABEL = inScene(PHILIPPINES).add(new THREE.Vector3(-.16, 0, 0));
-const US_LABEL = (() => {
-  const points = CLIENTS.map(inScene);
-  return new THREE.Vector3(points.reduce((x, p) => x + p.x, 0) / points.length, Math.min(...points.map(p => p.y)) - .14, Math.max(...points.map(p => p.z)));
-})();
+// Labels sit where no route passes: "Philippines" just outside its point, on the side away from the
+// visitor's region, and "Your business" just below the region's points facing the camera.
+const FRONT = LIT.map(inScene).filter(p => p.z - GLOBE_AT[2] > R * .1);
+const PH_SIDE: 'left' | 'right' = inScene(PHILIPPINES).x <= FRONT.reduce((x, p) => x + p.x, 0) / Math.max(1, FRONT.length) ? 'left' : 'right';
+const PH_LABEL = inScene(PHILIPPINES).add(new THREE.Vector3(PH_SIDE === 'left' ? -.16 : .16, 0, 0));
+const BUSINESS_LABEL = new THREE.Vector3(FRONT.reduce((x, p) => x + p.x, 0) / Math.max(1, FRONT.length), Math.min(...FRONT.map(p => p.y)) - .14, Math.max(...FRONT.map(p => p.z)));
 
 function arc(from: THREE.Vector3, to: THREE.Vector3) {
   const a = from.clone().normalize(), turn = new THREE.Quaternion().setFromUnitVectors(a, to.clone().normalize());
@@ -64,7 +75,8 @@ function arc(from: THREE.Vector3, to: THREE.Vector3) {
   });
   return new THREE.CatmullRomCurve3(points);
 }
-const ROUTES = CLIENTS.map(client => arc(client, PHILIPPINES));
+const ROUTES = LIT.map(client => arc(client, PHILIPPINES));
+const QUIET_ROUTES = QUIET.map(client => arc(client, PHILIPPINES));
 
 function textTexture(width: number, height: number, draw: (c: CanvasRenderingContext2D) => void) {
   const canvas = document.createElement('canvas');
@@ -79,7 +91,7 @@ function textTexture(width: number, height: number, draw: (c: CanvasRenderingCon
 // scene is drawn. `side` sets which side of the point the label sits on.
 // The portal is the canvas wrapper from the first render. Left to itself, <Html> starts in another
 // element and moves once pointer events connect, remounting mid-render and logging a React error.
-function Label({ at, text, side }: { at: THREE.Vector3; text: string; side: 'left' | 'below' }) {
+function Label({ at, text, side }: { at: THREE.Vector3; text: string; side: 'left' | 'right' | 'below' }) {
   const gl = useThree(s => s.gl);
   const portal = useMemo(() => ({ current: gl.domElement.closest<HTMLElement>('.folio-canvas') }), [gl]);
   return <Html position={at} portal={portal as RefObject<HTMLElement>} zIndexRange={[2, 0]} pointerEvents="none"><span className={`globe-label globe-label-${side}`}>{text}</span></Html>;
@@ -88,14 +100,16 @@ function Label({ at, text, side }: { at: THREE.Vector3; text: string; side: 'lef
 function Globe({ packets, pulse }: { packets: RefObject<(THREE.Mesh | null)[]>; pulse: RefObject<THREE.Mesh | null> }) {
   const dots = useMemo(() => new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute((globePoints as number[]).map(v => v * R), 3)), []);
   const tubes = useMemo(() => ROUTES.map(route => new THREE.TubeGeometry(route, 80, .014, 6, false)), []);
+  const quiet = useMemo(() => QUIET_ROUTES.map(route => new THREE.TubeGeometry(route, 80, .01, 6, false)), []);
   const facing = useMemo(() => new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), PHILIPPINES.clone().normalize()), []);
-  useEffect(() => () => { dots.dispose(); tubes.forEach(tube => tube.dispose()); }, [dots, tubes]);
+  useEffect(() => () => { dots.dispose(); tubes.forEach(tube => tube.dispose()); quiet.forEach(tube => tube.dispose()); }, [dots, tubes, quiet]);
   return <><group position={GLOBE_AT} rotation={GLOBE_TILT}>
     <group rotation={GLOBE_TURN}>
       <mesh><sphereGeometry args={[R * .985, 48, 32]}/><meshBasicMaterial color="#012b52"/></mesh>
       <points geometry={dots}><pointsMaterial color={ICE} size={.035} transparent opacity={.75}/></points>
       {tubes.map((tube, i) => <mesh key={i} geometry={tube}><meshBasicMaterial color={GOLD} transparent opacity={.55}/></mesh>)}
-      {CLIENTS.map((client, i) => <mesh key={i} position={client}><sphereGeometry args={[.055, 12, 12]}/><meshBasicMaterial color={GOLD}/></mesh>)}
+      {quiet.map((tube, i) => <mesh key={i} geometry={tube}><meshBasicMaterial color={ICE} transparent opacity={.3}/></mesh>)}
+      {CLIENTS.map((client, i) => <mesh key={i} position={client.at}><sphereGeometry args={[client.lit ? .055 : .042, 12, 12]}/><meshBasicMaterial color={client.lit ? GOLD : ICE}/></mesh>)}
       <group position={PHILIPPINES}>
         <mesh><sphereGeometry args={[.08, 16, 16]}/><meshBasicMaterial color={GOLD}/></mesh>
         <mesh ref={pulse} quaternion={facing}><ringGeometry args={[.11, .14, 32]}/><meshBasicMaterial color={GOLD} transparent opacity={.6} side={THREE.DoubleSide}/></mesh>
@@ -103,8 +117,8 @@ function Globe({ packets, pulse }: { packets: RefObject<(THREE.Mesh | null)[]>; 
       {ROUTES.map((route, i) => <mesh key={i} ref={el => { packets.current[i] = el; }} position={route.getPoint(0)}><sphereGeometry args={[.06, 12, 12]}/><meshBasicMaterial color="#ffd27a"/></mesh>)}
     </group>
   </group>
-  <Label at={US_LABEL} text="Your business" side="below"/>
-  <Label at={PH_LABEL} text="Philippines" side="left"/>
+  {FRONT.length > 0 && <Label at={BUSINESS_LABEL} text="Your business" side="below"/>}
+  <Label at={PH_LABEL} text="Philippines" side={PH_SIDE}/>
   </>;
 }
 

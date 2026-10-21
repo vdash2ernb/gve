@@ -499,3 +499,21 @@ export function createArc(curve) {
   });
   return { mesh: new THREE.Mesh(new THREE.TubeGeometry(curve, 200, 0.035, 8, false), mat), mat };
 }
+
+/* ---------- Markets ---------- */
+
+// Quiet routes from the Philippines to every market, with a dot on each. The visitor's region is lit amber.
+export function createMarkets(items) {
+  const group = new THREE.Group();
+  const lit = { route: new THREE.MeshBasicMaterial({ color: C.amber, transparent: true, opacity: 0.45, depthWrite: false }), dot: new THREE.MeshBasicMaterial({ color: C.amber }) };
+  const quiet = { route: new THREE.MeshBasicMaterial({ color: C.sky, transparent: true, opacity: 0.3, depthWrite: false }), dot: new THREE.MeshBasicMaterial({ color: C.sky }) };
+  const dotGeo = new THREE.SphereGeometry(0.055, 12, 12);
+  for (const { curve, at, lit: on } of items) {
+    const m = on ? lit : quiet;
+    group.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 96, 0.014, 6, false), m.route));
+    const dot = new THREE.Mesh(dotGeo, m.dot);
+    dot.position.copy(at);
+    group.add(dot);
+  }
+  return { group };
+}

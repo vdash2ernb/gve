@@ -2,7 +2,8 @@
 // createMission() builds everything inside `root` and returns destroy() to tear it all down.
 import * as THREE from "three";
 import gsap from "gsap";
-import { C, latLon, createBackdrop, createPlanet, createPod, createTask, taskKinds, createSatellite, createConstellation, createArc } from "./world";
+import { C, latLon, createBackdrop, createPlanet, createPod, createTask, taskKinds, createSatellite, createConstellation, createArc, createMarkets } from "./world";
+import { LANDING, lean, MARKETS, PHILIPPINES, REGION_MARKETS, reaim, visitorRegion } from "@/lib/markets";
 
 const MARKUP = `
   <canvas class="gvm-gl" aria-hidden="true"></canvas>
@@ -83,32 +84,61 @@ export function createMission(root, { onExit }) {
 
   const R = 3;
   const planet = createPlanet(R);
-  // Tilt so the Pacific (Philippines ↔ US West Coast) faces the camera.
-  planet.group.rotation.set(0.42, -Math.PI + 0.05, 0);
+  // The flight goes from the Philippines to the visitor's own region. The globe was tuned with the
+  // Philippines ↔ US West Coast route facing the camera; other regions get the same framing, north up.
+  const region = visitorRegion();
+  const landing = LANDING[region];
+  const aim = reaim({ tilt: 0.42, turn: -Math.PI + 0.05 }, [PHILIPPINES, LANDING.na], [PHILIPPINES, landing]);
+  planet.group.rotation.set(aim.tilt, aim.turn, 0);
+  // Lean the globe a little so the route crosses the screen at the tuned angle instead of hanging low.
+  const tilted = lean({ view: { tilt: 0.42, turn: -Math.PI + 0.05 }, from: PHILIPPINES, to: LANDING.na }, aim, PHILIPPINES, landing);
+  if (tilted !== null) {
+    planet.group.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), tilted));
+  } else {
+    // Australia and New Zealand lie almost due south of the Philippines: leaning would tip the globe
+    // over. Keep it upright, with the landing just above the middle of the globe and the Philippines above.
+    const face = latLon(22, 15, 1);
+    const [lat, lon] = landing.map(THREE.MathUtils.degToRad);
+    const reach = Math.hypot(face.y, face.z), toward = Math.atan2(face.z, face.y);
+    const tilt = toward - Math.acos(THREE.MathUtils.clamp(Math.sin(lat) / reach, -1, 1));
+    const turn = Math.atan2(face.x, -face.y * Math.sin(tilt) + face.z * Math.cos(tilt)) - lon;
+    planet.group.rotation.set(tilt, turn, 0);
+  }
   scene.add(planet.group);
   planet.group.updateMatrixWorld(true);
 
-  const onPlanet = (lat, lon, r) => planet.group.localToWorld(latLon(lat, lon, r));
-  const MNL = { lat: 14.6, lon: 121.0 }; // Manila
-  const SEA = { lat: 47.6, lon: -122.3 }; // Seattle
+  const onPlanet = ([lat, lon], r) => planet.group.localToWorld(latLon(lat, lon, r));
+  const arcPoints = (from, to, lift, height) => {
+    const a = latLon(...from, 1);
+    const b = latLon(...to, 1);
+    const pts = [];
+    for (let i = 0; i <= 64; i++) {
+      const t = i / 64;
+      pts.push(planet.group.localToWorld(new THREE.Vector3().copy(a).lerp(b, t).normalize().multiplyScalar(R + lift + height * Math.sin(Math.PI * t))));
+    }
+    return new THREE.CatmullRomCurve3(pts);
+  };
 
-  // Flight path over the Pacific
-  const a = latLon(MNL.lat, MNL.lon, 1);
-  const b = latLon(SEA.lat, SEA.lon, 1);
-  const arcPts = [];
-  for (let i = 0; i <= 64; i++) {
-    const t = i / 64;
-    const p = new THREE.Vector3().copy(a).lerp(b, t).normalize();
-    arcPts.push(planet.group.localToWorld(p.multiplyScalar(R + 0.5 + 1.3 * Math.sin(Math.PI * t))));
-  }
-  const route = new THREE.CatmullRomCurve3(arcPts);
+  // The Expert's flight path
+  const route = arcPoints(PHILIPPINES, landing, 0.5, 1.3);
   const arc = createArc(route);
   scene.add(arc.mesh);
 
-  const mnlSurface = onPlanet(MNL.lat, MNL.lon, R * 1.02);
-  const seaSurface = onPlanet(SEA.lat, SEA.lon, R * 1.02);
+  // Every other market GVE serves: quiet routes and dots, so the globe never reads as one country.
+  const focus = REGION_MARKETS[region];
+  const markets = createMarkets(
+    Object.entries(MARKETS).flatMap(([market, points]) =>
+      points.map((p) => ({ curve: arcPoints(PHILIPPINES, p, 0.06, 0.55), at: onPlanet(p, R * 1.01), lit: focus.includes(market) })),
+    ),
+  );
+  scene.add(markets.group);
+
+  const mnlSurface = onPlanet(PHILIPPINES, R * 1.02);
+  const destSurface = onPlanet(landing, R * 1.02);
   const routeStart = route.getPoint(0);
   const routeEnd = route.getPoint(1);
+  // Routes heading left of the Philippines mirror the camera moves that follow the flight.
+  const side = routeEnd.x < routeStart.x ? -1 : 1;
 
   // Expert pod
   const pod = createPod();
@@ -123,7 +153,7 @@ export function createMission(root, { onExit }) {
   const range = (lo, hi) => lo + rnd() * (hi - lo);
 
   // Every camera stop in the story; nothing may sit on the path between them.
-  const CAM_PATH = [[0, -0.6, 15.5], [2.2, 2.4, 7.2], [0, 3.6, 9.8], [1.6, 3.4, 8.2], [3.4, 4.2, 9.5], [0.4, 2.2, 11.5], [0, -0.6, 14.5]].map(
+  const CAM_PATH = [[0, -0.6, 15.5], [2.2, 2.4, 7.2], [0, 3.6, 9.8], [1.6 * side, 3.4, 8.2], [3.4 * side, 4.2, 9.5], [0.4, 2.2, 11.5], [0, -0.6, 14.5]].map(
     (p) => new THREE.Vector3(...p),
   );
   const seg = new THREE.Line3();
@@ -228,8 +258,8 @@ export function createMission(root, { onExit }) {
   };
 
   const pins = [
-    { el: q("[data-pin-mnl]"), pos: mnlSurface, side: -1 },
-    { el: q("[data-pin-sea]"), pos: seaSurface, side: 1 },
+    { el: q("[data-pin-mnl]"), pos: mnlSurface, side: -side },
+    { el: q("[data-pin-sea]"), pos: destSurface, side },
   ];
   const tmp = new THREE.Vector3();
   const updatePins = () => {
@@ -277,7 +307,7 @@ export function createMission(root, { onExit }) {
   tl.to(pins[0].el, { opacity: 1, duration: 0.6 }, 6.4);
   tl.to(pins[1].el, { opacity: 1, duration: 0.6 }, 6.8);
 
-  // 3 · Across the Pacific, onto your hours
+  // 3 · Across the world, onto your hours
   const flight = { t: 0 };
   tl.to(pod.flame.material, { opacity: 0.8, duration: 0.4 }, 7.6);
   tl.to(flight, {
@@ -290,12 +320,12 @@ export function createMission(root, { onExit }) {
     },
   }, 7.8);
   tl.call(() => setCaption("Working *your* hours, in your time zone.", "4- or 8-hour shifts. Hired in 5–10 business days."), null, 8.6);
-  cam([1.6, 3.4, 8.2], [0.8, 2.0, 0], 4, 7.8);
+  cam([1.6 * side, 3.4, 8.2], [0.8 * side, 2.0, 0], 4, 7.8);
   tl.to(pod.flame.material, { opacity: 0, duration: 0.5 }, 11.6);
 
   // 4 · The Expert takes the overflow
   tl.call(() => setCaption("They take the *overflow*.", "Your inbox, calendar and billing, handled."), null, 12.2);
-  cam([3.4, 4.2, 9.5], [routeEnd.x * 0.6, routeEnd.y, routeEnd.z * 0.6], 3.4, 12.0);
+  cam([3.4 * side, 4.2, 9.5], [routeEnd.x * 0.6, routeEnd.y, routeEnd.z * 0.6], 3.4, 12.0);
   tl.to(rig, { chaos: 0.2, duration: 2 }, 12.2);
   const order = [...tasks].sort((p, q) => p.position.distanceTo(routeEnd) - q.position.distanceTo(routeEnd));
   order.forEach((t, i) => {
