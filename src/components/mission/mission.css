@@ -98,6 +98,12 @@
   background: #ffa600; color: #03233c; font-size: 1.05rem; transition: transform 0.3s;
 }
 .gvm-begin:hover .gvm-begin-icon { transform: translateX(3px); }
+/* The countdown before the story starts by itself: a ring filling around the arrow. */
+.gvm-begin-icon { position: relative; }
+.gvm-begin-ring { position: absolute; inset: -5px; width: calc(100% + 10px); height: calc(100% + 10px); transform: rotate(-90deg); pointer-events: none; }
+.gvm-begin-ring circle { fill: none; stroke: #ffa600; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 138.3; stroke-dashoffset: 138.3; opacity: 0; }
+.gvm-begin.is-counting .gvm-begin-ring circle { opacity: 0.9; animation: gvm-count var(--gvm-count, 4s) linear forwards; }
+@keyframes gvm-count { to { stroke-dashoffset: 0; } }
 
 .gvm-captions { justify-content: flex-end; padding-bottom: 13vh; pointer-events: none; }
 .gvm-caption {

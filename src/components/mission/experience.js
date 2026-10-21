@@ -19,7 +19,7 @@ const MARKUP = `
     <h2 class="gvm-display">Get your <em>time</em> back.</h2>
     <p class="gvm-lede">Skilled virtual experts in the Philippines take the admin off your plate.</p>
     <button type="button" class="gvm-begin" data-begin>
-      <span>Begin your mission</span><span class="gvm-begin-icon" aria-hidden="true">→</span>
+      <span>Begin your mission</span><span class="gvm-begin-icon" aria-hidden="true">→<svg class="gvm-begin-ring" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" /></svg></span>
     </button>
   </section>
 
@@ -50,6 +50,9 @@ const MARKUP = `
 
   <div class="gvm-progress" aria-hidden="true"><span data-progress></span></div>
 `;
+
+// The story starts by itself this long after the welcome screen appears, unless the visitor starts it first.
+const AUTO_START = 4;
 
 export function createMission(root, { onExit }) {
   root.innerHTML = MARKUP;
@@ -389,15 +392,31 @@ export function createMission(root, { onExit }) {
   /* ---------- Controls ---------- */
 
   let introReveal;
+  let autoStart;
   const listeners = [];
   const on = (el, type, fn) => {
     el.addEventListener(type, fn);
     listeners.push(() => el.removeEventListener(type, fn));
   };
-  on(q("[data-begin]"), "click", () => {
+  const beginEl = q("[data-begin]");
+  const begin = () => {
+    autoStart?.kill();
+    beginEl.classList.remove("is-counting");
     introReveal?.kill(); // a still-running fade-in would otherwise keep the headline on screen
     tl.play();
-  });
+  };
+  // A ring fills around the arrow while the welcome screen waits, then the story starts.
+  // Visitors who ask for less motion start it themselves.
+  const countdown = () => {
+    autoStart?.kill();
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    beginEl.classList.remove("is-counting");
+    void beginEl.offsetWidth; // restart the ring's animation
+    beginEl.style.setProperty("--gvm-count", `${AUTO_START}s`);
+    beginEl.classList.add("is-counting");
+    autoStart = gsap.delayedCall(AUTO_START, begin);
+  };
+  on(beginEl, "click", begin);
   on(q("[data-skip]"), "click", () => onExit());
   on(q("[data-enter]"), "click", () => onExit());
   on(q("[data-call]"), "click", () => onExit({ navigating: true }));
@@ -411,6 +430,7 @@ export function createMission(root, { onExit }) {
     for (const t of tasks) t.position.copy(t.userData.home);
     progressEl.style.width = "0";
     introReveal = gsap.to(introEl, { autoAlpha: 1, y: 0, duration: 0.8, delay: 0.2 });
+    countdown();
   });
   on(window, "keydown", (e) => e.key === "Escape" && onExit());
   on(window, "pointermove", (e) => {
@@ -483,13 +503,15 @@ export function createMission(root, { onExit }) {
   renderer.compile(scene, camera);
   raf = requestAnimationFrame(frame);
   introReveal = gsap.fromTo(introEl, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 1.1, delay: 0.2, ease: "power3.out" });
-  q("[data-begin]").focus({ preventScroll: true });
+  beginEl.focus({ preventScroll: true });
+  countdown();
 
   return {
     destroy() {
       cancelAnimationFrame(raf);
       tl.kill();
       introReveal?.kill();
+      autoStart?.kill();
       gsap.killTweensOf([captionEl.querySelectorAll(".gvm-w"), subEl]);
       listeners.forEach((off) => off());
       removeEventListener("resize", resize);
