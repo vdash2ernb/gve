@@ -3,13 +3,13 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useLenis } from "./SmoothScroll";
 import { setIntroOpen, useIntroOpen } from "./mission/introState";
-import { decideIntro, INTRO_SEEN_KEY } from "./mission/decide";
+import { decideIntro } from "./mission/decide";
 import "./mission/mission.css";
 
 type Mission = { destroy: () => void };
 type Phase = "closed" | "open" | "closing";
 
-// The homepage shows first; a first-time visitor's intro opens on top of it after this pause.
+// The homepage shows first; the intro opens on top of it after this pause.
 const AUTO_OPEN_DELAY = 900;
 const SWIPE_CLOSE = 110;
 
@@ -45,7 +45,7 @@ function bubbleTransform(panel: HTMLElement, bubble: HTMLElement | null) {
 }
 
 /**
- * The 3D intro as a framed window over the homepage. It opens once for first-time visitors (or with ?intro),
+ * The 3D intro as a framed window over the homepage. It opens every time the homepage loads (or with ?intro),
  * and a small bubble in the corner brings it back. Phones get a bottom sheet that can be swiped down.
  */
 export default function MissionIntro() {
@@ -78,9 +78,6 @@ export default function MissionIntro() {
   const close = useCallback(({ navigating = false } = {}) => {
     if (closing.current) return;
     closing.current = true;
-    try {
-      localStorage.setItem(INTRO_SEEN_KEY, "1");
-    } catch {}
     setIntroOpen(false);
     if (navigating) return; // the call link loads a new page
     setPhase("closing");
@@ -105,7 +102,7 @@ export default function MissionIntro() {
     ).onfinish = done;
   }, []);
 
-  // First-time visitors see the homepage for a moment, then the intro opens on top.
+  // Visitors see the homepage for a moment, then the intro opens on top.
   useEffect(() => {
     if (!autoplay.current || !supported) return;
     const t = window.setTimeout(show, AUTO_OPEN_DELAY);
