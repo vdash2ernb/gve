@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import globePoints from '@/lib/globe-points.json';
 import { WorkDocument } from './FolioCanvas';
 import { generalSheets, type Sheet } from '@/content/segments';
-import { centroid, lean, MARKETS, PHILIPPINES as PH, reaim, REGION_MARKETS, visitorRegion, type LatLon, type Market } from '@/lib/markets';
+import { centroid, LANDING, lean, MARKETS, PHILIPPINES as PH, reaim, REGION_MARKETS, visitorRegion, type LatLon, type Market } from '@/lib/markets';
 
 // "Hand it off" story for the homepage: your tasks travel from your business
 // to your Expert in the Philippines and come back done. Progress runs from 0 (your
@@ -55,17 +55,17 @@ const AIM = reaim(TUNED.view, [PH, TUNED.to], [PH, REGION_AT]);
 // A lean (applied last, on screen) keeps the route crossing the globe as it was tuned. This globe is
 // dots rather than drawn continents, so it can lean further than the intro's before it looks odd.
 const GLOBE_TURN = new THREE.Euler(0, AIM.turn, 0), GLOBE_TILT = new THREE.Euler(AIM.tilt, 0, lean(TUNED, AIM, PH, REGION_AT, 1.05) ?? 0, 'ZYX');
-// Unlabelled points in every market: clients can be anywhere.
+// Unlabelled points in every market: clients can be anywhere. The visitor's region is lit.
 const CLIENTS = (Object.entries(MARKETS) as [Market, LatLon[]][]).flatMap(([m, points]) => points.map(p => ({ at: at(p), lit: FOCUS.includes(m) })));
-const LIT = CLIENTS.filter(c => c.lit).map(c => c.at), QUIET = CLIENTS.filter(c => !c.lit).map(c => c.at);
+const BUSINESS = at(LANDING[REGION]);
 // Where a point on the globe ends up in the scene once the globe is turned, tilted and placed.
 const inScene = (v: THREE.Vector3) => v.clone().applyEuler(GLOBE_TURN).applyEuler(GLOBE_TILT).add(new THREE.Vector3(...GLOBE_AT));
+const facesCamera = (v: THREE.Vector3) => inScene(v).z - GLOBE_AT[2] > R * .1;
 // Labels sit where no route passes: "Philippines" just outside its point, on the side away from the
-// visitor's region, and "Your business" just below the region's points facing the camera.
-const FRONT = LIT.map(inScene).filter(p => p.z - GLOBE_AT[2] > R * .1);
-const PH_SIDE: 'left' | 'right' = inScene(PHILIPPINES).x <= FRONT.reduce((x, p) => x + p.x, 0) / Math.max(1, FRONT.length) ? 'left' : 'right';
+// visitor's business, and "Your business" just below that point.
+const PH_SIDE: 'left' | 'right' = inScene(PHILIPPINES).x <= inScene(BUSINESS).x ? 'left' : 'right';
 const PH_LABEL = inScene(PHILIPPINES).add(new THREE.Vector3(PH_SIDE === 'left' ? -.16 : .16, 0, 0));
-const BUSINESS_LABEL = new THREE.Vector3(FRONT.reduce((x, p) => x + p.x, 0) / Math.max(1, FRONT.length), Math.min(...FRONT.map(p => p.y)) - .14, Math.max(...FRONT.map(p => p.z)));
+const BUSINESS_LABEL = inScene(BUSINESS).add(new THREE.Vector3(0, -.14, 0));
 
 function arc(from: THREE.Vector3, to: THREE.Vector3) {
   const a = from.clone().normalize(), turn = new THREE.Quaternion().setFromUnitVectors(a, to.clone().normalize());
@@ -75,8 +75,11 @@ function arc(from: THREE.Vector3, to: THREE.Vector3) {
   });
   return new THREE.CatmullRomCurve3(points);
 }
-const ROUTES = LIT.map(client => arc(client, PHILIPPINES));
-const QUIET_ROUTES = QUIET.map(client => arc(client, PHILIPPINES));
+// One route, from the visitor's business. Every other market gets a passing arc now and then
+// (drawn out from the Philippines, then faded), only while it faces the camera.
+const ROUTES = [arc(BUSINESS, PHILIPPINES)];
+const PASSING = CLIENTS.filter(c => !c.lit && facesCamera(c.at)).map(c => arc(PHILIPPINES, c.at));
+const PASS_EVERY = 2.2, PASS_FOR = 3.2;
 
 function textTexture(width: number, height: number, draw: (c: CanvasRenderingContext2D) => void) {
   const canvas = document.createElement('canvas');
@@ -97,19 +100,23 @@ function Label({ at, text, side }: { at: THREE.Vector3; text: string; side: 'lef
   return <Html position={at} portal={portal as RefObject<HTMLElement>} zIndexRange={[2, 0]} pointerEvents="none"><span className={`globe-label globe-label-${side}`}>{text}</span></Html>;
 }
 
-function Globe({ packets, pulse }: { packets: RefObject<(THREE.Mesh | null)[]>; pulse: RefObject<THREE.Mesh | null> }) {
+type Markets = { halos: (THREE.Mesh | null)[]; passes: (THREE.Mesh | null)[] };
+function Globe({ packets, pulse, markets }: { packets: RefObject<(THREE.Mesh | null)[]>; pulse: RefObject<THREE.Mesh | null>; markets: RefObject<Markets> }) {
   const dots = useMemo(() => new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute((globePoints as number[]).map(v => v * R), 3)), []);
   const tubes = useMemo(() => ROUTES.map(route => new THREE.TubeGeometry(route, 80, .014, 6, false)), []);
-  const quiet = useMemo(() => QUIET_ROUTES.map(route => new THREE.TubeGeometry(route, 80, .01, 6, false)), []);
+  const passing = useMemo(() => PASSING.map(route => new THREE.TubeGeometry(route, 80, .01, 6, false)), []);
   const facing = useMemo(() => new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), PHILIPPINES.clone().normalize()), []);
-  useEffect(() => () => { dots.dispose(); tubes.forEach(tube => tube.dispose()); quiet.forEach(tube => tube.dispose()); }, [dots, tubes, quiet]);
+  useEffect(() => () => { dots.dispose(); tubes.forEach(tube => tube.dispose()); passing.forEach(tube => tube.dispose()); }, [dots, tubes, passing]);
   return <><group position={GLOBE_AT} rotation={GLOBE_TILT}>
     <group rotation={GLOBE_TURN}>
       <mesh><sphereGeometry args={[R * .985, 48, 32]}/><meshBasicMaterial color="#012b52"/></mesh>
       <points geometry={dots}><pointsMaterial color={ICE} size={.035} transparent opacity={.75}/></points>
       {tubes.map((tube, i) => <mesh key={i} geometry={tube}><meshBasicMaterial color={GOLD} transparent opacity={.55}/></mesh>)}
-      {quiet.map((tube, i) => <mesh key={i} geometry={tube}><meshBasicMaterial color={ICE} transparent opacity={.3}/></mesh>)}
-      {CLIENTS.map((client, i) => <mesh key={i} position={client.at}><sphereGeometry args={[client.lit ? .055 : .042, 12, 12]}/><meshBasicMaterial color={client.lit ? GOLD : ICE}/></mesh>)}
+      {passing.map((tube, i) => <mesh key={i} ref={el => { markets.current.passes[i] = el; }} geometry={tube} visible={false}><meshBasicMaterial color={ICE} transparent opacity={0} depthWrite={false}/></mesh>)}
+      {CLIENTS.map((client, i) => <group key={i} position={client.at}>
+        <mesh><sphereGeometry args={[client.lit ? .055 : .042, 12, 12]}/><meshBasicMaterial color={client.lit ? GOLD : ICE}/></mesh>
+        <mesh ref={el => { markets.current.halos[i] = el; }}><sphereGeometry args={[client.lit ? .1 : .08, 16, 16]}/><meshBasicMaterial color={client.lit ? GOLD : ICE} transparent opacity={.2} depthWrite={false}/></mesh>
+      </group>)}
       <group position={PHILIPPINES}>
         <mesh><sphereGeometry args={[.08, 16, 16]}/><meshBasicMaterial color={GOLD}/></mesh>
         <mesh ref={pulse} quaternion={facing}><ringGeometry args={[.11, .14, 32]}/><meshBasicMaterial color={GOLD} transparent opacity={.6} side={THREE.DoubleSide}/></mesh>
@@ -117,7 +124,7 @@ function Globe({ packets, pulse }: { packets: RefObject<(THREE.Mesh | null)[]>; 
       {ROUTES.map((route, i) => <mesh key={i} ref={el => { packets.current[i] = el; }} position={route.getPoint(0)}><sphereGeometry args={[.06, 12, 12]}/><meshBasicMaterial color="#ffd27a"/></mesh>)}
     </group>
   </group>
-  {FRONT.length > 0 && <Label at={BUSINESS_LABEL} text="Your business" side="below"/>}
+  {facesCamera(BUSINESS) && <Label at={BUSINESS_LABEL} text="Your business" side="below"/>}
   <Label at={PH_LABEL} text="Philippines" side={PH_SIDE}/>
   </>;
 }
@@ -194,6 +201,7 @@ function Assembly({ paused, auto, panel, sheets, onStage }: { paused: boolean; a
   const badges = useRef<(THREE.Mesh | null)[]>([]);
   const packets = useRef<(THREE.Mesh | null)[]>([]);
   const pulse = useRef<THREE.Mesh>(null);
+  const markets = useRef<Markets>({ halos: [], passes: [] });
   const { viewport, invalidate, gl } = useThree();
   const progress = useRef(0), wanted = useRef(0), stage = useRef(-1);
   const pointer = useRef({ x: 0, y: 0 });
@@ -329,6 +337,26 @@ function Assembly({ paused, auto, panel, sheets, onStage }: { paused: boolean; a
       pulse.current.scale.setScalar(1 + beat * 1.6);
       (pulse.current.material as THREE.MeshBasicMaterial).opacity = .6 * (1 - beat);
     }
+    // Every market glows softly, each on its own beat.
+    markets.current.halos.forEach((halo, i) => {
+      if (!halo) return;
+      const beat = playing ? ((clock.elapsedTime + i * .37) % 2.4) / 2.4 : .3;
+      halo.scale.setScalar(1 + beat * 1.4);
+      (halo.material as THREE.MeshBasicMaterial).opacity = .35 * (1 - beat);
+    });
+    // A passing arc draws out to one market at a time, then fades.
+    const turn = Math.floor(clock.elapsedTime / PASS_EVERY);
+    markets.current.passes.forEach((pass, i) => {
+      if (!pass) return;
+      const count = markets.current.passes.length;
+      let age = -1;
+      for (let back = 0; back * PASS_EVERY < PASS_FOR; back++) if ((turn - back) % count === i && turn - back >= 0) { age = clock.elapsedTime - (turn - back) * PASS_EVERY; break; }
+      pass.visible = playing && age >= 0 && age < PASS_FOR;
+      if (!pass.visible) return;
+      const e = age / PASS_FOR, grow = Math.min(1, e / .45), index = pass.geometry.index!.count;
+      pass.geometry.setDrawRange(0, Math.floor(index * grow / 36) * 36);
+      (pass.material as THREE.MeshBasicMaterial).opacity = .7 * (e < .6 ? 1 : 1 - (e - .6) / .4);
+    });
 
     const fading = still && (fade.current < 1 || p !== (auto ? shown.current : Math.round(wanted.current)));
     if (playing || fading || flipAt >= 0 || flip.current.pending || Math.abs(wanted.current - progress.current) > .001) invalidate();
@@ -340,7 +368,7 @@ function Assembly({ paused, auto, panel, sheets, onStage }: { paused: boolean; a
   });
 
   return <group ref={root}>
-    <Globe packets={packets} pulse={pulse}/>
+    <Globe packets={packets} pulse={pulse} markets={markets}/>
     <ExpertCard/>
     {onSheet.map((sheet, i) => <group key={i} ref={el => { docs.current[i] = el; }} position={desk[i].p} rotation={desk[i].r} scale={DOC_SCALE}>
       <WorkDocument kind={sheet.kind} text={sheet.text}/>

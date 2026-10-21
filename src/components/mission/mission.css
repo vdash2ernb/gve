@@ -118,24 +118,36 @@
 }
 .gvm-pin span { width: 8px; height: 8px; border-radius: 50%; background: #ffa600; box-shadow: 0 0 10px #ffa600; }
 
-.gvm-outro { justify-content: safe center; overflow-y: auto; background: radial-gradient(60% 55% at 50% 50%, rgba(5, 7, 13, 0.72), transparent 75%); }
+.gvm-outro {
+  justify-content: safe center; overflow-y: auto;
+  background: radial-gradient(70% 60% at 50% 42%, rgba(5, 7, 13, 0.85), rgba(5, 7, 13, 0.35) 70%, transparent);
+}
+.gvm-outro .gvm-display { font-size: clamp(2.5rem, 6.4vw, 5.25rem); }
+/* The two numbers sit as one clean row, split by a hairline. */
 .gvm-facts {
-  list-style: none; margin: 34px auto 0; padding: 0; width: 100%; max-width: 520px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-  background: rgba(255, 255, 255, 0.09); border: 1px solid rgba(255, 255, 255, 0.09); border-radius: 4px; overflow: hidden;
+  list-style: none; margin: 36px auto 0; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr; width: 100%; max-width: 460px;
 }
-.gvm-facts li { background: rgba(5, 7, 13, 0.82); padding: 18px 12px; }
-.gvm-facts b { display: block; font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.25rem); letter-spacing: -0.03em; }
-.gvm-facts span { display: block; margin-top: 4px; font-size: 0.8125rem; color: #b9cbd8; }
-.gvm-actions { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.gvm-facts li { padding: 0 20px; }
+.gvm-facts li + li { border-left: 1px solid rgba(140, 200, 255, 0.22); }
+.gvm-facts b { display: block; font-family: var(--font-heading); font-weight: 700; font-size: clamp(2rem, 3.6vw, 2.75rem); line-height: 1; letter-spacing: -0.03em; }
+.gvm-facts span { display: block; margin-top: 10px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8fa4c4; }
+.gvm-actions { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+/* Matches the site's amber pill button in shape and size. */
 .gvm-enter {
-  min-height: 52px; padding: 14px 24px; border-radius: 2px;
-  background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.3);
-  font: 700 0.875rem/1.4 var(--font-body); transition: border-color 0.2s, color 0.2s;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 54px; padding: 16px 26px; border-radius: 100px;
+  background: rgba(5, 7, 13, 0.55); color: #fff; border: 1px solid rgba(255, 255, 255, 0.28);
+  font: 500 0.875rem/1.4 var(--font-body); backdrop-filter: blur(8px);
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
 }
-.gvm-enter:hover { border-color: #ffa600; color: #ffa600; }
-.gvm-replay { margin-top: 18px; background: none; border: 0; color: #8fa4c4; font: 600 0.8125rem var(--font-body); text-decoration: underline; text-underline-offset: 4px; }
-.gvm-replay:hover { color: #fff; }
+.gvm-enter:hover { border-color: #ffa600; color: #ffa600; transform: translateY(-2px); }
+.gvm-replay {
+  display: grid; place-items: center; width: 40px; height: 40px; margin-top: 22px; padding: 0; border-radius: 50%;
+  background: transparent; border: 1px solid rgba(255, 255, 255, 0.18); color: #8fa4c4;
+  transition: color 0.2s, border-color 0.2s, transform 0.4s;
+}
+.gvm-replay:hover { color: #fff; border-color: #ffa600; transform: rotate(-120deg); }
 
 .gvm-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; z-index: 3; }
 .gvm-progress span { display: block; height: 100%; width: 0; background: #ffa600; }
@@ -146,6 +158,7 @@
   .gvm-logo { width: 96px; height: 66px; }
   .gvm-captions { padding-bottom: 12vh; }
   .gvm-outro { padding-top: 84px; padding-bottom: 32px; }
+  .gvm-facts li { padding: 0 12px; }
 }
 
 /* Phones: a bottom sheet with a strip of the homepage showing above it. */

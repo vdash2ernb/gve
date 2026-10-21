@@ -502,18 +502,58 @@ export function createArc(curve) {
 
 /* ---------- Markets ---------- */
 
-// Quiet routes from the Philippines to every market, with a dot on each. The visitor's region is lit amber.
-export function createMarkets(items) {
+// A softly glowing dot on every market (the visitor's region in amber), and now and then a thin arc
+// drawn out from the Philippines to one of the others, then faded. Arcs only go to markets facing the camera.
+export function createMarkets(items, { every = 2.2, life = 3.2 } = {}) {
   const group = new THREE.Group();
-  const lit = { route: new THREE.MeshBasicMaterial({ color: C.amber, transparent: true, opacity: 0.45, depthWrite: false }), dot: new THREE.MeshBasicMaterial({ color: C.amber }) };
-  const quiet = { route: new THREE.MeshBasicMaterial({ color: C.sky, transparent: true, opacity: 0.3, depthWrite: false }), dot: new THREE.MeshBasicMaterial({ color: C.sky }) };
   const dotGeo = new THREE.SphereGeometry(0.055, 12, 12);
-  for (const { curve, at, lit: on } of items) {
-    const m = on ? lit : quiet;
-    group.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 96, 0.014, 6, false), m.route));
-    const dot = new THREE.Mesh(dotGeo, m.dot);
+  const haloGeo = new THREE.SphereGeometry(0.11, 16, 16);
+  const halos = [];
+  const passes = [];
+  for (const { at, lit, curve } of items) {
+    const color = lit ? C.amber : C.sky;
+    const dot = new THREE.Mesh(dotGeo, new THREE.MeshBasicMaterial({ color }));
     dot.position.copy(at);
-    group.add(dot);
+    const halo = new THREE.Mesh(haloGeo, new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0, depthWrite: false }));
+    halo.position.copy(at);
+    group.add(dot, halo);
+    halos.push(halo);
+    if (!lit) {
+      const pass = new THREE.Mesh(new THREE.TubeGeometry(curve, 96, 0.012, 6, false), new THREE.MeshBasicMaterial({ color: C.sky, transparent: true, opacity: 0, depthWrite: false }));
+      pass.visible = false;
+      pass.userData.at = at;
+      group.add(pass);
+      passes.push(pass);
+    }
   }
-  return { group };
+  const toCamera = new THREE.Vector3();
+  let current = null;
+  let started = -Infinity;
+  let next = 0;
+  return {
+    group,
+    update(t, camera) {
+      halos.forEach((halo, i) => {
+        const beat = ((t + i * 0.37) % 2.4) / 2.4;
+        halo.scale.setScalar(1 + beat * 1.4);
+        halo.material.opacity = 0.4 * (1 - beat);
+      });
+      if (t - started >= every) {
+        const facing = passes.filter((p) => p !== current && toCamera.subVectors(camera.position, p.userData.at).dot(p.userData.at) > 0);
+        if (facing.length) {
+          current = facing[next++ % facing.length];
+          started = t;
+        }
+      }
+      for (const pass of passes) {
+        const age = pass === current ? t - started : life;
+        pass.visible = age < life;
+        if (!pass.visible) continue;
+        const e = age / life;
+        const grow = Math.min(1, e / 0.45);
+        pass.geometry.setDrawRange(0, Math.floor((pass.geometry.index.count * grow) / 36) * 36);
+        pass.material.opacity = 0.75 * (e < 0.6 ? 1 : 1 - (e - 0.6) / 0.4);
+      }
+    },
+  };
 }

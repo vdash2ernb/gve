@@ -43,7 +43,9 @@ const MARKUP = `
       <a href="/contact-us/#book" class="button amber" data-call>Request a free call</a>
       <button type="button" class="gvm-enter" data-enter>Explore GVE →</button>
     </div>
-    <button type="button" class="gvm-replay" data-replay>Replay</button>
+    <button type="button" class="gvm-replay" data-replay aria-label="Replay the story" title="Replay">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    </button>
   </section>
 
   <div class="gvm-progress" aria-hidden="true"><span data-progress></span></div>
@@ -124,11 +126,11 @@ export function createMission(root, { onExit }) {
   const arc = createArc(route);
   scene.add(arc.mesh);
 
-  // Every other market GVE serves: quiet routes and dots, so the globe never reads as one country.
+  // Every market GVE serves glows on the globe, so it never reads as one country.
   const focus = REGION_MARKETS[region];
   const markets = createMarkets(
     Object.entries(MARKETS).flatMap(([market, points]) =>
-      points.map((p) => ({ curve: arcPoints(PHILIPPINES, p, 0.06, 0.55), at: onPlanet(p, R * 1.01), lit: focus.includes(market) })),
+      points.map((p) => ({ curve: arcPoints(PHILIPPINES, p, 0.06, 0.7), at: onPlanet(p, R * 1.01), lit: focus.includes(market) })),
     ),
   );
   scene.add(markets.group);
@@ -377,7 +379,7 @@ export function createMission(root, { onExit }) {
   tl.to(pod.outer.position, { x: orbitStart.x, y: orbitStart.y, z: orbitStart.z, duration: 2.2, ease: "power2.inOut" }, 19.8);
   tl.to(pod.outer.scale, { x: 0.55, y: 0.55, z: 0.55, duration: 2.2, ease: "power2.inOut" }, 19.8);
   tl.to(pod.halo.material.color, { r: 0.55, g: 0.78, b: 1, duration: 1 }, 19.8);
-  cam([0, -0.6, 14.5], [0, 1.2, 0], 2.6, 19.8);
+  cam([0, -0.6, 14.5], [0, 4.6, 0], 2.6, 19.8); // the globe settles low, under the ending content
   tl.fromTo(outroEl, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out" }, 21.0);
   tl.call(() => {
     orbit.on = true;
@@ -455,6 +457,7 @@ export function createMission(root, { onExit }) {
       u.light.material.color.setHex(Math.sin(t * 3 + u.phase) > 0.6 ? C.amber : 0x4a3000);
     }
     network.update(t);
+    markets.update(t, camera);
 
     pod.inner.position.y = Math.sin(t * 1.3) * 0.12;
     pod.inner.rotation.z = Math.sin(t * 0.7) * 0.08;
