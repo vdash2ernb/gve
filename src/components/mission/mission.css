@@ -119,6 +119,9 @@
 .gvm-pin span { width: 8px; height: 8px; border-radius: 50%; background: #ffa600; box-shadow: 0 0 10px #ffa600; }
 
 .gvm-outro { justify-content: safe center; overflow-y: auto; background: radial-gradient(60% 55% at 50% 50%, rgba(5, 7, 13, 0.72), transparent 75%); }
+/* It still scrolls on very short screens, but never shows a scrollbar. */
+.gvm-outro { scrollbar-width: none; }
+.gvm-outro::-webkit-scrollbar { display: none; }
 .gvm-facts {
   list-style: none; margin: 34px auto 0; padding: 0; width: 100%; max-width: 520px;
   display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
@@ -201,4 +204,15 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .gvm-bubble-globe::before { animation: none; }
+}
+
+/* Shorter windows: tighten the ending screen so it fits without scrolling. */
+@media (max-height: 940px) {
+  .gvm-outro { padding-top: 76px; padding-bottom: 24px; }
+  .gvm-outro .gvm-display { font-size: clamp(2.25rem, min(8vw, 9vh), 6.5rem); margin-top: 10px; }
+  .gvm-outro .gvm-lede { margin-top: 14px; }
+  .gvm-facts { margin-top: 22px; }
+  .gvm-facts li { padding: 12px; }
+  .gvm-actions { margin-top: 20px; }
+  .gvm-replay { margin-top: 12px; }
 }
