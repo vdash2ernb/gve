@@ -1,26 +1,15 @@
 // The intro's soundtrack (made by scripts/make-intro-audio.py): a quiet ambient bed for the welcome and ending
 // screens, and the story mix (voice-over, score and effects) that runs second-for-second with the story timeline.
 // Browsers only allow sound after the visitor interacts, so it starts on their first tap or key press in the
-// intro, and the sound button turns it on or off (remembered on this device).
+// intro, and the sound button turns it on or off.
 
-const KEY = "gvm-sound";
 const TAIL = 26.8; // story.mp3 position where the voice has finished and the ambient bed fades back in
 const LOOP = [0.5, 24.5]; // the seamless section of ambient.mp3
 const DRIFT = 0.12; // seconds the picture may drift from the sound before it is pulled back in step
 
-const remembered = () => {
-  try {
-    return localStorage.getItem(KEY) !== "off";
-  } catch {
-    return true;
-  }
-};
-const remember = (on) => {
-  try {
-    if (on) localStorage.removeItem(KEY);
-    else localStorage.setItem(KEY, "off");
-  } catch {}
-};
+// Muting holds while the visitor browses (the intro reopens on every return to the homepage), but a refresh or a
+// later visit offers the sound again, so one accidental tap never silences the intro for good.
+let muted = false;
 
 /**
  * Returns null where Web Audio is missing. onChange(state) fires with "on", "off" (the visitor turned it off)
@@ -32,7 +21,7 @@ export function createSound({ onChange }) {
   const master = ctx.createGain();
   master.connect(ctx.destination);
 
-  let wanted = remembered();
+  let wanted = !muted;
   let closed = false;
   let mode = "welcome";
   let tail = false; // the story has handed over to the ambient bed
@@ -149,7 +138,7 @@ export function createSound({ onChange }) {
         ctx.resume().catch(() => {});
         fade(master.gain, 1, 0.25);
       }
-      remember(wanted);
+      muted = !wanted;
       notify();
     },
 

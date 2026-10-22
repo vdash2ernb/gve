@@ -16,6 +16,7 @@ const MARKUP = `
           <path d="M3.5 9.2h3.3L11 5.8v12.4l-4.2-3.4H3.5z" fill="currentColor"/>
           <g class="gvm-sound-eq"><rect x="14" y="8" width="1.8" height="8" rx=".9"/><rect x="17" y="6" width="1.8" height="12" rx=".9"/><rect x="20" y="9" width="1.8" height="6" rx=".9"/></g>
           <path class="gvm-sound-x" d="M15 9.5l5 5M20 9.5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path class="gvm-sound-waves" d="M14.4 9.3a3.8 3.8 0 0 1 0 5.4M17 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
         </svg>
         <span class="gvm-sound-label" data-sound-label></span>
       </button>

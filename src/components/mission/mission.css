@@ -61,7 +61,8 @@
 .gvm-bar-end { display: flex; align-items: center; gap: 10px; }
 .gvm-logo { width: 116px; height: 80px; object-fit: contain; display: block; }
 
-/* Sound: a speaker with moving level bars while playing; a pill inviting a tap while the browser waits for one. */
+/* Sound: a speaker with moving level bars while playing, crossed out when muted, and a pill with sound waves
+   inviting a tap while the browser waits for one (so waiting never looks like muted). */
 .gvm-sound {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   position: relative; min-width: 44px; height: 44px; padding: 0 12px; border-radius: 999px;
@@ -77,7 +78,8 @@
 .gvm-sound-eq rect:nth-child(3) { animation-duration: 0.94s; animation-delay: -0.5s; }
 @keyframes gvm-eq { from { transform: scaleY(0.35); } }
 .gvm-sound:not([data-state="on"]) .gvm-sound-eq,
-.gvm-sound[data-state="on"] .gvm-sound-x { display: none; }
+.gvm-sound:not([data-state="off"]) .gvm-sound-x,
+.gvm-sound:not([data-state="blocked"]) .gvm-sound-waves { display: none; }
 .gvm-sound:not([data-state="blocked"]) { padding: 0; }
 .gvm-sound:not([data-state="blocked"]) .gvm-sound-label {
   position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
