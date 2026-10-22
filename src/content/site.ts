@@ -296,15 +296,6 @@ export const team = [
   { name: "Jermaine", role: "Executive Admin", img: "/team/jermaine.webp" },
 ];
 
-// Short, verbatim excerpts from reviews published on the current site.
-export const testimonials = [
-  { quote: "I used to work 12+ hours a day—now I work smarter, not harder.", name: "Marcus", role: "Consultant" },
-  { quote: "I've reclaimed my evenings, and for the first time in years, I don't wake up in a panic.", name: "Sarah", role: "Founder" },
-  { quote: "I don't think it would be possible for me to do my job effectively without the help and suggestions we've received.", name: "Martha", role: "Manager" },
-  { quote: "GVE is fantastic, they have helped me to get started with my first VEA and given her all the support for her to be successful.", name: "Josiah", role: "CEO" },
-  { quote: "Their team came in like a calm breeze, organizing my digital life and taking small—but essential—tasks off my plate.", name: "John", role: "Service Provider" },
-];
-
 export const partners = [
   { name: "Calistar Management", img: "/partners/calistar-management.png" },
   { name: "Big Bear Automatic Gates", img: "/partners/big-bear-logo.jpg" },
