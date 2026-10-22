@@ -141,6 +141,13 @@
 .gvm-begin-ring { position: absolute; inset: -5px; width: calc(100% + 10px); height: calc(100% + 10px); transform: rotate(-90deg); pointer-events: none; }
 .gvm-begin-ring circle { fill: none; stroke: #ffa600; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 138.3; stroke-dashoffset: 138.3; opacity: 0; }
 .gvm-begin.is-counting .gvm-begin-ring circle { opacity: 0.9; animation: gvm-count var(--gvm-count, 4s) linear forwards; }
+/* While the browser holds the sound back, the story waits for this tap: the arrow glows to invite it, and the
+   sound pill stays still so there is one clear thing to press. */
+.gvm-begin.is-waiting .gvm-begin-icon { animation: gvm-invite 2.4s ease-in-out infinite; }
+.gvm-stage:has(.gvm-begin.is-waiting) .gvm-sound { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .gvm-begin.is-waiting .gvm-begin-icon { animation: none; }
+}
 @keyframes gvm-count { to { stroke-dashoffset: 0; } }
 
 .gvm-captions { justify-content: flex-end; padding-bottom: 13vh; pointer-events: none; }

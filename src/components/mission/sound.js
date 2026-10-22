@@ -88,6 +88,14 @@ export function createSound({ onChange }) {
   };
   document.addEventListener("visibilitychange", visibility);
 
+  // Called from a tap. iPhones keep web audio quiet while the ringer is switched to silent (video on other sites
+  // still plays), so the intro asks to play the way a video does.
+  const start = () => {
+    if (navigator.audioSession) navigator.audioSession.type = "playback";
+    load();
+    if (ctx.state !== "running") ctx.resume().catch(() => {});
+  };
+
   if (wanted && !navigator.connection?.saveData) load();
 
   return {
@@ -117,11 +125,22 @@ export function createSound({ onChange }) {
       }
     },
 
+    /** Calls go() once the sound can start with it, so the opening isn't clipped while the browser switches sound
+     *  on after a tap. Never waits more than a second; a slow download joins in step later instead. */
+    ready(go) {
+      const since = performance.now();
+      const check = () => {
+        if (closed) return;
+        if (!wanted || audible() || performance.now() - since > 1000) go();
+        else requestAnimationFrame(check);
+      };
+      check();
+    },
+
     /** Any tap or key press in the intro lets the browser start the sound the visitor wants. */
     unlock() {
       if (!wanted || closed) return;
-      load();
-      if (ctx.state !== "running") ctx.resume().catch(() => {});
+      start();
     },
 
     /** The sound button. */
@@ -132,10 +151,7 @@ export function createSound({ onChange }) {
         setTimeout(() => !wanted && stopAll(), 300);
       } else {
         wanted = true;
-        // Lets iPhones play it even with the ringer switched to silent, since the visitor asked for it.
-        if (navigator.audioSession) navigator.audioSession.type = "playback";
-        load();
-        ctx.resume().catch(() => {});
+        start();
         fade(master.gain, 1, 0.25);
       }
       muted = !wanted;

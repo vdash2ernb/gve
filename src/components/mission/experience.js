@@ -409,7 +409,15 @@ export function createMission(root, { onExit }) {
     soundEl.dataset.state = state;
     soundLabel.textContent = state === "on" ? "Turn off sound" : "Turn on sound";
   };
-  const sound = createSound({ onChange: showSound });
+  let started = false; // the visitor is past the welcome screen
+  const sound = createSound({
+    onChange(state) {
+      const changed = (soundEl.dataset.state === "blocked") !== (state === "blocked");
+      showSound(state);
+      // The browser started (or held back) the sound while the welcome screen waits: re-decide the countdown.
+      if (changed && !started) countdown();
+    },
+  });
   if (sound) {
     soundEl.hidden = false;
     showSound(sound.state());
@@ -427,17 +435,22 @@ export function createMission(root, { onExit }) {
   const beginEl = q("[data-begin]");
   const begin = () => {
     autoStart?.kill();
-    beginEl.classList.remove("is-counting");
+    started = true;
+    beginEl.classList.remove("is-counting", "is-waiting");
     introReveal?.kill(); // a still-running fade-in would otherwise keep the headline on screen
     sound?.scene("story");
-    tl.play();
+    if (sound) sound.ready(() => tl.play());
+    else tl.play();
   };
   // A ring fills around the arrow while the welcome screen waits, then the story starts.
-  // Visitors who ask for less motion start it themselves.
+  // Visitors who ask for less motion start it themselves. So does everyone whose browser is still holding the
+  // sound back: their tap on "Begin your mission" also starts the sound, so nobody watches the story silent.
   const countdown = () => {
     autoStart?.kill();
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     beginEl.classList.remove("is-counting");
+    const waiting = sound?.state() === "blocked";
+    beginEl.classList.toggle("is-waiting", waiting);
+    if (waiting || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     void beginEl.offsetWidth; // restart the ring's animation
     beginEl.style.setProperty("--gvm-count", `${AUTO_START}s`);
     beginEl.classList.add("is-counting");
@@ -458,6 +471,7 @@ export function createMission(root, { onExit }) {
     orbit.on = false;
     orbit.a = 0.9;
     tl.pause(0);
+    started = false;
     sound?.scene("welcome");
     // Paths driven by onUpdate aren't reverted by GSAP, so put things back by hand.
     arc.mat.uniforms.uProgress.value = 0;
