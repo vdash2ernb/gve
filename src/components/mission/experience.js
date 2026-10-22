@@ -4,14 +4,25 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { C, latLon, createBackdrop, createPlanet, createPod, createTask, taskKinds, createSatellite, createConstellation, createArc, createMarkets } from "./world";
 import { LANDING, lean, MARKETS, PHILIPPINES, REGION_MARKETS, reaim, visitorRegion } from "@/lib/markets";
+import { createSound } from "./sound";
 
 const MARKUP = `
   <canvas class="gvm-gl" aria-hidden="true"></canvas>
   <div class="gvm-bar">
     <img class="gvm-logo" src="/brand/gve-header-mark.svg" alt="Global Virtual Experts" />
-    <button type="button" class="gvm-close" data-skip aria-label="Close intro">
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
-    </button>
+    <div class="gvm-bar-end">
+      <button type="button" class="gvm-sound" data-sound hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path d="M3.5 9.2h3.3L11 5.8v12.4l-4.2-3.4H3.5z" fill="currentColor"/>
+          <g class="gvm-sound-eq"><rect x="14" y="8" width="1.8" height="8" rx=".9"/><rect x="17" y="6" width="1.8" height="12" rx=".9"/><rect x="20" y="9" width="1.8" height="6" rx=".9"/></g>
+          <path class="gvm-sound-x" d="M15 9.5l5 5M20 9.5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span class="gvm-sound-label" data-sound-label></span>
+      </button>
+      <button type="button" class="gvm-close" data-skip aria-label="Close intro">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      </button>
+    </div>
   </div>
 
   <section class="gvm-layer gvm-intro" data-intro>
@@ -389,6 +400,20 @@ export function createMission(root, { onExit }) {
     q("[data-call]").focus({ preventScroll: true });
   }, null, 22.0);
 
+  /* ---------- Sound ---------- */
+
+  const soundEl = q("[data-sound]");
+  const soundLabel = q("[data-sound-label]");
+  const showSound = (state) => {
+    soundEl.dataset.state = state;
+    soundLabel.textContent = state === "on" ? "Turn off sound" : "Turn on sound";
+  };
+  const sound = createSound({ onChange: showSound });
+  if (sound) {
+    soundEl.hidden = false;
+    showSound(sound.state());
+  }
+
   /* ---------- Controls ---------- */
 
   let introReveal;
@@ -403,6 +428,7 @@ export function createMission(root, { onExit }) {
     autoStart?.kill();
     beginEl.classList.remove("is-counting");
     introReveal?.kill(); // a still-running fade-in would otherwise keep the headline on screen
+    sound?.scene("story");
     tl.play();
   };
   // A ring fills around the arrow while the welcome screen waits, then the story starts.
@@ -420,10 +446,18 @@ export function createMission(root, { onExit }) {
   on(q("[data-skip]"), "click", () => onExit());
   on(q("[data-enter]"), "click", () => onExit());
   on(q("[data-call]"), "click", () => onExit({ navigating: true }));
+  if (sound) {
+    on(soundEl, "click", () => sound.toggle());
+    // The first tap or key press anywhere in the intro lets the browser start the sound.
+    const unlock = (e) => !e.target.closest("[data-skip], [data-sound]") && sound.unlock();
+    on(root, "click", unlock);
+    on(root, "keydown", unlock);
+  }
   on(q("[data-replay]"), "click", () => {
     orbit.on = false;
     orbit.a = 0.9;
     tl.pause(0);
+    sound?.scene("welcome");
     // Paths driven by onUpdate aren't reverted by GSAP, so put things back by hand.
     arc.mat.uniforms.uProgress.value = 0;
     pod.outer.position.copy(POD_HOME);
@@ -496,6 +530,7 @@ export function createMission(root, { onExit }) {
 
     renderer.render(scene, camera);
     updatePins();
+    sound?.sync(tl);
     raf = requestAnimationFrame(frame);
   };
 
@@ -507,7 +542,9 @@ export function createMission(root, { onExit }) {
   countdown();
 
   return {
+    hush: () => sound?.hush(),
     destroy() {
+      sound?.destroy();
       cancelAnimationFrame(raf);
       tl.kill();
       introReveal?.kill();

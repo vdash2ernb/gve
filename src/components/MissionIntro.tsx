@@ -6,7 +6,7 @@ import { setIntroOpen, useIntroOpen } from "./mission/introState";
 import { decideIntro } from "./mission/decide";
 import "./mission/mission.css";
 
-type Mission = { destroy: () => void };
+type Mission = { destroy: () => void; hush: () => void };
 type Phase = "closed" | "open" | "closing";
 
 // The homepage shows first; the intro opens on top of it after this pause.
@@ -79,6 +79,7 @@ export default function MissionIntro() {
     if (closing.current) return;
     closing.current = true;
     setIntroOpen(false);
+    mission.current?.hush();
     if (navigating) return; // the call link loads a new page
     setPhase("closing");
     const el = panel.current;

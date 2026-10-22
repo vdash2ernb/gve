@@ -32,8 +32,8 @@
 }
 
 /* Grab handle for the phone bottom sheet. */
-.gvm-grab { display: none; position: absolute; top: 0; left: 0; right: 76px; height: 44px; z-index: 4; touch-action: none; cursor: grab; }
-.gvm-grab span { display: block; width: 40px; height: 4px; margin: 10px auto 0; border-radius: 2px; background: rgba(238, 242, 248, 0.35); transform: translateX(38px); }
+.gvm-grab { display: none; position: absolute; top: 0; left: 0; right: 0; height: 44px; z-index: 3; touch-action: none; cursor: grab; }
+.gvm-grab span { display: block; width: 40px; height: 4px; margin: 10px auto 0; border-radius: 2px; background: rgba(238, 242, 248, 0.35); }
 
 .gvm-loader {
   position: absolute; left: 50%; top: 50%;
@@ -50,12 +50,48 @@
 .gvm-stage { position: absolute; inset: 0; }
 .gvm-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
+/* Only the buttons take pointer events, so the phone sheet's grab strip underneath works across the full width. */
 .gvm-bar {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 3;
+  position: absolute; top: 0; left: 0; right: 0; z-index: 4;
   display: flex; align-items: center; justify-content: space-between;
   padding: 6px clamp(16px, 3vw, 48px);
+  pointer-events: none;
 }
+.gvm-bar button { pointer-events: auto; }
+.gvm-bar-end { display: flex; align-items: center; gap: 10px; }
 .gvm-logo { width: 116px; height: 80px; object-fit: contain; display: block; }
+
+/* Sound: a speaker with moving level bars while playing; a pill inviting a tap while the browser waits for one. */
+.gvm-sound {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  position: relative; min-width: 44px; height: 44px; padding: 0 12px; border-radius: 999px;
+  background: rgba(5, 7, 13, 0.55); border: 1px solid rgba(255, 255, 255, 0.22); color: #eef2f8;
+  font: 600 0.8125rem/1 var(--font-body); white-space: nowrap;
+  backdrop-filter: blur(8px); transition: border-color 0.2s, color 0.2s;
+}
+.gvm-sound[hidden] { display: none; }
+.gvm-sound:hover { border-color: #ffa600; color: #ffa600; }
+.gvm-sound svg { flex: none; }
+.gvm-sound-eq rect { fill: currentColor; transform-box: fill-box; transform-origin: center; animation: gvm-eq 0.8s ease-in-out infinite alternate; }
+.gvm-sound-eq rect:nth-child(2) { animation-duration: 0.62s; animation-delay: -0.3s; }
+.gvm-sound-eq rect:nth-child(3) { animation-duration: 0.94s; animation-delay: -0.5s; }
+@keyframes gvm-eq { from { transform: scaleY(0.35); } }
+.gvm-sound:not([data-state="on"]) .gvm-sound-eq,
+.gvm-sound[data-state="on"] .gvm-sound-x { display: none; }
+.gvm-sound:not([data-state="blocked"]) { padding: 0; }
+.gvm-sound:not([data-state="blocked"]) .gvm-sound-label {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+.gvm-sound[data-state="blocked"] { padding: 0 16px 0 12px; border-color: rgba(255, 166, 0, 0.55); animation: gvm-invite 2.4s ease-in-out infinite; }
+@keyframes gvm-invite { 0% { box-shadow: 0 0 0 0 rgba(255, 166, 0, 0.4); } 70%, 100% { box-shadow: 0 0 0 10px rgba(255, 166, 0, 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .gvm-sound-eq rect, .gvm-sound[data-state="blocked"] { animation: none; }
+}
+/* The narrowest phones keep the invitation to the icon and its glow, so the bar never crowds. */
+@media (max-width: 359px) {
+  .gvm-sound[data-state="blocked"] { padding: 0; }
+  .gvm-sound[data-state="blocked"] .gvm-sound-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}
 .gvm-close {
   display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%;
   background: rgba(5, 7, 13, 0.55); border: 1px solid rgba(255, 255, 255, 0.22); color: #eef2f8;
