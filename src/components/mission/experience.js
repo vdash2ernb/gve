@@ -433,7 +433,8 @@ export function createMission(root, { onExit }) {
     listeners.push(() => el.removeEventListener(type, fn));
   };
   const beginEl = q("[data-begin]");
-  const begin = () => {
+  const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const launch = () => {
     autoStart?.kill();
     started = true;
     beginEl.classList.remove("is-counting", "is-waiting");
@@ -442,19 +443,25 @@ export function createMission(root, { onExit }) {
     if (sound) sound.ready(() => tl.play());
     else tl.play();
   };
-  // A ring fills around the arrow while the welcome screen waits, then the story starts.
-  // Visitors who ask for less motion start it themselves. So does everyone whose browser is still holding the
-  // sound back: their tap on "Begin your mission" also starts the sound, so nobody watches the story silent.
+  const begin = () => {
+    if (sound?.state() !== "blocked" || calm()) return launch();
+    // While the browser holds the sound back, this tap turns it on first: the ambient music then plays through
+    // the countdown before the story, as it does after it. If the browser still refuses, the story starts anyway.
+    sound.ready(() => sound.state() === "blocked" && launch());
+  };
+  // A ring fills around the arrow while the welcome screen waits, with the ambient music playing, then the story
+  // starts. Visitors who ask for less motion start it themselves. So does everyone whose browser is still holding
+  // the sound back: their first tap turns the sound on and starts the countdown, so nobody watches the story silent.
   const countdown = () => {
     autoStart?.kill();
     beginEl.classList.remove("is-counting");
     const waiting = sound?.state() === "blocked";
     beginEl.classList.toggle("is-waiting", waiting);
-    if (waiting || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (waiting || calm()) return;
     void beginEl.offsetWidth; // restart the ring's animation
     beginEl.style.setProperty("--gvm-count", `${AUTO_START}s`);
     beginEl.classList.add("is-counting");
-    autoStart = gsap.delayedCall(AUTO_START, begin);
+    autoStart = gsap.delayedCall(AUTO_START, launch);
   };
   on(beginEl, "click", begin);
   on(q("[data-skip]"), "click", () => onExit());
