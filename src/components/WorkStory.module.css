@@ -1,0 +1,6 @@
+/* The founder line under the opening buttons: who GVE is, before what it offers. Kept to two lines on
+   desktop so the opening screen still shows the "Meet our clients" cue on a 900px-tall laptop. */
+.founderNote { margin-top: 20px; padding-left: 14px; border-left: 2px solid #ffa600; font-size: .875rem; line-height: 1.65; color: #bdcddb; }
+.founderNote strong { color: #fff; font-weight: 600; }
+.founderNote + :global(.business-types) { margin-top: 22px; }
+@media (max-width: 900px) { .founderNote { max-width: 520px; margin-top: 18px; line-height: 1.6; } }

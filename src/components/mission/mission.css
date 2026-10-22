@@ -221,6 +221,13 @@
   .gvm-bubble { left: max(16px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom)); padding: 0 4px; gap: 0; height: 44px; }
   .gvm-bubble-text { max-width: 0; opacity: 0; }
 }
+/* Phones and tablets: the bottom-right corner keeps the bubble off the "Meet our clients" cue, and past the
+   opening screen it would sit over body text, so it steps aside until the visitor is back at the top.
+   The footer's "Watch the intro" link still replays it. */
+@media (max-width: 900px) {
+  .gvm-bubble { left: auto; right: max(16px, env(safe-area-inset-right)); transition: opacity 0.35s, transform 0.35s, padding 0.4s, gap 0.4s, border-color 0.2s, visibility 0.35s; }
+  .gvm-bubble[data-compact] { opacity: 0; visibility: hidden; transform: translateY(12px) scale(0.8); pointer-events: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .gvm-bubble-globe::before { animation: none; }
 }
