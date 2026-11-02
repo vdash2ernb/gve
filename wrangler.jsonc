@@ -2,6 +2,8 @@
   // Cloudflare Workers static assets: serves the `out/` folder from `npm run build`.
   "$schema": "https://unpkg.com/wrangler@4/config-schema.json",
   "name": "gve",
+  // GVE's own Cloudflare account. Deploying while logged in to any other account fails instead of publishing there.
+  "account_id": "38e0255845a7866281cc31871d3ab2cf",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./out",
