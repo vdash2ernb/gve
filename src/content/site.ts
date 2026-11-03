@@ -322,7 +322,10 @@ export const stories = [
   { name: "Loury", role: "General Admin Assistant", img: "/team/loury.png", video:"rG7ysQoPUP4", text: "Handles email, calendars, graphics, social media, and calls." },
 ];
 
-export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
+/** `link` follows the answer as a text link. */
+export type FaqItem = { q: string; a: string; link?: { href: string; label: string } };
+
+export const faq: { topic: string; items: FaqItem[] }[] = [
   {
     topic: "The Experts",
     items: [
@@ -343,16 +346,16 @@ export const faq: { topic: string; items: { q: string; a: string }[] }[] = [
   {
     topic: "Getting started",
     items: [
-      { q: "How do I start?", a: "Request a free call. After you pay the search deposit, we prepare your job description for your approval, screen candidates, and schedule final interviews so you can choose your Expert." },
-      { q: "How long does hiring take?", a: "Usually 5–10 business days. If you need someone sooner, we may have pre-vetted Experts ready to go." },
-      { q: "Can I interview candidates first?", a: "Yes. You get a shortlist and you pick who you work with." },
+      { q: "How do I start?", a: "Request a free call. After you pay the search deposit, we prepare your job description for your approval, then screen candidates and send you the best. You choose who to interview and who becomes your Expert." },
+      { q: "How long does hiring take?", a: "Usually within 2 weeks. If you need someone sooner, we may have pre-vetted Experts ready to go." },
+      { q: "Can I interview candidates first?", a: "Yes. We screen every applicant and send you only the best. You choose who to interview first, then you pick your Expert." },
       { q: "What happens after I choose?", a: "We finalize your service agreement, set a start date, help with onboarding and assign you a client success manager." },
     ],
   },
   {
     topic: "Pricing",
     items: [
-      { q: "How much does it cost?", a: "It depends on the role, experience level and hours. Pricing is a flat monthly rate, all-inclusive. Contact us for a quote." },
+      { q: "How much does it cost?", a: "Pricing starts at $1,600 and may go up depending on the hours and skills you need. It is a flat monthly rate, all-inclusive.", link: { href: "/contact-us/#book", label: "Contact us for a quote." } },
       { q: "Is there a search deposit?", a: "Yes. A $1,000 deposit starts the search. It is refundable if we do not present at least two qualified candidates who match the job description we both approved. See Start your search for the full terms." },
       { q: "How do I pay?", a: "ACH transfer through our secure payment portal, or any major credit card. Card payments carry a 3.5% transaction fee." },
     ],

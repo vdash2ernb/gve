@@ -40,7 +40,7 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
         <HomeFunnel className={styles.funnel}/>
         <div className={styles.openingMore}>
           <Link href="/services" className={'underlined light ' + styles.servicesLink}>Explore our services</Link>
-          <p className={styles.founderNote}><strong>Built by a builder.</strong> Craig hired his first virtual assistant for Silver Peak Design Build in 2020, then started GVE to help other owners do the same.</p>
+          <p className={styles.founderNote}><strong>Built by a builder.</strong> Craig hired his first virtual assistant for Silver Peak Design Build in 2021, then started GVE to help other owners do the same.</p>
           <p className="story-origin">Based in Seattle.<br/>Experts in the Philippines.</p>
         </div>
       </div>

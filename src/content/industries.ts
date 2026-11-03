@@ -37,7 +37,7 @@ export const industries: Industry[] = [
     tools: ['Buildertrend', 'JobTread', 'QuickBooks'],
     clients: ['Silver Peak Design Build', 'Navo Builders', 'High Desert Homes'],
     story: 'founder',
-    faq: ['How long does hiring take?', 'Can they work in my time zone?', 'What equipment do they use?', 'How much does it cost?'],
+    faq: ['How long does hiring take?', 'Can they work in my time zone?', 'What equipment do they use?', 'Can I interview candidates first?'],
   },
   {
     id: 'roofing', slug: 'roofing-trades',
@@ -56,7 +56,7 @@ export const industries: Industry[] = [
     tools: ['QuickBooks', 'Buildertrend', 'JobTread'],
     clients: ['River Roofing', 'The Window & Door Shoppe', 'Big Bear Automatic Gates'],
     story: 'river-roofing',
-    faq: ['How long does hiring take?', 'Can they work in my time zone?', 'What equipment do they use?', 'How much does it cost?'],
+    faq: ['How long does hiring take?', 'Can they work in my time zone?', 'What equipment do they use?', 'Can I interview candidates first?'],
   },
   {
     id: 'home-services', slug: 'home-services',
@@ -74,7 +74,7 @@ export const industries: Industry[] = [
     ],
     tools: ['Jobber', 'ServiceTitan', 'QuickBooks'],
     clients: [],
-    faq: ['How long does hiring take?', 'Can they work in my time zone?', 'Weekends and holidays?', 'How much does it cost?'],
+    faq: ['How long does hiring take?', 'Can they work in my time zone?', 'Weekends and holidays?', 'Can I interview candidates first?'],
   },
   {
     id: 'property', slug: 'property-management',
@@ -90,7 +90,7 @@ export const industries: Industry[] = [
     ],
     tools: ['QuickBooks'],
     clients: ['Calistar Management'],
-    faq: ['How long does hiring take?', 'Can they work in my time zone?', 'How is my data protected?', 'How much does it cost?'],
+    faq: ['How long does hiring take?', 'Can they work in my time zone?', 'How is my data protected?', 'Can I interview candidates first?'],
   },
 ];
 

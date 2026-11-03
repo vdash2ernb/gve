@@ -13,7 +13,7 @@ const questions = [
   { title: 'What kind of business do you run?' },
   { title: 'What would you like help with?', hint: 'Choose all that apply.' },
   { title: 'How much help do you need?', hint: 'Your Expert works your business hours, in your time zone.' },
-  { title: 'When would you like to start?', hint: 'Hiring usually takes 5–10 business days.' },
+  { title: 'When would you like to start?', hint: 'Hiring usually takes about 2 weeks.' },
 ];
 const QUESTIONS = questions.length;
 // Below the fixed site header.
@@ -94,7 +94,7 @@ export default function HomeFunnel({ className }: { className?: string }) {
           <button type="button" className={styles.back} onClick={() => go(step - 1)}><span aria-hidden="true">←</span> Back</button>
           {step === 1 && <button type="button" className={styles.next} onClick={continueTasks}>Continue</button>}
         </div>}
-        <p className={styles.footnote}>You interview the candidates and choose your Expert.</p>
+        <p className={styles.footnote}>We send you the best candidates. You choose your Expert.</p>
       </> : <>
         <p className={styles.count}>Last step</p>
         <h3 ref={heading} tabIndex={-1} className={styles.question}>Request your free call.</h3>

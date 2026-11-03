@@ -1,9 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Link from "next/link";
 import { useId, useState } from "react";
+import type { FaqItem } from "@/content/site";
 
-export default function Accordion({ items }: { items: { q: string; a: string }[] }) {
+export default function Accordion({ items }: { items: FaqItem[] }) {
   const [open, setOpen] = useState<number | null>(null);
   const base = useId();
   const reduced = useReducedMotion();
@@ -35,7 +37,10 @@ export default function Accordion({ items }: { items: { q: string; a: string }[]
                   transition={{ duration: reduced ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="max-w-2xl pb-6 text-muted">{it.a}</p>
+                  <p className="max-w-2xl pb-6 text-muted">
+                    {it.a}
+                    {it.link && <> <Link href={it.link.href} className="text-ink underline underline-offset-4">{it.link.label}</Link></>}
+                  </p>
                 </motion.div>
               )}
             </AnimatePresence>

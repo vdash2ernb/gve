@@ -13,7 +13,7 @@ export default function Contact() {
       <div className={'contact-intro ' + styles.intro}>
         <p className="kicker">Contact GVE</p>
         <h1>Tell us what<br/>you need.</h1>
-        <p className="contact-lede">Share the tasks and hours you need help with. We’ll discuss the role and pricing with you.</p>
+        <p className="contact-lede">Share the tasks and hours you need help with. We’ll talk through the role with you.</p>
         <dl className="contact-details">
           <div className="contact-email"><dt>Email us</dt><dd><a href={'mailto:' + contact.email}>{contact.email}</a></dd></div>
           <div><dt>Talk to sales</dt><dd><a href={contact.salesPhoneHref}>{contact.salesPhone}</a></dd></div>
