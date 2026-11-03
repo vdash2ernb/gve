@@ -1,12 +1,12 @@
 .block { padding: 70px 0 0; }
 .block h2 { margin-bottom: 0; }
 .toolList { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 0; padding: 0; list-style: none; }
-.toolList li { font-size: .9375rem; font-weight: 500; color: #00203d; padding: 10px 18px; border: 1px solid #b5c8d4; border-radius: 100px; background: #fff; }
-.note { margin-top: 18px; font-size: .9375rem; color: #496071; max-width: 560px; }
+.toolList li { font-size: 1rem; font-weight: 500; color: #00203d; padding: 10px 18px; border: 1px solid #b5c8d4; border-radius: 100px; background: #fff; }
+.note { margin-top: 18px; font-size: 1rem; color: #496071; max-width: 560px; }
 .logos { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 44px; margin: 32px 0 0; padding: 0; list-style: none; }
 .logos li { display: flex; align-items: center; height: 84px; }
 .logos img { display: block; width: var(--logo-w); height: var(--logo-h); }
-.taskLink { display: inline-block; margin-top: 18px; font-size: .875rem; color: #003870; border-bottom: 1px solid #79a7c3; padding-bottom: 3px; }
+.taskLink { display: inline-block; margin-top: 18px; font-size: 1rem; color: #003870; border-bottom: 1px solid #79a7c3; padding-bottom: 3px; }
 .taskLink:hover { border-color: #ffa600; }
 .others { display: flex; flex-wrap: wrap; gap: 12px 28px; margin: 22px 0 0; padding: 0; list-style: none; }
 .others a { font-size: 1rem; border-bottom: 1px solid #00203d; padding: 6px 0; }
@@ -17,8 +17,8 @@
 .cards a:hover, .cards a:focus-visible { background: #eef3f7; }
 .cards h2 { font-size: 1.75rem; line-height: 1.25; margin: 12px 0 14px; font-weight: 500; }
 .cards p { font-size: 1rem; line-height: 1.7; color: #496071; }
-.cards span { font-size: .75rem; letter-spacing: .08em; color: #003870; }
-.cards strong { display: inline-block; margin-top: 18px; font-size: .9375rem; font-weight: 500; border-bottom: 1px solid #00203d; padding-bottom: 3px; }
+.cards span { font-size: .875rem; letter-spacing: .08em; color: #003870; }
+.cards strong { display: inline-block; margin-top: 18px; font-size: 1rem; font-weight: 500; border-bottom: 1px solid #00203d; padding-bottom: 3px; }
 @media (max-width: 900px) { .block { padding-top: 55px; } }
 @media (max-width: 600px) {
   .cards { grid-template-columns: 1fr; }
