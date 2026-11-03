@@ -11,8 +11,7 @@ import { centroid, LANDING, lean, MARKETS, PHILIPPINES as PH, reaim, REGION_MARK
 
 // "Hand it off" story for the homepage: your tasks travel from your business
 // to your Expert in the Philippines and come back done. Progress runs from 0 (your
-// tasks) to 1 (with your Expert) to 2 (done). Desktop follows the scroll; narrow
-// screens play it as a short loop while it is on screen.
+// tasks) to 1 (with your Expert) to 2 (done), following the scroll through chapters 01 and 02.
 const NAVY = '#00203d', BLUE = '#003870', ICE = '#79a7c3', GOLD = '#ffa600';
 const D2R = Math.PI / 180;
 const SLOTS = [0, 1, 2, 3];
@@ -232,10 +231,10 @@ function Assembly({ paused, auto, panel, sheets, onStage }: { paused: boolean; a
         const enter = (chapter: HTMLElement) => THREE.MathUtils.clamp((h - chapter.getBoundingClientRect().top) / (h * .85), 0, 1);
         wanted.current = enter(chapters[1]) + enter(chapters[2]);
       } else if (section && chapters.length >= 3) {
-        const offsets = chapters.map(chapter => chapter.offsetTop);
-        const y = Math.max(0, -section.getBoundingClientRect().top);
-        const interval = y < offsets[1] ? 0 : 1;
-        const next = interval + (y - offsets[interval]) / Math.max(1, offsets[interval + 1] - offsets[interval]);
+        // Desktop: the scene is pinned beside chapters 01 and 02 (the opening holds the questions).
+        // It shows your tasks while 01 is in place and reaches done as 02 arrives.
+        const work = chapters[1].getBoundingClientRect().top, handoff = chapters[2].getBoundingClientRect().top;
+        const next = 2 * -work / Math.max(1, handoff - work);
         wanted.current = Number.isFinite(next) ? THREE.MathUtils.clamp(next, 0, 2) : 0;
       }
       invalidate();

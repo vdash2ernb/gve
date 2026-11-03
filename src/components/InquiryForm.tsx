@@ -33,7 +33,8 @@ const frameAttributes: Record<string, string> = {
   title: 'GVE Website Inquiry',
 };
 
-export default function InquiryForm() {
+/** `prefill` fills form fields by their GHL Query Key, e.g. the homepage answers as hidden fields. */
+export default function InquiryForm({ prefill }: { prefill?: Record<string, string> }) {
   const host = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
   const [slow, setSlow] = useState(false);
@@ -65,6 +66,9 @@ export default function InquiryForm() {
     if (!el || el.querySelector('iframe')) return;
     const frame = document.createElement('iframe');
     for (const [name, value] of Object.entries(frameAttributes)) frame.setAttribute(name, value);
+    // GHL's script passes these parameters on to the form, which fills each matching field.
+    // Spaces go as %20, which every URL reader decodes ('+' is read as a plus sign by some).
+    if (prefill && Object.keys(prefill).length) frame.src = frameAttributes.src + '?' + new URLSearchParams(prefill).toString().replace(/\+/g, '%20');
     frame.className = styles.frame;
     frame.addEventListener('load', () => setLoaded(true), { once: true });
     el.appendChild(frame);
