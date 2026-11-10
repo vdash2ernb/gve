@@ -6,6 +6,9 @@ export type ClientStory = {
   headline: string;
   summary: string;
   video: string;
+  // Exact words from the client's own video interview, at `at` (m:ss). Only
+  // quotes the user has confirmed go here; written reviews are not used.
+  quote?: { text: string; at: string };
 };
 
 // Captions and attributions reviewed against the client interviews supplied by GVE.
@@ -16,12 +19,14 @@ export const clientStories: ClientStory[] = [
     headline: 'Bookkeeping and paperwork support.',
     summary: 'Martha describes getting help with payroll, bills, and paperwork at River Roofing.',
     video: 'nhq0_DsNkuM',
+    quote: { text: 'It’s allowed me to simplify my day.', at: '2:21' },
   },
   {
     id: 'mw-design', name: 'Josiah', role: 'CEO', company: 'MW Design Workshop',
     headline: 'Help with social media and research.',
     summary: 'Josiah discusses delegating social media and research, and the support his assistant receives from GVE.',
     video: 'XqHtApU0Qno',
+    quote: { text: 'I just wish I would have done it earlier.', at: '4:17' },
   },
   {
     id: 'architect', name: 'John', role: 'Architect',

@@ -2,32 +2,25 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { clientStories } from '@/content/client-stories';
 import styles from './Contact.module.css';
 
-// Exact excerpts from the supplied interviews: Martha at 2:21 and Josiah at
-// 4:17. Keep the quotation source separate from each link to the client story.
-const feedback = [
-  {
-    name: 'Martha',
-    role: 'Office Manager & Bookkeeper',
-    company: 'River Roofing',
-    quote: 'It’s allowed me to simplify my day.',
-    source: 'https://www.youtube.com/watch?v=nhq0_DsNkuM',
-    href: '/client-stories/#river-roofing',
-    sourceLabel: 'Watch Martha’s interview',
+// Exact excerpts from the supplied interviews (the quotes and their times live
+// in client-stories.ts). Keep the quotation source separate from each link to
+// the client story.
+const feedback = ['river-roofing', 'mw-design'].map(id => {
+  const story = clientStories.find(s => s.id === id)!;
+  return {
+    name: story.name,
+    role: story.role,
+    company: story.company,
+    quote: story.quote!.text,
+    source: 'https://www.youtube.com/watch?v=' + story.video,
+    href: '/client-stories/#' + story.id,
+    sourceLabel: `Watch ${story.name}’s interview`,
     sourceType: 'Video interview excerpt',
-  },
-  {
-    name: 'Josiah',
-    role: 'CEO',
-    company: 'MW Design Workshop',
-    quote: 'I just wish I would have done it earlier.',
-    source: 'https://www.youtube.com/watch?v=XqHtApU0Qno',
-    href: '/client-stories/#mw-design',
-    sourceLabel: 'Watch Josiah’s interview',
-    sourceType: 'Video interview excerpt',
-  },
-];
+  };
+});
 
 export default function ContactTestimonials() {
   const sticky = useRef<HTMLDivElement>(null);

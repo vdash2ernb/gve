@@ -1,0 +1,50 @@
+/* A client quote under the services list. It changes with the service group tab. */
+.quote {
+  margin: 28px 0 0;
+  padding: 22px 24px 22px;
+  background: #fff;
+  border: 1px solid #d5e0e9;
+  border-radius: 16px;
+  color: #00203d;
+  animation: quote-in .35s ease both;
+}
+@keyframes quote-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.mark {
+  display: block;
+  height: 30px;
+  font-family: Georgia, serif;
+  font-size: 60px;
+  line-height: 1;
+  color: #ffa600;
+}
+/* Two-class selectors: the quote sits inside .catalogue-list, whose global
+   paragraph and link styles (padded rows with a top border) must not reach it. */
+.quote blockquote p { margin: 0; font-size: 1.3rem; font-weight: 500; line-height: 1.45; letter-spacing: -.015em; color: #00203d; }
+.attribution {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 14px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #496071;
+}
+.who strong { display: block; font-weight: 600; color: #00203d; }
+.quote .link {
+  display: inline;
+  margin-top: 6px;
+  padding: 0;
+  border: 0;
+  font-size: .9375rem;
+  color: #00203d;
+  text-decoration: underline;
+  text-decoration-color: #b5c8d5;
+  text-underline-offset: 4px;
+}
+.quote .link:hover, .quote .link:focus { background: none; box-shadow: none; text-decoration-color: #ffa600; }
+.quote .link:focus-visible { background: none; box-shadow: none; outline: 3px solid #ffa600; outline-offset: 5px; }
+@media (max-width: 600px) {
+  .quote { margin-top: 22px; padding: 20px; }
+  .quote blockquote p { font-size: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) { .quote { animation: none; } }
