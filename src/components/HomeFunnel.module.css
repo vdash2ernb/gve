@@ -25,6 +25,11 @@
 .check { position: relative; flex-shrink: 0; width: 20px; height: 20px; border: 1.5px solid #8aa3b5; border-radius: 6px; background: #fff; }
 .chip[aria-pressed='true'] .check { background: #ffa600; border-color: #ffa600; }
 .chip[aria-pressed='true'] .check::after { content: ''; position: absolute; left: 6px; top: 2px; width: 5px; height: 10px; border: solid #00203d; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+/* "Other": a text box for anything not listed. 17px text keeps phones from zooming in on focus. */
+.other { display: grid; gap: 6px; margin-top: 14px; font-size: 1rem; font-weight: 600; line-height: 1.5; }
+.other input { width: 100%; min-height: 52px; padding: 12px 14px; font: inherit; font-size: 1.0625rem; font-weight: 400; color: #00203d; background: #fff; border: 1.5px solid #ffa600; border-radius: 12px; }
+.other input::placeholder { color: #6b8193; }
+.other input:focus { outline: 3px solid #0759e8; outline-offset: 2px; }
 .nudge { margin: 12px 0 0; font-size: 1rem; line-height: 1.6; color: #00203d; }
 .nudge:empty { margin: 0; }
 
@@ -43,15 +48,45 @@
 .footnote { margin: 18px 0 0; padding-top: 14px; border-top: 1px solid #e3ebf1; font-size: 1rem; line-height: 1.6; color: #4b6375; }
 .footnote::before { content: '✓'; margin-right: 8px; font-weight: 700; color: #975d00; }
 
-/* Last step: the answers so far, then the GHL form that sends them along. */
-.summary { margin-top: 18px; padding: 16px 18px 8px; border-radius: 14px; background: #f4f7fa; }
-.summary dl { display: grid; gap: 8px; margin: 0; }
-.summary dl > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; }
-.summary dt { font-size: 1rem; font-weight: 600; line-height: 1.6; color: #4b6375; }
-.summary dd { margin: 0; font-size: 1rem; line-height: 1.5; overflow-wrap: anywhere; }
-.form { margin-top: 20px; }
-/* Roughly the form's height at this width, used until the form reports its exact height. */
-.form iframe { height: 1150px; }
+/* Last step: a window over the page, the answers on the navy side and the GHL form beside them.
+   It fits the screen; only the form side scrolls if the form is taller than the screen. */
+.modal { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 24px; border: 0; color: #00203d; background: #00203dc7; backdrop-filter: blur(6px); overscroll-behavior: contain; }
+.modal[open] { display: grid; place-items: center; }
+.modal::backdrop { background: transparent; }
+/* Side by side, both halves are as tall as the window, so each scrolls on its own if needed. */
+.panel { position: relative; display: flex; width: min(1080px, 100%); max-height: calc(100dvh - 48px); overflow: hidden; background: #fff; border-radius: 22px; box-shadow: 0 40px 100px #00000070; }
+.aside { display: flex; flex: 0 0 340px; flex-direction: column; min-height: 0; padding: 36px 30px 26px; overflow-y: auto; color: #fff; background: #00203d; }
+.aside > * { animation: rise .5s cubic-bezier(.2, .8, .2, 1) both; }
+.aside > :nth-child(2) { animation-delay: .08s; }
+.aside > :nth-child(3) { animation-delay: .14s; }
+.aside > :nth-child(n+4) { animation-delay: .2s; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.asideKicker { margin: 0; font-size: .9375rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #ffbc3d; }
+.formTitle { margin: 10px 0 0; font-size: 1.75rem; line-height: 1.2; letter-spacing: -.03em; font-weight: 600; }
+.formTitle:focus { outline: none; }
+.asideHint { margin: 10px 0 0; font-size: 1rem; line-height: 1.6; color: #c9d7e2; }
+.summary { display: grid; gap: 10px; margin: 22px 0 0; padding: 16px 18px; border-radius: 14px; background: #ffffff12; }
+.summary dt { font-size: .875rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #9fb6c8; }
+.summary dd { margin: 2px 0 0; font-size: 1rem; line-height: 1.45; overflow-wrap: anywhere; }
+.change { align-self: flex-start; min-height: 44px; margin-top: 10px; padding: 8px 2px; font: inherit; font-size: 1rem; font-weight: 500; color: #fff; background: none; border: 0; cursor: pointer; text-decoration: underline; text-decoration-color: #ffa600; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.asideNote { margin: auto 0 0; padding-top: 18px; font-size: 1rem; line-height: 1.6; color: #c9d7e2; }
+.asideNote::before { content: '✓'; margin-right: 8px; font-weight: 700; color: #ffbc3d; }
+.formArea { flex: 1 1 0; min-width: 0; min-height: 0; padding: 12px 20px 4px; overflow-y: auto; animation: rise .5s .18s cubic-bezier(.2, .8, .2, 1) both; }
+/* Roughly the form's height in the window, used until the form reports its exact height. */
+.formArea iframe { height: 980px; }
+.close { position: absolute; z-index: 1; top: 10px; right: 10px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; font: inherit; font-size: 1.75rem; line-height: 1; color: #00203d; background: #fff; border: 1.5px solid #d3dee7; border-radius: 50%; cursor: pointer; transition: border-color .2s, background .2s; }
+.close:focus-visible, .change:focus-visible { outline: 3px solid #0759e8; outline-offset: 2px; }
+@media (hover: hover) { .close:hover { border-color: #ffa600; background: #fff8ea; } }
+
+/* Tablets: the answers sit above the form, and the window scrolls as one. */
+@media (max-width: 900px) {
+  .panel { display: block; width: min(720px, 100%); overflow-y: auto; }
+  .aside, .formArea { overflow: visible; }
+  .aside { padding: 28px 26px 18px; }
+  .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .asideNote { display: none; }
+  .close { position: fixed; top: 34px; right: max(34px, calc(50% - 350px)); }
+}
 
 @media (max-width: 600px) {
   .card { padding: 22px 18px 20px; border-radius: 18px; }
@@ -59,12 +94,19 @@
   .progress { margin: 16px 0 14px; }
   .question { font-size: 1.25rem; }
   .option { padding: 14px 16px; }
-  .summary dl > div { grid-template-columns: 1fr; gap: 0; }
-  .form iframe { height: 1350px; }
+  /* Phones: the window fills the screen. */
+  .modal { padding: 0; }
+  .panel { width: 100%; height: 100%; max-height: none; border-radius: 0; }
+  .aside { padding: 22px 18px 14px; }
+  .formTitle { font-size: 1.5rem; padding-right: 48px; }
+  .summary { gap: 8px 14px; margin-top: 16px; padding: 14px 16px; }
+  .formArea { padding: 6px 6px 0; }
+  .formArea iframe { height: 1200px; }
+  .close { top: 12px; right: 12px; }
 }
 /* A narrow card (phones, small laptops) lists the tasks one per row, so each reads on one line. */
 @container (max-width: 340px) { .chips { grid-template-columns: 1fr; } .chip { min-height: 50px; padding: 11px 16px; } }
 @media (prefers-reduced-motion: reduce) {
-  .step { animation: none; }
-  .progress span, .option, .chip, .arrow, .next { transition: none; }
+  .step, .aside > *, .formArea { animation: none; }
+  .progress span, .option, .chip, .arrow, .next, .close { transition: none; }
 }

@@ -3,7 +3,7 @@
 import { segments, type SegmentId } from './segments';
 
 export type BusinessId = SegmentId | 'other';
-export type FunnelAnswers = { business?: BusinessId; tasks: string[]; hours?: string; start?: string };
+export type FunnelAnswers = { business?: BusinessId; tasks: string[]; other?: string; hours?: string; start?: string };
 
 export const businessOptions: { id: BusinessId; label: string }[] = [
   ...segments.map(s => ({ id: s.id, label: s.label })),
@@ -18,10 +18,15 @@ const commonTasks: Record<BusinessId, string[]> = {
   property: ['Bookkeeping', 'Email & calendar', 'Social media & marketing'],
   other: ['Email & calendar', 'Customer calls & messages', 'Bookkeeping & invoices', 'Lead follow-ups & CRM', 'Social media & marketing', 'Graphic design', 'Website updates'],
 };
-export const helpMeChoose = 'Help me choose';
+// The last choice opens a text box for anything not listed.
+export const otherTask = 'Other';
 export function tasksFor(business: BusinessId = 'other') {
   const own = segments.find(s => s.id === business)?.chips ?? [];
-  return [...own, ...commonTasks[business], helpMeChoose];
+  return [...own, ...commonTasks[business], otherTask];
+}
+// The chosen tasks as one line, with the typed answer in place of "Other".
+export function tasksText(answers: FunnelAnswers) {
+  return answers.tasks.map(task => task === otherTask ? `Other: ${answers.other?.trim()}` : task).join(', ');
 }
 
 export const hoursOptions = ['Part-time · 4-hour shifts', 'Full-time · 8-hour shifts', 'Help me decide'];
@@ -29,14 +34,15 @@ export const startOptions = ['As soon as possible', 'Within a month', 'In 1–3 
 
 // The answers ride into the GHL "GVE Website Inquiry" form as URL parameters. GHL fills any form
 // field whose Query Key matches, so each key below needs a matching hidden field in that form.
-export function prefillFor(answers: FunnelAnswers): Record<string, string> {
+// `source` names the page the funnel sits on, e.g. 'Homepage funnel'.
+export function prefillFor(answers: FunnelAnswers, source: string): Record<string, string> {
   const business = businessOptions.find(b => b.id === answers.business)?.label;
   const fields: Record<string, string | undefined> = {
     business_type: business,
-    help_with: answers.tasks.join(', ') || undefined,
+    help_with: tasksText(answers) || undefined,
     hours_needed: answers.hours,
     start_timing: answers.start,
-    lead_source: 'Homepage funnel',
+    lead_source: source,
   };
   return Object.fromEntries(Object.entries(fields).filter((entry): entry is [string, string] => !!entry[1]));
 }

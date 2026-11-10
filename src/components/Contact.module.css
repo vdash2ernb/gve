@@ -6,6 +6,8 @@
 .intro { grid-area: intro; }
 .booking { grid-area: booking; min-width: 0; }
 .bookAnchor { scroll-margin-top: 124px; }
+/* The funnel card on this light page: a softer shadow and a hairline edge. */
+.booking .funnel { box-shadow: 0 18px 50px #00203d1f, 0 0 0 1px #d5e0e9; }
 .feedback { grid-area: feedback; min-width: 0; align-self: stretch; }
 .sticky { position: sticky; top: min(128px, calc(100svh - 24px - var(--feedback-height, 700px))); }
 .profile { grid-column: 1 / -1; }

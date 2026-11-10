@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import {pageMeta} from '@/content/seo';
 import { contact } from '@/content/site';
-import InquiryForm from '@/components/InquiryForm';
+import HomeFunnel from '@/components/HomeFunnel';
 import ContactTestimonials from '@/components/ContactTestimonials';
 import styles from '@/components/Contact.module.css';
 
@@ -22,8 +22,8 @@ export default function Contact() {
         </dl>
       </div>
       <div className={'contact-booking ' + styles.booking}>
-        <div className={'booking-heading ' + styles.bookAnchor} id="book"><h2>Request a free call</h2><p>Tell us what you need. Our team will reach out to set up a time.</p></div>
-        <InquiryForm/>
+        {/* The same four questions as the homepage, ending in the request form. */}
+        <div className={styles.bookAnchor} id="book"><HomeFunnel source="Contact page funnel" className={styles.funnel}/></div>
       </div>
       <ContactTestimonials/>
     </div>
