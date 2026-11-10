@@ -19,7 +19,7 @@
 }
 
 /* The founder line: who GVE is, beside the questions. */
-.founderNote { margin-top: 28px; padding-left: 14px; border-left: 2px solid #ffa600; font-size: 1rem; line-height: 1.65; color: #bdcddb; }
+.founderNote { margin-top: 28px; font-size: 1rem; line-height: 1.65; color: #bdcddb; }
 .founderNote strong { color: #fff; font-weight: 600; }
 @media (max-width: 900px) { .founderNote { max-width: 520px; margin-top: 30px; line-height: 1.6; } }
 

@@ -1,7 +1,6 @@
 /* The homepage "Find your Expert" card: a light card on the navy opening, sized for easy reading and tapping. */
 .card { position: relative; container-type: inline-size; background: #fff; color: #00203d; border-radius: 20px; padding: 32px 32px 26px; box-shadow: 0 28px 70px #0000004d, 0 0 0 1px #ffffff1a; }
 .kicker { margin: 0; font-size: .9375rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #975d00; }
-.kicker::before { content: ''; display: inline-block; vertical-align: middle; width: 18px; height: 3px; margin-right: 10px; background: #ffa600; }
 .title { margin: 12px 0 0; font-size: clamp(1.625rem, 2.1vw, 2rem); line-height: 1.2; letter-spacing: -.035em; font-weight: 600; }
 .intro { margin: 10px 0 0; font-size: 1.0625rem; line-height: 1.6; color: #4b6375; }
 .progress { height: 6px; margin: 20px 0 18px; border-radius: 99px; background: #e3ebf1; overflow: hidden; }

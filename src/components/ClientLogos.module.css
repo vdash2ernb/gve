@@ -8,7 +8,6 @@
 
 .headingRow { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
 .heading { display: flex; align-items: center; gap: 14px; flex: 1; font-size: 1rem; font-weight: 500; line-height: 1.5; }
-.heading::before { content: ''; width: 18px; height: 2px; flex-shrink: 0; background: #ffa600; }
 .controls { display: flex; gap: 8px; }
 .motionButton, .viewButton { color: #00203d; font-size: .9375rem; padding: 10px 14px; min-height: 44px; border: 1px solid #c5d2dc; border-radius: 3px; white-space: nowrap; }
 .motionButton:hover, .viewButton:hover { background: #fff; border-color: #00203d; }
