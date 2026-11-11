@@ -6,13 +6,13 @@ import styles from './ServiceQuote.module.css';
 type ServiceGroup = Service['group'];
 
 // One real client quote under the services list, matched to the group the
-// visitor is looking at: River Roofing is a trades business whose Expert does
-// the bookkeeping and paperwork; MW Design Workshop is a design business whose
-// Expert handles social media and research.
+// visitor is looking at: John's Expert drafts and works with his engineers;
+// Martha's does the bookkeeping and paperwork; Randen's rebuilt his Salesforce
+// CRM and handles outreach; Josiah runs a design business.
 const quoteFor: Record<ServiceGroup, string> = {
-  'Construction & trades': 'river-roofing',
+  'Construction & trades': 'architect',
   'Admin & operations': 'river-roofing',
-  'Sales & marketing': 'mw-design',
+  'Sales & marketing': 'earthwin',
   'Design & web': 'mw-design',
 };
 

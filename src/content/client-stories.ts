@@ -33,12 +33,15 @@ export const clientStories: ClientStory[] = [
     headline: 'Drafting and client communication.',
     summary: 'John explains how his assistant helps with drawings, renderings, and client communication.',
     video: 'okbKCb31JZI',
+    // "Um" and "uh" removed; otherwise his exact words.
+    quote: { text: 'I learned pretty quickly that I could trust her with my consultants, whether that be a civil engineer, structural engineer.', at: '2:04' },
   },
   {
     id: 'earthwin', name: 'Randen', role: 'Founder', company: 'EarthWIN',
     headline: 'Grant writing and database support.',
     summary: 'Randen discusses help with grant writing, email, and Salesforce at EarthWIN.',
     video: 'xV8793xZWSM',
+    quote: { text: 'I’ve never worked with anybody that had such discipline and a deep desire to do a good job, somebody that actually cared.', at: '1:58' },
   },
 ];
 

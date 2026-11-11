@@ -47,4 +47,14 @@
   .quote { margin-top: 22px; padding: 20px; }
   .quote blockquote p { font-size: 1.2rem; }
 }
+/* On small tablets (about 600-700px wide) and the smallest phones the card gets
+   narrow, and the longer quotes would run two or three words to a line. */
+.quote { container-type: inline-size; }
+@media (min-width: 601px) and (max-width: 1150px) { .quote { padding: 18px; } }
+@container (max-width: 280px) {
+  .mark { height: 24px; font-size: 48px; }
+  .quote blockquote p { font-size: 1.0625rem; line-height: 1.45; letter-spacing: -.01em; }
+  .attribution { margin-top: 12px; font-size: .9375rem; }
+  .quote .link { font-size: .875rem; }
+}
 @media (prefers-reduced-motion: reduce) { .quote { animation: none; } }
