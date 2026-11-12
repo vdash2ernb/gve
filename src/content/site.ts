@@ -273,6 +273,7 @@ export const supportPromises = [
   { title: "Your tools and hours", body: "Work scheduled around your business." },
   { title: "Clear task reports", body: "Time tracking and daily updates." },
   { title: "Ongoing support", body: "A client success manager to help." },
+  { title: "AI-empowered", body: "Trained and equipped to use AI tools like Claude, ChatGPT, and Copilot." },
 ];
 
 export const team = [
@@ -333,6 +334,8 @@ export const faq: { topic: string; items: FaqItem[] }[] = [
       { q: "Do they speak English well?", a: "Yes. Spoken and written English is part of our hiring criteria." },
       { q: "What can I hand off?", a: "Permits and paperwork, job schedules, estimate follow-ups, bookkeeping, customer calls, email and calendar, social media, research and more." },
       { q: "Is my Expert shared with other clients?", a: "Full-time Experts work only for you during their hours. Part-time Experts may support another client, but your booked hours are yours alone." },
+      { q: "Do your Experts use AI?", a: "Yes. We train and equip our Experts to use AI tools such as Claude, ChatGPT, and Copilot in their work." },
+      { q: "Is a real person doing my work?", a: "Yes. Your Expert is a real person who does the work. AI is one of the tools they use." },
     ],
   },
   {

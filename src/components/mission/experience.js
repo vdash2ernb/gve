@@ -46,6 +46,7 @@ const MARKUP = `
   <section class="gvm-layer gvm-outro" data-outro>
     <p class="gvm-eyebrow">Mission complete</p>
     <h2 class="gvm-display">You're back in <em>control.</em></h2>
+    <p class="gvm-tagline" data-tagline><span><b>Real people.</b><b>AI-empowered.</b></span><span><b>Building your systems.</b><b>Building your success.</b></span></p>
     <p class="gvm-lede">Your Expert handles follow-ups, scheduling, billing and coordination. You get daily reports and sign off on what matters.</p>
     <ul class="gvm-facts">
       <li><b>5–10</b><span>business days to hire</span></li>
@@ -293,7 +294,9 @@ export function createMission(root, { onExit }) {
 
   /* ---------- Story timeline ---------- */
 
-  const tl = gsap.timeline({ paused: true, onUpdate: () => (progressEl.style.width = `${tl.progress() * 100}%`) });
+  // The progress bar fills over the story itself; the brand line that follows on the ending screen doesn't count.
+  let storyEnd = 0;
+  const tl = gsap.timeline({ paused: true, onUpdate: () => (progressEl.style.width = `${Math.min(1, tl.time() / (storyEnd || tl.duration())) * 100}%`) });
   const cam = (pos, look, dur, at, ease = "power2.inOut") => {
     tl.to(rig.pos, { x: pos[0], y: pos[1], z: pos[2], duration: dur, ease }, at);
     tl.to(rig.look, { x: look[0], y: look[1], z: look[2], duration: dur, ease }, at);
@@ -400,6 +403,11 @@ export function createMission(root, { onExit }) {
     orbit.on = true;
     q("[data-call]").focus({ preventScroll: true });
   }, null, 22.0);
+  storyEnd = tl.duration();
+  // The brand line appears phrase by phrase as the voice-over says it (the line starts at 23.0 in make-intro-audio.py).
+  [24.7, 25.7, 26.9, 28.3].forEach((at, i) =>
+    tl.fromTo(root.querySelectorAll("[data-tagline] b")[i], { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power3.out" }, at),
+  );
 
   /* ---------- Sound ---------- */
 

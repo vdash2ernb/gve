@@ -35,7 +35,7 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
         <div className="story-copy">
           <p className="kicker light">Virtual support for builders, trades, and service businesses</p>
           <h1 id="opening-title">Virtual assistants.<br/>More time <em>for you.</em></h1>
-          <p className="story-lede">Get help with permits, estimates, job schedules, bookkeeping, and customer calls. We find the right person and support you along the way.</p>
+          <p className="story-lede">Your Expert handles permits, estimates, job schedules, bookkeeping, and customer calls, and can help improve the systems behind them. We find the right person and support you along the way.</p>
         </div>
         <HomeFunnel className={styles.funnel}/>
         <div className={styles.openingMore}>
@@ -55,6 +55,9 @@ export default function WorkStory({ proof }: { proof?: ReactNode }) {
     </section>
     <section className="story-chapter story-handoff" aria-labelledby="handoff-title">
       <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">02 / Choosing your assistant</p><h2 id="handoff-title">Choose your<br/><em>Expert.</em></h2><p className="story-lede">Interview screened candidates and choose who you work with. You set the tasks, tools, and hours. GVE helps with onboarding and ongoing support.</p><Link href="/how-it-works" className="underlined light">See the hiring process</Link></Reveal></div>
+    </section>
+    <section className="story-chapter story-systems" aria-labelledby="systems-title">
+      <div className="story-content studio-wrap"><Reveal className="story-copy"><p className="kicker light">03 / Your systems</p><h2 id="systems-title">Then build<br/><em>better systems.</em></h2><p className="story-lede">As your Expert learns your business, they can help improve how the work gets done: templates, trackers, and your CRM or job software. They use AI tools along the way.</p></Reveal></div>
     </section>
     </div>
   </div>;

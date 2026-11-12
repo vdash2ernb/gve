@@ -22,9 +22,11 @@ const commonTasks: Record<BusinessId, string[]> = {
 };
 // The last choice opens a text box for anything not listed.
 export const otherTask = 'Other';
+// Offered to every business type, after the tasks themselves.
+const improveTask = 'Improving a process or system';
 export function tasksFor(business: BusinessId = 'other') {
   const own = segments.find(s => s.id === business)?.chips ?? [];
-  return [...own, ...commonTasks[business], otherTask];
+  return [...own, ...commonTasks[business], improveTask, otherTask];
 }
 // The business type, with the typed answer when the visitor named a type that is not listed.
 export function businessText(answers: FunnelAnswers) {
