@@ -49,7 +49,7 @@ const MARKUP = `
     <p class="gvm-tagline" data-tagline><span><b>Real people.</b><b>AI-empowered.</b></span><span><b>Building your systems.</b><b>Building your success.</b></span></p>
     <p class="gvm-lede">Your Expert handles follow-ups, scheduling, billing and coordination. You get daily reports and sign off on what matters.</p>
     <ul class="gvm-facts">
-      <li><b>5–10</b><span>business days to hire</span></li>
+      <li><b>2</b><span>weeks to hire</span></li>
       <li><b>4 or 8</b><span>hour shifts in your business hours</span></li>
     </ul>
     <div class="gvm-actions">
@@ -339,7 +339,7 @@ export function createMission(root, { onExit }) {
       pod.outer.position.copy(route.getPoint(flight.t));
     },
   }, 7.8);
-  tl.call(() => setCaption("Working *your* hours, in your time zone.", "4- or 8-hour shifts. Hired in 5–10 business days."), null, 8.6);
+  tl.call(() => setCaption("Working *your* hours, in your time zone.", "4- or 8-hour shifts. Hired in about 2 weeks."), null, 8.6);
   cam([1.6 * side, 3.4, 8.2], [0.8 * side, 2.0, 0], 4, 7.8);
   tl.to(pod.flame.material, { opacity: 0, duration: 0.5 }, 11.6);
 
