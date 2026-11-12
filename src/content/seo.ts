@@ -28,7 +28,7 @@ export const organization = {
   url: siteUrl + "/",
   logo: siteUrl + "/brand/gve-icon-192.png",
   description:
-    "Global Virtual Experts helps business owners hire skilled virtual assistants based in the Philippines, with screening, onboarding, and ongoing support.",
+    "Global Virtual Experts helps business owners hire skilled, AI-empowered virtual assistants based in the Philippines, with screening, onboarding, and ongoing support.",
   email: contact.email,
   telephone: contact.phoneHref.replace("tel:", ""),
   foundingDate: "2023",

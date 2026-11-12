@@ -25,7 +25,7 @@ export const industries: Industry[] = [
     seoTitle: 'Virtual Assistants for Contractors & Remodelers',
     metaDescription: 'Hire a virtual assistant for your construction business: permits, job schedules, subcontractors, change orders, estimates, and bookkeeping in Buildertrend, JobTread, and QuickBooks.',
     title: 'Virtual assistants for contractors and remodelers.',
-    intro: 'Hand off permits, job schedules, change orders, and homeowner updates to a screened Expert who works your hours.',
+    intro: 'Hand off permits, job schedules, change orders, and homeowner updates to a screened, AI-empowered Expert who works your hours.',
     tasks: [
       { title: 'Permits & paperwork', items: ['Prepare and track permit applications', 'Keep crew documents current'], service: 'project-management' },
       { title: 'Job schedules', items: ['Build and update job schedules', 'Coordinate subcontractors and vendors'], service: 'project-management' },
@@ -44,7 +44,7 @@ export const industries: Industry[] = [
     seoTitle: 'Virtual Assistants for Roofing Companies & Trades',
     metaDescription: 'Hire a virtual assistant for your roofing or trade business: estimate follow-ups, crew schedules, material orders, invoices, and payroll in QuickBooks, Buildertrend, and JobTread.',
     title: 'Virtual assistants for roofing companies and trades.',
-    intro: 'Hand off estimate follow-ups, crew schedules, material orders, and invoices to a screened Expert who works your hours.',
+    intro: 'Hand off estimate follow-ups, crew schedules, material orders, and invoices to a screened, AI-empowered Expert who works your hours.',
     tasks: [
       { title: 'Estimates & follow-ups', items: ['Send estimates and follow up with homeowners', 'Book inspections and appointments'], service: 'sales-and-crm' },
       { title: 'Crew schedules', items: ['Build and update crew schedules', 'Keep homeowners and crews informed'], service: 'project-management' },
@@ -63,7 +63,7 @@ export const industries: Industry[] = [
     seoTitle: 'Virtual Assistants for Home Service Businesses',
     metaDescription: 'Hire a virtual assistant for your home service business: service calls and dispatch in Jobber or ServiceTitan, customer messages, review requests, and invoices.',
     title: 'Virtual assistants for home service businesses.',
-    intro: 'Hand off service calls, dispatch, customer messages, and invoices to a screened Expert who works your hours.',
+    intro: 'Hand off service calls, dispatch, customer messages, and invoices to a screened, AI-empowered Expert who works your hours.',
     tasks: [
       { title: 'Service calls & dispatch', items: ['Schedule crews and service calls', 'Plan daily routes'], service: 'dispatch-logistics' },
       { title: 'Customer messages', items: ['Answer calls, email and chat', 'Book service calls and appointments'], service: 'customer-support' },
@@ -81,7 +81,7 @@ export const industries: Industry[] = [
     seoTitle: 'Virtual Assistants for Property Managers',
     metaDescription: 'Hire a virtual assistant for your property management business: work orders, tenant messages, vendor scheduling, owner reports, and bookkeeping in QuickBooks.',
     title: 'Virtual assistants for property managers.',
-    intro: 'Hand off work orders, tenant messages, vendor scheduling, and owner reports to a screened Expert who works your hours.',
+    intro: 'Hand off work orders, tenant messages, vendor scheduling, and owner reports to a screened, AI-empowered Expert who works your hours.',
     tasks: [
       { title: 'Work orders', items: ['Log and track work orders', 'Keep tenants updated'], service: 'customer-support' },
       { title: 'Tenant messages', items: ['Answer tenant calls, email and chat', 'Send rent reminders'], service: 'customer-support' },

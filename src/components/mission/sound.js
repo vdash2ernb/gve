@@ -3,7 +3,7 @@
 // Browsers only allow sound after the visitor interacts, so it starts on their first tap or key press in the
 // intro, and the sound button turns it on or off.
 
-const TAIL = 26.8; // story.mp3 position where the voice has finished and the ambient bed fades back in
+const TAIL = 29.8; // story.mp3 position where the voice has finished and the ambient bed fades back in
 const LOOP = [0.5, 24.5]; // the seamless section of ambient.mp3
 const DRIFT = 0.12; // seconds the picture may drift from the sound before it is pulled back in step
 

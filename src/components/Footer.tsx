@@ -25,7 +25,7 @@ export default function Footer() {
       <div className={styles.grid}>
         <div className={styles.brand}>
           <Image src="/brand/gve-original-logo.png" alt="Global Virtual Experts" width={500} height={500}/>
-          <p>Real People. AI Powered.<br/>Building Your Success.</p>
+          <p>Real People. AI-Empowered.<br/>Building Your Systems.<br/>Building Your Success.</p>
         </div>
         <nav className={styles.navigation} aria-label="Footer">
           {groups.map(group => <div key={group.title}><h3>{group.title}</h3>

@@ -27,7 +27,7 @@ const MARKUP = `
   </div>
 
   <section class="gvm-layer gvm-intro" data-intro>
-    <p class="gvm-eyebrow">Real people · AI powered</p>
+    <p class="gvm-eyebrow">Real people · AI-empowered</p>
     <h2 class="gvm-display">Get your <em>time</em> back.</h2>
     <p class="gvm-lede">Skilled virtual experts in the Philippines take the admin off your plate.</p>
     <button type="button" class="gvm-begin" data-begin>

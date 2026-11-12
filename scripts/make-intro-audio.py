@@ -21,7 +21,7 @@ from scipy import signal
 from scipy.ndimage import maximum_filter1d, minimum_filter1d, uniform_filter1d
 
 SR = 48000
-STORY = 31.0  # seconds, including the ending tail the site cross-fades into the ambient bed
+STORY = 34.0  # seconds, including the ending tail the site cross-fades into the ambient bed
 LOOP = 24.0
 PAD = 0.5  # cyclic lead-in and lead-out around the loop, so the site can loop it whatever the decoder trims
 rng = np.random.default_rng(7)
@@ -34,7 +34,7 @@ LINES = [
     (12.35, 'They take the overflow. Your inbox, calendar and billing, handled.'),
     (16.75, 'And report back daily, with every hour tracked.'),
     (21.15, "You're back in control."),
-    (23.0, 'Global Virtual Experts. Real people, AI powered.'),
+    (23.0, 'Global Virtual Experts. Real people. AI-empowered. Building your systems. Building your success.'),
 ]
 # Each line has to finish before the next caption (or the next line).
 NEXT = [5.4, 8.6, 12.2, 16.6, 21.0, 22.9, STORY - 4]
@@ -471,15 +471,15 @@ def story_score(mix):
     whoosh(19.8, 2.6, [(0, 300), (0.6, 900), (1, 250)], mix, level=0.09, peak=0.45)
     riser(19.7, 1.3, mix, level=0.17, f0=440, f1=1760)
     impact(21.0, mix, level=0.42, verb=0.6)
-    chord(mix, Dmaj9, 21.0, 4.5, attack=0.12, release=5.0, fc=2400, bright=[(0, 0.4), (4, -0.4)], level=1.1, verb=0.6)
-    sub(38, 4.5, 21.0, mix, attack=0.05, release=4.0, level=0.3)
+    chord(mix, Dmaj9, 21.0, 7.5, attack=0.12, release=5.0, fc=2400, bright=[(0, 0.4), (7, -0.4)], level=1.1, verb=0.6)
+    sub(38, 7.5, 21.0, mix, attack=0.05, release=4.0, level=0.3)
     sub(26, 3.0, 21.0, mix, attack=0.05, release=3.0, level=0.18)
     for k, m in enumerate([74, 78, 81, 86]):
         bell(m, 21.0 + k * 0.085, mix, level=0.07 - 0.008 * k, decay=3.5, pan=(-0.4, -0.1, 0.15, 0.4)[k], verb=0.8)
     for m in (78, 85, 88):
-        glass(m, 5.0, 21.1, mix, attack=1.5, release=4.0, level=0.028)
-    # A gentle three-note sign-off under the brand line.
-    for t, m in [(24.6, 78), (25.0, 76), (25.6, 74)]:
+        glass(m, 8.0, 21.1, mix, attack=1.5, release=4.0, level=0.028)
+    # A gentle three-note sign-off under the end of the brand line.
+    for t, m in [(27.8, 78), (28.2, 76), (28.8, 74)]:
         bell(m, t, mix, level=0.035, decay=3.5, verb=0.85, bus='pad')
 
 

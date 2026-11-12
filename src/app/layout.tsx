@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | Global Virtual Experts",
   },
   description:
-    "Hire skilled virtual assistants in the Philippines for admin, bookkeeping, customer support, marketing, and more. GVE handles screening and onboarding.",
+    "Hire skilled, AI-empowered virtual assistants in the Philippines for admin, bookkeeping, customer support, marketing, and more. GVE handles screening and onboarding.",
   openGraph: { siteName: "Global Virtual Experts", type: "website", locale: "en_US", images: [shareImage] },
   twitter: { card: "summary_large_image" },
 };
