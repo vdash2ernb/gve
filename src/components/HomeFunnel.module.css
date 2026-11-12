@@ -28,6 +28,7 @@
 .other { display: grid; gap: 6px; margin-top: 14px; font-size: 1rem; font-weight: 600; line-height: 1.5; }
 .other input { width: 100%; min-height: 52px; padding: 12px 14px; font: inherit; font-size: 1.0625rem; font-weight: 400; color: #00203d; background: #fff; border: 1.5px solid #ffa600; border-radius: 12px; }
 .other input::placeholder { color: #6b8193; }
+.optional { font-weight: 400; color: #4b6375; }
 .other input:focus { outline: 3px solid #0759e8; outline-offset: 2px; }
 .nudge { margin: 12px 0 0; font-size: 1rem; line-height: 1.6; color: #00203d; }
 .nudge:empty { margin: 0; }

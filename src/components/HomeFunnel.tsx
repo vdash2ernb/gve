@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import InquiryForm from './InquiryForm';
 import { useLenis } from './SmoothScroll';
 import { saveSegment } from '@/content/segments';
-import { businessOptions, hoursOptions, otherTask, prefillFor, startOptions, tasksFor, tasksText, type BusinessId, type FunnelAnswers } from '@/content/funnel';
+import { businessOptions, businessText, hoursOptions, otherTask, prefillFor, startOptions, tasksFor, tasksText, type BusinessId, type FunnelAnswers } from '@/content/funnel';
 import styles from './HomeFunnel.module.css';
 
 // The homepage funnel: four quick questions, then the GHL inquiry form with the answers attached
@@ -86,7 +86,8 @@ export default function HomeFunnel({ className, source = 'Homepage funnel' }: { 
   const pickBusiness = (id: BusinessId) => {
     setAnswers(a => ({ ...a, business: id, tasks: a.business === id ? a.tasks : [] }));
     saveSegment(id === 'other' ? null : id);
-    go(1);
+    // "Another type of business" opens an optional box to name it, and Continue moves on.
+    if (id !== 'other') go(1);
   };
   const toggleTask = (task: string) => {
     setNudge('');
@@ -94,7 +95,6 @@ export default function HomeFunnel({ className, source = 'Homepage funnel' }: { 
   };
   const typeOther = (other: string) => { setNudge(''); setAnswers(a => ({ ...a, other })); };
   const otherChosen = answers.tasks.includes(otherTask);
-  const business = businessOptions.find(b => b.id === answers.business);
 
   // Questions 3 and 4 are one-tap choices from a list. The last answer opens the form window.
   const pickOption = (value: string) => {
@@ -127,6 +127,14 @@ export default function HomeFunnel({ className, source = 'Homepage funnel' }: { 
             <span>{option.label}</span><span className={styles.arrow} aria-hidden="true">→</span>
           </button>)}
         </div>}
+        {step === 0 && answers.business === 'other' && <>
+          <label className={styles.other}>
+            <span>What kind of business? <span className={styles.optional}>(optional)</span></span>
+            {/* Opens ready to type; Enter continues like the button, with or without an answer. */}
+            <input type="text" value={answers.otherBusiness ?? ''} maxLength={60} placeholder="e.g. dental office, law firm" autoFocus onChange={e => setAnswers(a => ({ ...a, otherBusiness: e.target.value }))} onKeyDown={e => { if (e.key === 'Enter') go(1); }}/>
+          </label>
+          <div className={styles.nav}><button type="button" className={styles.next} onClick={() => go(1)}>Continue</button></div>
+        </>}
         {step === 1 && <>
           <div className={styles.chips} role="group" aria-labelledby="funnel-question" aria-describedby="funnel-hint">
             {tasksFor(answers.business).map(task => <button key={task} type="button" className={styles.chip} aria-pressed={answers.tasks.includes(task)} onClick={() => toggleTask(task)}>
@@ -169,7 +177,7 @@ export default function HomeFunnel({ className, source = 'Homepage funnel' }: { 
           <h3 ref={formHeading} tabIndex={-1} id="funnel-form-title" className={styles.formTitle}>Request your free call.</h3>
           <p className={styles.asideHint}>Add your details and our team will reach out to set up a time.</p>
           <dl className={styles.summary}>
-            <div><dt>Business</dt><dd>{business?.label}</dd></div>
+            <div><dt>Business</dt><dd>{businessText(answers)}</dd></div>
             <div><dt>Help with</dt><dd>{tasksText(answers)}</dd></div>
             <div><dt>Hours</dt><dd>{answers.hours}</dd></div>
             <div><dt>Start</dt><dd>{answers.start}</dd></div>

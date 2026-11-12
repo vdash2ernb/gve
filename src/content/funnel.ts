@@ -3,7 +3,9 @@
 import { segments, type SegmentId } from './segments';
 
 export type BusinessId = SegmentId | 'other';
-export type FunnelAnswers = { business?: BusinessId; tasks: string[]; other?: string; hours?: string; start?: string };
+// `otherBusiness` is the optional typed business type when "Another type of business" is chosen;
+// `other` is the typed task when "Other" is ticked.
+export type FunnelAnswers = { business?: BusinessId; otherBusiness?: string; tasks: string[]; other?: string; hours?: string; start?: string };
 
 export const businessOptions: { id: BusinessId; label: string }[] = [
   ...segments.map(s => ({ id: s.id, label: s.label })),
@@ -24,6 +26,12 @@ export function tasksFor(business: BusinessId = 'other') {
   const own = segments.find(s => s.id === business)?.chips ?? [];
   return [...own, ...commonTasks[business], otherTask];
 }
+// The business type, with the typed answer when the visitor named a type that is not listed.
+export function businessText(answers: FunnelAnswers) {
+  const typed = answers.otherBusiness?.trim();
+  if (answers.business === 'other' && typed) return `Other: ${typed}`;
+  return businessOptions.find(b => b.id === answers.business)?.label;
+}
 // The chosen tasks as one line, with the typed answer in place of "Other".
 export function tasksText(answers: FunnelAnswers) {
   return answers.tasks.map(task => task === otherTask ? `Other: ${answers.other?.trim()}` : task).join(', ');
@@ -36,9 +44,8 @@ export const startOptions = ['As soon as possible', 'Within a month', 'In 1–3 
 // field whose Query Key matches, so each key below needs a matching hidden field in that form.
 // `source` names the page the funnel sits on, e.g. 'Homepage funnel'.
 export function prefillFor(answers: FunnelAnswers, source: string): Record<string, string> {
-  const business = businessOptions.find(b => b.id === answers.business)?.label;
   const fields: Record<string, string | undefined> = {
-    business_type: business,
+    business_type: businessText(answers),
     help_with: tasksText(answers) || undefined,
     hours_needed: answers.hours,
     start_timing: answers.start,
