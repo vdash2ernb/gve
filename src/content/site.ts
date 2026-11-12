@@ -316,11 +316,11 @@ export const partners = [
 // Video IDs and these short captions were checked against the current success-story page.
 export const stories = [
   { name: "Ernest", role: "Technical Operations Manager", img: "/team/ernest.webp", video:"vVj07FcQABo", text: "Manages GVE’s technical systems and daily operations." },
-  { name: "Evander", role: "Executive Admin", video:"Je7Di4CWWk4", text: "Supports calendars, content, and bookkeeping." },
   { name: "Hannah", role: "Finance Manager & Bookkeeper", img: "/team/hannah.webp", video:"hgE0tnptJb8", text: "Developed her bookkeeping skills alongside GVE’s accountant." },
-  { name: "Boy", role: "Draftsman & Designer", video:"-TWxzWlfukA", text: "Supports drafting and design for professionals and homeowners." },
   { name: "Kate", role: "Architectural Drafter & Designer", img: "/team/kate.webp", video:"GawQr_6qCKk", text: "Turns renovation ideas into plans for homeowners and builders." },
   { name: "Loury", role: "General Admin Assistant", img: "/team/loury.png", video:"rG7ysQoPUP4", text: "Handles email, calendars, graphics, social media, and calls." },
+  { name: "Boy", role: "Draftsman & Designer", video:"-TWxzWlfukA", text: "Supports drafting and design for professionals and homeowners." },
+  { name: "Evander", role: "Executive Admin", video:"Je7Di4CWWk4", text: "Supports calendars, content, and bookkeeping." },
 ];
 
 /** `link` follows the answer as a text link. */
