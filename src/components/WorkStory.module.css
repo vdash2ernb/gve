@@ -25,3 +25,16 @@
 
 /* "Reduce 3D motion" sits with chapter 01, where the 3D now starts. */
 .motion { display: block; margin-top: 24px; }
+
+/* Short desktop windows (a laptop, or a display scaled up by Windows): the whole opening fits on the first
+   screen. The headline is sized by the window's height too, so it stays on two lines, and the gaps tighten. */
+@media (min-width: 901px) and (max-height: 800px) {
+  .openingChapter .opening { padding-block: 124px 64px; }
+  .opening > :global(.story-copy) { max-width: 700px; }
+  .opening :global(.story-copy) h1 { font-size: clamp(3rem, min(5vw, 9.4vh), 4.6rem); margin: 14px 0 18px; }
+  .opening :global(.story-copy) :global(.story-lede) { max-width: 600px; line-height: 1.7; }
+  .openingMore { max-width: 640px; }
+  .servicesLink { margin-top: 18px; }
+  .founderNote { margin-top: 18px; }
+  .openingMore :global(.story-origin) { margin-top: 12px; }
+}
